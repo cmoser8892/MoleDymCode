@@ -21,10 +21,10 @@ set(MYPROJECT_SRCS
 
 set(MYPROJECT_executable_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-        )
+        verlet.h)
 
 add_subdirectory(tests)
 
 # Simulation code
-add_executable(myproject ${MYPROJECT_SRCS} ${MYPROJECT_HDRS} ${MYPROJECT_executable_SRCS})
+add_executable(myproject ${MYPROJECT_SRCS} ${MYPROJECT_HDRS} ${MYPROJECT_executable_SRCS} verlet.cpp)
 target_link_libraries(myproject PUBLIC Eigen3::Eigen)
