@@ -3,11 +3,23 @@
 #include "verlet.h"
 
 int main() {
-    std::cout << "Hello world!" << std::endl;
-    std::cout << "TEST" << std::endl;
-    double testNumber = 1.0;
-    verletStep1(testNumber, testNumber, testNumber, testNumber, testNumber, testNumber, testNumber, testNumber, testNumber, testNumber);
-    verletStep2(testNumber, testNumber, testNumber, testNumber, testNumber, testNumber, testNumber);
-    std::cout << testNumber << std::endl;
+    std::cout << "Molecular Dynamics Project" << std::endl;
+    //
+    double xNow = 0;
+    double yNow = 0;
+    double zNow = 0;
+    double vxNow = 0;
+    double vyNow = 0;
+    double vzNow = 0;
+    //
+    double forceX = 1.0;
+    double forceY = 0.0;
+    double forceZ = 0.0;
+    double timestep = 1.0;
+    //
+    /** main loop */
+    verletIntegratorConstantForce(xNow,yNow,zNow,
+                                  vxNow,vyNow,vzNow,
+                                  10,forceX,forceY,forceZ,timestep);
     return 0;
 }
