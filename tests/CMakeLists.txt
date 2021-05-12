@@ -10,7 +10,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(myproject_tests_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/test_hello_world.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/testVerlet.cpp
-        ${CMAKE_SOURCE_DIR}/verlet.cpp)
+        ${CMAKE_SOURCE_DIR}/Sourcefiles/verlet.cpp)
 
 # Tests
 include_directories(yamd_tests ${CMAKE_SOURCE_DIR})

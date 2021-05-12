@@ -2,7 +2,7 @@
 // Created by cm on 06.05.21.
 //
 #include <iostream>
-#include "verlet.h"
+#include "../Headerfiles/verlet.h"
 
 /**
  * @fn void verletStep1(double &x, double &y, double &z, double &vx, double &vy, double &vz, double fx, double fy, double fz, double timestep)
