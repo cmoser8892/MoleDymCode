@@ -5,28 +5,19 @@
 
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
+    //initalization
+    int nbAtoms = 10;
+    Positions_t  positions(3,nbAtoms);
+    Velocities_t  velocities(3, nbAtoms);
+    Forces_t forces(3,nbAtoms);
     //
-    double xNow = 0;
-    double yNow = 0;
-    double zNow = 0;
-    double vxNow = 0;
-    double vyNow = 0;
-    double vzNow = 0;
-    //
-    double forceX = 1.0;
-    double forceY = 0.0;
-    double forceZ = 0.0;
+    positions.setZero();
+    velocities.setZero();
+    forces.setZero();
+    forces.row(0) = 1.0;
     double timestep = 1.0;
-    //
-    Positions_t x;
-    int nb_atoms = 10;
-    Positions_t potions(3,nb_atoms);
-    potions(2,1) = 1.0;
-    auto pos2{potions.col(1)};
-    Positions_t distance_vector{potions.col(0) - potions.col(1)};
-    /** main loop */
-    verletIntegratorConstantForce(xNow,yNow,zNow,
-                                  vxNow,vyNow,vzNow,
-                                  10,forceX,forceY,forceZ,timestep);
+    //main loop
+    verletIntegratorConstantForce(positions,velocities,forces,timestep,10);
+    std::cout << positions << std::endl;
     return 0;
 }
