@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include "../Headerfiles/verlet.h"
-
+#include "../Headerfiles/types.h"
 /**
  * @fn void verletStep1(double &x, double &y, double &z, double &vx, double &vy, double &vz, double fx, double fy, double fz, double timestep)
  * @brief implementation of the velocity-verlet algorithm
