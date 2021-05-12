@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "verlet.h"
+#include "Eigen/Dense"
+using Positions_t = Eigen::Array3Xd;
+
 
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
