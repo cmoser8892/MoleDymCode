@@ -9,91 +9,56 @@
  * Use EXPECT_NEAR or ASSERT_NEAR bc double!!
  */
 
-TEST(VerletTest, IntegratorCheckConstantForceXYZDirection)
+TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionSingleAtom)
 {
+    //single Atom test
+    int nbAtoms = 1;
+    Positions_t  positions(3,nbAtoms);
+    Velocities_t  velocities(3, nbAtoms);
+    Forces_t forces(3,nbAtoms);
     //
-    double xNow = 0;
-    double yNow = 0;
-    double zNow = 0;
-    double vxNow = 0;
-    double vyNow = 0;
-    double vzNow = 0;
-    //
-    double forceX = 1.0;
-    double forceY = 1.0;
-    double forceZ = 1.0;
+    positions.setZero();
+    velocities.setZero();
+    forces.setZero();
+    forces.row(0) = 1.0;
+    forces.row(0) = 1.0;
     double timestep = 1.0;
-    unsigned int numberOfSteps = 10;
-    //
-    verletIntegratorConstantForce(xNow,yNow,zNow,
-                                  vxNow,vyNow,vzNow,
-                                  numberOfSteps,forceX,forceY,forceZ,timestep);
-    /** Check position */
-    ASSERT_NEAR(xNow,50,1e-6);
-    ASSERT_NEAR(yNow,50,1e-6);
-    ASSERT_NEAR(zNow,50,1e-6);
-    /** Check velocities */
-    ASSERT_NEAR(vxNow,10,1e-6);
-    ASSERT_NEAR(vyNow,10,1e-6);
-    ASSERT_NEAR(vzNow,10,1e-6);
+    //run fkt
+    verletIntegratorConstantForce(positions,velocities,forces, timestep, 10);
+    //check
+    ASSERT_NEAR(positions(0),50,1e-6);
+    ASSERT_NEAR(velocities(0),10,1e-6);
 }
 
-TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionInitialVariables)
+TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionMultipleAtom)
 {
+    //single Atom test
+    int nbAtoms = 10;
+    Positions_t  positions(3,nbAtoms);
+    Velocities_t  velocities(3, nbAtoms);
+    Forces_t forces(3,nbAtoms);
     //
-    double xNow = 10;
-    double yNow = 10;
-    double zNow = 10;
-    double vxNow = 10;
-    double vyNow = 10;
-    double vzNow = 10;
-    //
-    double forceX = 1.0;
-    double forceY = 1.0;
-    double forceZ = 1.0;
+    positions.setZero();
+    velocities.setZero();
+    forces.setZero();
+    forces.row(0) = 1.0;
+    forces.row(1) = 1.0;
+    forces.row(2) = 1.0;
     double timestep = 1.0;
-    unsigned int numberOfSteps = 10;
-    //
-    verletIntegratorConstantForce(xNow,yNow,zNow,
-                                  vxNow,vyNow,vzNow,
-                                  numberOfSteps,forceX,forceY,forceZ,timestep);
-    /** Check position */
-    ASSERT_NEAR(xNow,160,1e-6);
-    ASSERT_NEAR(yNow,160,1e-6);
-    ASSERT_NEAR(zNow,160,1e-6);
-    /** Check velocities */
-    ASSERT_NEAR(vxNow,20,1e-6);
-    ASSERT_NEAR(vyNow,20,1e-6);
-    ASSERT_NEAR(vzNow,20,1e-6);
-}
-
-TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionNegativeForce)
-{
-    //
-    double xNow = 0;
-    double yNow = 0;
-    double zNow = 0;
-    double vxNow = 0;
-    double vyNow = 0;
-    double vzNow = 0;
-    //
-    double forceX = -1.0;
-    double forceY = -1.0;
-    double forceZ = -1.0;
-    double timestep = 1.0;
-    unsigned int numberOfSteps = 10;
-    //
-    verletIntegratorConstantForce(xNow,yNow,zNow,
-                                  vxNow,vyNow,vzNow,
-                                  numberOfSteps,forceX,forceY,forceZ,timestep);
-    /** Check position */
-    ASSERT_NEAR(xNow,-50,1e-6);
-    ASSERT_NEAR(yNow,-50,1e-6);
-    ASSERT_NEAR(zNow,-50,1e-6);
-    /** Check velocities */
-    ASSERT_NEAR(vxNow,-10,1e-6);
-    ASSERT_NEAR(vyNow,-10,1e-6);
-    ASSERT_NEAR(vzNow,-10,1e-6);
+    //run fkt
+    verletIntegratorConstantForce(positions,velocities,forces, timestep, 10);
+    //check
+    for(int i = 0; i < nbAtoms; ++i)
+    {
+        //check positions
+        ASSERT_NEAR(positions(0,i),50,1e-6);
+        ASSERT_NEAR(positions(1,i),50,1e-6);
+        ASSERT_NEAR(positions(2,i),50,1e-6);
+        //check velocities
+        ASSERT_NEAR(velocities(0,i),10,1e-6);
+        ASSERT_NEAR(velocities(0,i),10,1e-6);
+        ASSERT_NEAR(velocities(0,i),10,1e-6);
+    }
 }
 
 /**
