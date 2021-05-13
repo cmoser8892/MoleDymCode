@@ -15,6 +15,8 @@
 double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     double totalPotentialEnergy = 0.0;
     int numberOfAtoms = atoms.nb_atoms();
+    double delta = 0.0001;
+    double thisAtomsPotential = 0.0;
     //TODO can i just discard all the past forces ?!
     atoms.forces = 0;
     //Calculate potential energy
@@ -22,25 +24,26 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     {
         for(int j = i+1; j < numberOfAtoms; ++j)
         {
-            //calculate the current energy in the system
+            //calculate the current energy between the atom i and j
             Vector_t pointerToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
-            //std::cout << pointerToOtherAtom << std::endl;
             double currentDistance = calculateDistanceBetweenVektors(pointerToOtherAtom);
-            double thisAtomsPotential = 4*epsilon*(pow(sigma/currentDistance,12) + pow(sigma/currentDistance,6));
-            //std::cout << thisAtomsPotential<< std::endl;
+            //calculate Lenard jones Potential
+            thisAtomsPotential = calculateEnergy(currentDistance,sigma,epsilon);
+            //add it up
             totalPotentialEnergy += thisAtomsPotential;
+
             //forces
-            Vector_t normalizedPointerToOtherAtom = pointerToOtherAtom/currentDistance;
-            //std::cout << normalizedPointerToOtherAtom  << std::endl;
-            //TODO: check here!
-            atoms.forces.col(i) += totalPotentialEnergy/currentDistance * normalizedPointerToOtherAtom;
-            //std::cout << atoms.forces.col(i)  << std::endl;
+            Vector_t normalizedVectorToOtherAtom = pointerToOtherAtom/currentDistance;
+            //
+            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma)-thisAtomsPotential;
+            //put the force there
+            atoms.forces.col(i) += deltaThisAtomsPotential/delta * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
             atoms.forces.col(j) += -1* atoms.forces.col(i);
         }
     }
     //first part of equation TODO do i even need that as the energy is not counted twice?!
-    totalPotentialEnergy*= 0.5;
+    //totalPotentialEnergy*= 0.5;
     //std::cout << atoms.forces << std::endl;
     return totalPotentialEnergy;
 }
@@ -49,4 +52,9 @@ double calculateDistanceBetweenVektors(Vector_t distanceVector) {
     return sqrt(distanceVector(0)* distanceVector(0) +
                                    distanceVector(1)* distanceVector(1) +
                                    distanceVector(2)* distanceVector(2));
+}
+
+double calculateEnergy(double distance, double epsilon, double sigma)
+{
+    return 4*epsilon*(pow(sigma/distance,12) + pow(sigma/distance,6));
 }
