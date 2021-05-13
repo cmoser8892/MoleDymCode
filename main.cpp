@@ -2,6 +2,7 @@
 
 #include "Headerfiles/verlet.h"
 #include "Headerfiles/types.h"
+#include "Headerfiles//lenardJonesDirectionSummation.h"
 
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
@@ -19,5 +20,8 @@ int main() {
     //main loop
     verletIntegratorConstantForce(positions,velocities,forces,timestep,10);
     std::cout << positions << std::endl;
+    //TEST add for compilation
+    Atoms a(positions);
+    lendardJonesDirectSummation(a);
     return 0;
 }
