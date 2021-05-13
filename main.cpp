@@ -22,7 +22,7 @@ int main() {
     //std::cout << positions << std::endl;
     //TEST add for compilation
     positions.col(0) = 0;
-    positions.col(1) = 2;
+    positions(0,1) = 2;
     Atoms a(positions);
     lendardJonesDirectSummation(a);
     return 0;

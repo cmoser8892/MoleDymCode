@@ -25,10 +25,9 @@
 #include <gtest/gtest.h>
 
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
-#include "../Headerfiles/atoms.h"
 
 TEST(LJDirectSummationTest, Forces) {
-    constexpr int nb_atoms = 10;
+    constexpr int nb_atoms = 2;
     constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
     constexpr double sigma = 0.3;
     constexpr double delta = 0.0001;  // difference used for numerical (finite difference) computation of forces
