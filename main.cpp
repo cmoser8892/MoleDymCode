@@ -7,7 +7,7 @@
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
     //initalization
-    int nbAtoms = 10;
+    int nbAtoms = 2;
     Positions_t  positions(3,nbAtoms);
     Velocities_t  velocities(3, nbAtoms);
     Forces_t forces(3,nbAtoms);
@@ -19,8 +19,10 @@ int main() {
     double timestep = 1.0;
     //main loop
     verletIntegratorConstantForce(positions,velocities,forces,timestep,10);
-    std::cout << positions << std::endl;
+    //std::cout << positions << std::endl;
     //TEST add for compilation
+    positions.col(0) = 0;
+    positions.col(1) = 2;
     Atoms a(positions);
     lendardJonesDirectSummation(a);
     return 0;

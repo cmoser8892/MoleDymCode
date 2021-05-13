@@ -14,6 +14,14 @@ public:
     Forces_t forces;
 
     //set methods
+    Atoms(const int &size) :
+        positions{3,size}, velocities{3,size}, forces{3, size}
+    {
+        positions.setZero();
+        velocities.setZero();
+        forces.setZero();
+    }
+
     Atoms(const Positions_t &p) :
         positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}
     {

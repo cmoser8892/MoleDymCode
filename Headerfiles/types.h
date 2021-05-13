@@ -12,5 +12,6 @@ using Positions_t = Eigen::Array3Xd;
 using Velocities_t = Eigen::Array3Xd;
 using Forces_t = Eigen::Array3Xd;
 
+using Vector_t = Eigen::Array3d;
 
 #endif //MYPROJECT_TYPES_H

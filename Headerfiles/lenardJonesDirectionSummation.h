@@ -8,5 +8,6 @@
 #include "../Headerfiles/atoms.h"
 
 double lendardJonesDirectSummation(Atoms &atoms, double epsilon = 1.0, double sigma = 1.0);
+double calculateDistanceBetweenVektors(Vector_t distanceVector);
 
 #endif //MYPROJECT_LENARDJONESDIRECTIONSUMMATION_H
