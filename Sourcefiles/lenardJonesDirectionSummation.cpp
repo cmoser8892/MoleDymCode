@@ -17,7 +17,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     //vars
     double totalPotentialEnergy = 0.0;
     int numberOfAtoms = atoms.nb_atoms();
-    double delta = 0.0001;
+    double delta = 0.00000001;
     double thisAtomsPotential = 0.0;
     //TODO can i just discard all the past forces ?!
     atoms.forces = 0;
@@ -40,9 +40,10 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             //
             Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
             //calculate the deltaV
-            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma)-thisAtomsPotential;
+            //TODO Taylor??
+            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma)- calculateEnergy(currentDistance - delta, epsilon,sigma);
             //put the force there
-            atoms.forces.col(i) += deltaThisAtomsPotential/delta * normalizedVectorToOtherAtom;
+            atoms.forces.col(i) += (deltaThisAtomsPotential/(2*delta)) * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
             atoms.forces.col(j) += -1* atoms.forces.col(i);
         }
@@ -76,5 +77,5 @@ double calculateDistanceBetweenVektors(Vector_t distanceVector) {
  */
 double calculateEnergy(double distance, double epsilon, double sigma)
 {
-    return 4*epsilon*(pow(sigma/distance,12) + pow(sigma/distance,6));
+    return 4*epsilon*(pow(sigma/distance,12) - pow(sigma/distance,6));
 }
