@@ -21,10 +21,12 @@ int main() {
     verletIntegratorConstantForce(positions,velocities,forces,timestep,10);
     //std::cout << positions << std::endl;
     //TEST add for compilation
-    // go to the minimum to check the forces
+    // go to the minimum to check the forces they should be near 0 otherwise i have a mistake
+    double testSigma = 1;
     positions.col(0) = 0;
-    positions(0,1) = 3;
+    positions(0,1) = 1.12 * testSigma;
     Atoms a(positions);
-    lendardJonesDirectSummation(a);
+    lendardJonesDirectSummation(a, 1,testSigma);
+    std::cout << a.forces << std::endl;
     return 0;
 }
