@@ -21,8 +21,9 @@ int main() {
     verletIntegratorConstantForce(positions,velocities,forces,timestep,10);
     //std::cout << positions << std::endl;
     //TEST add for compilation
+    // go to the minimum to check the forces
     positions.col(0) = 0;
-    positions(0,1) = 2;
+    positions(0,1) = 3;
     Atoms a(positions);
     lendardJonesDirectSummation(a);
     return 0;

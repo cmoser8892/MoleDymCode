@@ -4,6 +4,7 @@
 
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
 #include <iostream>
+
 /**
  * @func double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma)
  * @brief calculates the Lenard Jones Potential as it is specificated in Milestone 4
@@ -13,6 +14,7 @@
  * @return the Potential energy
  */
 double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
+    //vars
     double totalPotentialEnergy = 0.0;
     int numberOfAtoms = atoms.nb_atoms();
     double delta = 0.0001;
@@ -24,17 +26,20 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     {
         for(int j = i+1; j < numberOfAtoms; ++j)
         {
+            /** Distance */
             //calculate the current energy between the atom i and j
-            Vector_t pointerToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
-            double currentDistance = calculateDistanceBetweenVektors(pointerToOtherAtom);
+            Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
+            double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
+            /** Energy */
             //calculate Lenard jones Potential
             thisAtomsPotential = calculateEnergy(currentDistance,sigma,epsilon);
             //add it up
             totalPotentialEnergy += thisAtomsPotential;
 
-            //forces
-            Vector_t normalizedVectorToOtherAtom = pointerToOtherAtom/currentDistance;
+            /** Forces */
             //
+            Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
+            //calculate the deltaV
             double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma)-thisAtomsPotential;
             //put the force there
             atoms.forces.col(i) += deltaThisAtomsPotential/delta * normalizedVectorToOtherAtom;
@@ -48,12 +53,27 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     return totalPotentialEnergy;
 }
 
+/**
+ * @fn double calculateDistanceBetweenVektors(Vector_t distanceVector)
+ * @brief calculates the length of the Vector
+ * @param distanceVector
+ * @return double the length of the Vektor
+ */
 double calculateDistanceBetweenVektors(Vector_t distanceVector) {
+    //pythagoras
     return sqrt(distanceVector(0)* distanceVector(0) +
                                    distanceVector(1)* distanceVector(1) +
                                    distanceVector(2)* distanceVector(2));
 }
 
+/**
+ * @fn double calculateEnergy(double distance, double epsilon, double sigma)
+ * @brief calculates the Potential Energy between two atoms V(r) using the Lenard Jones Potential
+ * @param distance
+ * @param epsilon
+ * @param sigma
+ * @return double the Potential energy
+ */
 double calculateEnergy(double distance, double epsilon, double sigma)
 {
     return 4*epsilon*(pow(sigma/distance,12) + pow(sigma/distance,6));
