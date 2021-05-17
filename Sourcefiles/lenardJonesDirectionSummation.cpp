@@ -17,11 +17,12 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     //vars
     double totalPotentialEnergy = 0.0;
     int numberOfAtoms = atoms.nb_atoms();
-    double delta = 0.00000001;
+    double delta = 0.0001;
     double thisAtomsPotential = 0.0;
     //TODO can i just discard all the past forces ?!
     atoms.forces = 0;
     //Calculate potential energy
+    //TODO bad loop ?
     for(int i = 0; i < numberOfAtoms; ++i)
     {
         for(int j = i+1; j < numberOfAtoms; ++j)
@@ -30,6 +31,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             //calculate the current energy between the atom i and j
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
+
             /** Energy */
             //calculate Lenard jones Potential
             thisAtomsPotential = calculateEnergy(currentDistance,sigma,epsilon);
@@ -37,13 +39,13 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             totalPotentialEnergy += thisAtomsPotential;
 
             /** Forces */
-            //
+            //normalize vector
             Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
             //calculate the deltaV
             //TODO Taylor??
-            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma)- calculateEnergy(currentDistance - delta, epsilon,sigma);
+            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma) - calculateEnergy(currentDistance - delta, epsilon,sigma);
             //put the force there
-            atoms.forces.col(i) += (deltaThisAtomsPotential/(2*delta)) * normalizedVectorToOtherAtom;
+            atoms.forces.col(i) += 68* (deltaThisAtomsPotential/(2*delta)) * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
             atoms.forces.col(j) += -1* atoms.forces.col(i);
         }
@@ -51,7 +53,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     //first part of equation TODO do i even need that as the energy is not counted twice?!
     //totalPotentialEnergy*= 0.5;
     //std::cout << atoms.forces << std::endl;
-    return totalPotentialEnergy;
+    return thisAtomsPotential;
 }
 
 /**

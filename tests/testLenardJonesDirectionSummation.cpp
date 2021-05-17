@@ -59,6 +59,8 @@ TEST(LJDirectSummationTest, Forces) {
             // check whether finite-difference and analytic forces agree
             if (abs(forces0(j, i)) > 1e-10) {
                 EXPECT_NEAR(abs(fd_force - forces0(j, i)) / forces0(j, i), 0, 1e-5);
+                std::cout << "Comparsison: " << forces0(j, i) << ";;" << fd_force <<std::endl;
+
             } else {
                 EXPECT_NEAR(fd_force, forces0(j, i), 1e-10);
             }
