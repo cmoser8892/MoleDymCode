@@ -25,7 +25,8 @@ int main() {
     // go to the minimum to check the forces they should be near 0 otherwise i have a mistake
     double testSigma = 1;
     Atoms atoms(nbAtoms);
-    atoms.positions(0,1) = 1.12 * testSigma;
+    //use the real minimum as it is calculated
+    atoms.positions(0,1) =  pow(2.0,(1.0/6.0)) * testSigma;
     lendardJonesDirectSummation(atoms, 1,testSigma);
     std::cout << "R ~ 1.12sigma, Forces should be near 0" << std::endl;
     std::cout << atoms.forces << std::endl;

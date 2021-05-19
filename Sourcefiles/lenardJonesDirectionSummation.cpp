@@ -19,6 +19,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     int numberOfAtoms = atoms.nb_atoms();
     double delta = 0.0001;
     double thisAtomsPotential = 0.0;
+    //forces back to 0/discard old forces
     atoms.forces = 0;
     //Calculate potential energy
     for(int i = 0; i < numberOfAtoms; ++i)
@@ -44,7 +45,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             double deltaPotential = calculateEnergy(currentDistance+delta,epsilon,sigma) - calculateEnergy(currentDistance - delta, epsilon,sigma);
             static double deltaForceOld  = deltaPotential/(2*delta); //force the compiler for debug
             //old stuff for comparison
-            double deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(j),atoms.positions.col(i)); //placeholder
+            double deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(i),atoms.positions.col(j)); //placeholder
             //put the force there
             atoms.forces.col(i) += deltaForce * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
@@ -93,12 +94,13 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  * @return
  */
 double calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
+    //
     double returnValue = 0;
     //do in steps to avoid confusion
     /** Differences in X,Y and Z for later  */
     double xMinusIJ = vectorI(0) - vectorJ(0);
-    double yMinusIJ = vectorI(1) -vectorJ(1);
-    double zMinusIJ = vectorI(2)- vectorJ(2);
+    double yMinusIJ = vectorI(1) - vectorJ(1);
+    double zMinusIJ = vectorI(2) - vectorJ(2);
 
     /** Denominators for the Calculations s*/
     double denominatorsInnerSum = pow(xMinusIJ,2)
@@ -108,13 +110,17 @@ double calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, 
     double denomniatorPart2 = pow(denominatorsInnerSum,4);
 
     /** Nominator for the calc */
-    //TODO delta missing
+    //TODO delta ?? 2dik - 2djk first part always 1 second part always 0?!
     double nominatorPart1Common = 6*pow(sigma,12) * 2;
     double nominatorPart2Common = 3*pow(sigma,6)  * 2;
 
     /** putting the inner equations together */
     //this could be written more intelligent but for readability it stays like this; xyzMinusIJ placed more intelligent
-    double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
+    //just written like this to debug easier
+    double innerEquationXPart1 = ((nominatorPart1Common*xMinusIJ)/denomniatorPart1);
+    double innerEquationXPart2 = ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);;
+    double innerEquationX = -innerEquationXPart1 + innerEquationXPart2; //total sum should be 0 for sigma = 1.12 or r = 1.12 in this case
+    //double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
     double innerEquationY = - ((nominatorPart1Common*yMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*yMinusIJ)/denomniatorPart2);
     double innerEquationZ = - ((nominatorPart1Common*zMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*zMinusIJ)/denomniatorPart2);
 
