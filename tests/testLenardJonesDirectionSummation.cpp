@@ -26,7 +26,7 @@
 
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
 
-TEST(LJDirectSummationTest, DISABLED_Forces) {
+TEST(LJDirectSummationTest, Forces) {
     constexpr int nb_atoms = 2;
     constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
     constexpr double sigma = 0.3;
@@ -37,9 +37,9 @@ TEST(LJDirectSummationTest, DISABLED_Forces) {
 
     // compute and store energy of the indisturbed configuration
     double e0{lendardJonesDirectSummation(atoms, epsilon, sigma)};
-    //TODO check this does it write the forces correctly
-    //TODO check with EXPECT_EQ !!
+
     Forces_t forces0{atoms.forces};
+    EXPECT_EQ(forces0(0,0),atoms.forces(0,0));
 
     // loop over all atoms and compute forces from a finite differences approximation
     Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these
@@ -57,9 +57,7 @@ TEST(LJDirectSummationTest, DISABLED_Forces) {
 
             // finite-differences forces
             double fd_force{-(eplus - eminus) / (2 * delta)};
-
-            //check if the forces are in the atom-class and in force0 are the same
-            EXPECT_EQ(forces0(j,i),atoms.forces(j,i));
+            std::cout <<"Energies: " << eplus << "; " << eminus << std::endl;
 
             // check whether finite-difference and analytic forces agree
             if (abs(forces0(j, i)) > 1e-10) {
@@ -69,13 +67,14 @@ TEST(LJDirectSummationTest, DISABLED_Forces) {
             } else {
                 EXPECT_NEAR(fd_force, forces0(j, i), 1e-10);
             }
+            std::cout << "Data:\n" << atoms.positions << "\n" << atoms.forces << std::endl;
         }
     }
 }
 
 //own Tests
 TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
-    //bad implementation i know, but to lazy to write functions
+    //bad implementation i know, but too lazy to write functions
     /** at the point sigma = 2**1/6 the force needs to be near zero; This test performs the test in all the cardinal directions first
      * and then with a random weight */
     unsigned int nbAtoms = 2;
@@ -87,13 +86,10 @@ TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
     /**  three cardinal directions */
     /** x-Direction */
     //calc
-    Forces_t forces0{atoms.forces};
     atoms.positions.setZero();
     atoms.forces.setZero();
     atoms.positions(0,1) = minimumDistance;
     lendardJonesDirectSummation(atoms,testEpsilon,testSigma);
-    //
-    std::cout<< atoms.forces(0,0) << ";" << forces0(0,0) << " ;should be the same" << std::endl;
     //check
     EXPECT_NEAR(atoms.forces(0,0),0,1e-5);
     EXPECT_NE(atoms.forces(0,0),0);
