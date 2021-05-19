@@ -19,10 +19,8 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     int numberOfAtoms = atoms.nb_atoms();
     double delta = 0.0001;
     double thisAtomsPotential = 0.0;
-    //TODO can i just discard all the past forces ?!
     atoms.forces = 0;
     //Calculate potential energy
-    //TODO bad loop ?
     for(int i = 0; i < numberOfAtoms; ++i)
     {
         for(int j = i+1; j < numberOfAtoms; ++j)
@@ -42,15 +40,18 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             //normalize vector
             Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
             //calculate the deltaV
-            //TODO Taylor??
-            double deltaThisAtomsPotential= calculateEnergy(currentDistance+delta,epsilon,sigma) - calculateEnergy(currentDistance - delta, epsilon,sigma);
+            //TODO Analytical not discrete
+            double deltaPotential = calculateEnergy(currentDistance+delta,epsilon,sigma) - calculateEnergy(currentDistance - delta, epsilon,sigma);
+            static double deltaForceOld  = deltaPotential/(2*delta); //force the compiler for debug
+            //old stuff for comparison
+            double deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(j),atoms.positions.col(i)); //placeholder
             //put the force there
-            atoms.forces.col(i) += 68* (deltaThisAtomsPotential/(2*delta)) * normalizedVectorToOtherAtom;
+            atoms.forces.col(i) += deltaForce * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
             atoms.forces.col(j) += -1* atoms.forces.col(i);
         }
     }
-    //first part of equation TODO do i even need that as the energy is not counted twice?!
+    //first part of equation
     //totalPotentialEnergy*= 0.5;
     //std::cout << atoms.forces << std::endl;
     return thisAtomsPotential;
@@ -80,4 +81,46 @@ double calculateDistanceBetweenVektors(Vector_t distanceVector) {
 double calculateEnergy(double distance, double epsilon, double sigma)
 {
     return 4*epsilon*(pow(sigma/distance,12) - pow(sigma/distance,6));
+}
+
+/**
+ * @fn
+ * @brief
+ * @param epsilon
+ * @param sigma
+ * @param vectorI
+ * @param vectorJ
+ * @return
+ */
+double calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
+    double returnValue = 0;
+    //do in steps to avoid confusion
+    /** Differences in X,Y and Z for later  */
+    double xMinusIJ = vectorI(0) - vectorJ(0);
+    double yMinusIJ = vectorI(1) -vectorJ(1);
+    double zMinusIJ = vectorI(2)- vectorJ(2);
+
+    /** Denominators for the Calculations s*/
+    double denominatorsInnerSum = pow(xMinusIJ,2)
+                                  +pow(yMinusIJ,2)
+                                  +pow(zMinusIJ,2);
+    double denomniatorPart1 = pow(denominatorsInnerSum,7);
+    double denomniatorPart2 = pow(denominatorsInnerSum,4);
+
+    /** Nominator for the calc */
+    //TODO delta missing
+    double nominatorPart1Common = 6*pow(sigma,12) * 2;
+    double nominatorPart2Common = 3*pow(sigma,6)  * 2;
+
+    /** putting the inner equations together */
+    //this could be written more intelligent but for readability it stays like this; xyzMinusIJ placed more intelligent
+    double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
+    double innerEquationY = - ((nominatorPart1Common*yMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*yMinusIJ)/denomniatorPart2);
+    double innerEquationZ = - ((nominatorPart1Common*zMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*zMinusIJ)/denomniatorPart2);
+
+    /** putting the whole equation together */
+    double innerEquation = innerEquationX + innerEquationY + innerEquationZ;
+    returnValue = 4*epsilon*innerEquation;
+    /** */
+    return returnValue;
 }

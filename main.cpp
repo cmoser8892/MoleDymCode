@@ -31,7 +31,7 @@ int main() {
     std::cout << atoms.forces << std::endl;
     //test if th forces filp the sign
     std::cout << "Filptest: Depending on sigma the forces should once be postive and once negative" << std::endl;
-    atoms.positions(0,1) = 1 *testSigma;
+    atoms.positions(0,1) = 0.5 *testSigma;
     lendardJonesDirectSummation(atoms, 1,testSigma);
     std::cout << "Repulsion:" << std::endl;
     std::cout << atoms.forces << std::endl;
