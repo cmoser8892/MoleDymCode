@@ -116,11 +116,7 @@ double calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, 
 
     /** putting the inner equations together */
     //this could be written more intelligent but for readability it stays like this; xyzMinusIJ placed more intelligent
-    //just written like this to debug easier
-    double innerEquationXPart1 = ((nominatorPart1Common*xMinusIJ)/denomniatorPart1);
-    double innerEquationXPart2 = ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);;
-    double innerEquationX = -innerEquationXPart1 + innerEquationXPart2; //total sum should be 0 for sigma = 1.12 or r = 1.12 in this case
-    //double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
+    double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
     double innerEquationY = - ((nominatorPart1Common*yMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*yMinusIJ)/denomniatorPart2);
     double innerEquationZ = - ((nominatorPart1Common*zMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*zMinusIJ)/denomniatorPart2);
 
