@@ -56,7 +56,7 @@ TEST(LJDirectSummationTest, Forces) {
             atoms.positions(j, i) += delta;
 
             // finite-differences forces
-            double fd_force{-(eplus - eminus) / (2 * delta)}; //-?
+            double fd_force{-(eplus - eminus) / (2 * delta)};
             std::cout <<"Energies: " << eplus << "; " << eminus << std::endl;
 
             //TODO: energies should also be near each other right?
@@ -82,8 +82,8 @@ TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
      * and then with a random weight */
     unsigned int nbAtoms = 2;
     Atoms atoms(nbAtoms);
-    double testSigma = 1;
-    double testEpsilon = 1;
+    double testSigma = 0.7;
+    double testEpsilon = 0.3;
     double minimumDistance = pow(2.0, 1.0/6.0) * testSigma;
 
     /**  three cardinal directions */
