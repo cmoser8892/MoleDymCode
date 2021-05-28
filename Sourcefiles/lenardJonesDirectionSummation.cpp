@@ -94,7 +94,7 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  * @return
  */
 Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
-    //
+    //TODO vector or double?
     Vector_t returnValue(0,0,0);
     //do in steps to avoid confusion
     /** Differences in X,Y and Z for later  */
@@ -111,6 +111,7 @@ Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI
 
     /** Nominator for the calc */
     //TODO delta ?? 2dik - 2djk first part always 1 second part always 0?!
+    //TODO i only need to compute this for i = k right j = k is computed in the function already right?
     double nominatorPart1Common = 6*pow(sigma,12) * 2;
     double nominatorPart2Common = 3*pow(sigma,6)  * 2;
 
