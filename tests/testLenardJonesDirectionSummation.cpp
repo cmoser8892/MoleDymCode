@@ -27,7 +27,7 @@
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
 
 TEST(LJDirectSummationTest, Forces) {
-    constexpr int nb_atoms = 2;
+    constexpr int nb_atoms = 10;
     constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
     constexpr double sigma = 0.3;
     constexpr double delta = 0.0001;  // difference used for numerical (finite difference) computation of forces
@@ -37,9 +37,7 @@ TEST(LJDirectSummationTest, Forces) {
 
     // compute and store energy of the indisturbed configuration
     double e0{lendardJonesDirectSummation(atoms, epsilon, sigma)};
-
     Forces_t forces0{atoms.forces};
-    EXPECT_EQ(forces0(0,0),atoms.forces(0,0));
 
     // loop over all atoms and compute forces from a finite differences approximation
     Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these
@@ -57,20 +55,14 @@ TEST(LJDirectSummationTest, Forces) {
 
             // finite-differences forces
             double fd_force{-(eplus - eminus) / (2 * delta)};
-            std::cout <<"Energies: " << eplus << "; " << eminus << std::endl;
-
-            //TODO: energies should also be near each other right?
-            EXPECT_NEAR(eplus+eminus,2*e0,1e-5);
 
             // check whether finite-difference and analytic forces agree
             if (abs(forces0(j, i)) > 1e-10) {
                 EXPECT_NEAR(abs(fd_force - forces0(j, i)) / forces0(j, i), 0, 1e-5);
-                std::cout << "Comparsison: " << forces0(j, i) << ";;" << fd_force <<std::endl;
 
             } else {
                 EXPECT_NEAR(fd_force, forces0(j, i), 1e-10);
             }
-            std::cout << "Data:\n" << atoms.positions << "\n" << atoms.forces << std::endl;
         }
     }
 }

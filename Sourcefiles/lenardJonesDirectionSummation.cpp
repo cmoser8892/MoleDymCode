@@ -45,7 +45,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             double deltaPotential = calculateEnergy(currentDistance+delta,epsilon,sigma) - calculateEnergy(currentDistance - delta, epsilon,sigma);
             static double deltaForceOld  = deltaPotential/(2*delta); //force the compiler for debug
             //old stuff for comparison
-            Vector_t deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(i),atoms.positions.col(j)); //placeholder
+            double deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(i),atoms.positions.col(j)); //placeholder
             //put the force there
             atoms.forces.col(i) += deltaForce * normalizedVectorToOtherAtom;
             //other atom has the force in the other direction
@@ -93,9 +93,9 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  * @param vectorJ
  * @return
  */
-Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
+double calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
     //TODO vector or double?
-    Vector_t returnValue(0,0,0);
+    double returnValue = 0;
     //do in steps to avoid confusion
     /** Differences in X,Y and Z for later  */
     double xMinusIJ = vectorI(0) - vectorJ(0);
@@ -123,7 +123,7 @@ Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI
 
     /** putting the whole equation together */
     //double innerEquation = innerEquationX + innerEquationY + innerEquationZ;
-    Vector_t innerEquation(innerEquationX,innerEquationY,innerEquationZ);
+    double innerEquation =  innerEquationX + innerEquationY + innerEquationZ;
     returnValue = 4*epsilon*  innerEquation;
     /** */
     return returnValue;
