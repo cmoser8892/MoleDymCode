@@ -27,18 +27,41 @@ int main() {
     Atoms atoms(nbAtoms);
     //use the real minimum as it is calculated
     atoms.positions(0,1) =  pow(2.0,(1.0/6.0)) * testSigma;
+    //
     lendardJonesDirectSummation(atoms, 1,testSigma);
     std::cout << "R ~ 1.12sigma, Forces should be near 0" << std::endl;
     std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
+    //
+    lj_direct_summation(atoms,1,testSigma);
+    std::cout << "R ~ 1.12sigma, Forces should be near 0" << std::endl;
+    std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
     //test if th forces filp the sign
+    //
     std::cout << "Filptest: Depending on sigma the forces should once be postive and once negative" << std::endl;
     atoms.positions(0,1) = 0.5 *testSigma;
+    //
     lendardJonesDirectSummation(atoms, 1,testSigma);
+    std::cout << "OwnRepulsion:" << std::endl;
+    std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
+    //
+    lj_direct_summation(atoms,1,testSigma);
     std::cout << "Repulsion:" << std::endl;
     std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
+    //
     atoms.positions(0,1) = 2 *testSigma;
     lendardJonesDirectSummation(atoms, 1,testSigma);
+    std::cout << "OwnAttraction:" << std::endl;
+    std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
+    //
+    lj_direct_summation(atoms,1,testSigma);
     std::cout << "Attraction:" << std::endl;
     std::cout << atoms.forces << std::endl;
+    atoms.forces.setZero();
+    //
     return 0;
 }

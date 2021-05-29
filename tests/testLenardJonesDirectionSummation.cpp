@@ -30,7 +30,7 @@ TEST(LJDirectSummationTest, Forces) {
     constexpr int nb_atoms = 10;
     constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
     constexpr double sigma = 0.3;
-    constexpr double delta = 0.0001;  // difference used for numerical (finite difference) computation of forces
+    constexpr double delta = 0.00001;  // difference used for numerical (finite difference) computation of forces
 
     Atoms atoms(nb_atoms);
     atoms.positions.setRandom();  // random numbers between -1 and 1
@@ -38,6 +38,13 @@ TEST(LJDirectSummationTest, Forces) {
     // compute and store energy of the indisturbed configuration
     double e0{lendardJonesDirectSummation(atoms, epsilon, sigma)};
     Forces_t forces0{atoms.forces};
+    double e3{lj_direct_summation(atoms,epsilon,sigma)};
+    Forces_t  forces1{atoms.forces};
+    for(int i{0}; i < nb_atoms; ++i) {
+        for(int j{0}; j <3; j++) {
+            EXPECT_NEAR(forces0(j, i),forces1(j,i),1e-15);
+        }
+    }
 
     // loop over all atoms and compute forces from a finite differences approximation
     Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these
@@ -74,7 +81,7 @@ TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
      * and then with a random weight */
     unsigned int nbAtoms = 2;
     Atoms atoms(nbAtoms);
-    double testSigma = 0.7;
+    double testSigma = 1;
     double testEpsilon = 0.3;
     double minimumDistance = pow(2.0, 1.0/6.0) * testSigma;
 
