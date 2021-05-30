@@ -12,6 +12,7 @@ public:
     Positions_t positions;
     Velocities_t velocities;
     Forces_t forces;
+    Names_t names;
 
     //set methods
     Atoms(const int &size) :
