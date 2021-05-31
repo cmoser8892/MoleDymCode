@@ -87,7 +87,5 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  */
 double calculateForceAnalytical(double epsilon, double sigma, double distance)
 {
-    double first = 6*pow(sigma,6)/pow(distance,7);
-    double second = 12*pow(sigma,12)/pow(distance,13);
-    return 4* epsilon *(first - second);
+    return 4* epsilon *((6*pow(sigma,6)/pow(distance,7)) - (12*pow(sigma,12)/pow(distance,13);));
 }
