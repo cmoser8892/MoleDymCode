@@ -36,6 +36,12 @@ public:
         forces.setZero();
     }
 
+    Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v) :
+            positions{p}, velocities{v}, forces{3, p.cols()}, names{n} {
+        assert(p.cols() == v.cols());
+        forces.setZero();
+    }
+
     size_t nb_atoms() const {
         return positions.cols();
     }

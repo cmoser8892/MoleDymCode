@@ -87,5 +87,15 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  */
 double calculateForceAnalytical(double epsilon, double sigma, double distance)
 {
-    return 4* epsilon *((6*pow(sigma,6)/pow(distance,7)) - (12*pow(sigma,12)/pow(distance,13);));
+    return 4* epsilon *((6*pow(sigma,6)/pow(distance,7)) - (12*pow(sigma,12)/pow(distance,13)));
+}
+
+/**
+ * @fn
+ * @brief
+ * @param atoms
+ * @return
+ */
+double calculateKineticEnergy(Atoms &atoms) {
+    return 0;
 }

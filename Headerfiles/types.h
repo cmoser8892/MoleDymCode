@@ -18,5 +18,5 @@ using Forces_t = Eigen::Array3Xd;
 
 using Vector_t = Eigen::Array3d;
 
-using Names_t = std::vector<char>;
+using Names_t = std::vector<std::string>;
 #endif //MYPROJECT_TYPES_H

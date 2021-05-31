@@ -15,13 +15,15 @@ set(MYPROJECT_HDRS
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/types.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/atoms.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/lenardJonesDirectionSummation.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/xyz.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/xyz.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/helperfunctions.h)
 
 set(MYPROJECT_SRCS
          #Add source files here
          ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/verlet.cpp
          ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/lenardJonesDirectionSummation.cpp
-         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/xyz.cpp)
+         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/xyz.cpp
+         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/helperfunctions.cpp)
 
 set(MYPROJECT_executable_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)

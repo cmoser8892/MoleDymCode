@@ -14,5 +14,6 @@ double calculateEnergy(double distance, double epsilon, double sigma);
 
 double calculateForceAnalytical(double, double, double);
 
+double calculateKineticEnergy(Atoms &atoms);
 
 #endif //MYPROJECT_LENARDJONESDIRECTIONSUMMATION_H
