@@ -27,7 +27,6 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             /** Distance */
             //calculate the current energy between the atom i and j
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
-            //std::cout << vectorToOtherAtom << std::endl;
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
 
             /** Energy */
