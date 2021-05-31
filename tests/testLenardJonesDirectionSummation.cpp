@@ -38,13 +38,6 @@ TEST(LJDirectSummationTest, Forces) {
     // compute and store energy of the indisturbed configuration
     double e0{lendardJonesDirectSummation(atoms, epsilon, sigma)};
     Forces_t forces0{atoms.forces};
-    double e3{lj_direct_summation(atoms,epsilon,sigma)};
-    Forces_t  forces1{atoms.forces};
-    for(int i{0}; i < nb_atoms; ++i) {
-        for(int j{0}; j <3; j++) {
-            EXPECT_NEAR(forces0(j, i),forces1(j,i),1e-15);
-        }
-    }
 
     // loop over all atoms and compute forces from a finite differences approximation
     Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these

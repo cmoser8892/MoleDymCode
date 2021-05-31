@@ -52,25 +52,6 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     return totalPotentialEnergy ;
 }
 
-//not mine
-double lj_direct_summation(Atoms &atoms, double epsilon, double sigma) {
-    double E = 0.;
-    double ssq = sigma*sigma;
-    atoms.forces.setZero();
-    for(int j = 0; j<atoms.nb_atoms(); j++) {// Looping over the upper triangle of the pair matrix
-        for (int i = j+1; i < atoms.nb_atoms(); i++) {
-            Vector_t rij_v = atoms.positions.col(j)-atoms.positions.col(i);
-            //std::cout << rij_v << std::endl;
-            double rij_sq = rij_v(0)*rij_v(0)+rij_v(1)*rij_v(1)+rij_v(2)*rij_v(2);
-            E += 4.*epsilon*(pow(ssq/rij_sq,6.)-pow(ssq/rij_sq,3.)); //no 1/2, because E = Eij+Eji
-            Vector_t Fij = 24.*epsilon*(pow(ssq*rij_sq,3.)-2.*pow(ssq,6.))/pow(rij_sq,7.) * rij_v; //1 more for the norm
-            atoms.forces.col(i) += Fij;
-            atoms.forces.col(j) -= Fij;
-        }
-    }
-    return E;
-}
-
 /**
  * @fn double calculateDistanceBetweenVektors(Vector_t distanceVector)
  * @brief calculates the length of the Vector
