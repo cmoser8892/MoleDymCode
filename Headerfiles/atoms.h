@@ -37,7 +37,7 @@ public:
     }
 
     Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v) :
-            positions{p}, velocities{v}, forces{3, p.cols()}, names{n} {
+            names{n} ,positions{p}, velocities{v}, forces{3, p.cols()} {
         assert(p.cols() == v.cols());
         forces.setZero();
     }

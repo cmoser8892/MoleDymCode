@@ -46,7 +46,6 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
     }
     //first part of equation
     //totalPotentialEnergy*= 0.5;
-    //std::cout << atoms.forces << std::endl;
     return totalPotentialEnergy ;
 }
 
@@ -99,9 +98,10 @@ double calculateForceAnalytical(double epsilon, double sigma, double distance)
 double calculateKineticEnergy(Atoms &atoms) {
     double energyReturn = 0;
     for ( int i =0; i < atoms.nb_atoms(); ++i) {
-        energyReturn += 1/2* 1 * (pow(atoms.velocities(0,i),2)
-                                 +pow(atoms.velocities(1,i),2)
-                                 +pow(atoms.velocities(2,i),2));
+        double thisEnergy = 0.5 * 1 * (pow(atoms.velocities(0,i),2)
+                               +pow(atoms.velocities(1,i),2)
+                               +pow(atoms.velocities(2,i),2));
+        energyReturn += thisEnergy;
     }
     return energyReturn;
 }

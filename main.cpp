@@ -26,7 +26,6 @@ int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
     auto [names, positions, velocities]{read_xyz_with_velocities("../AJupyter/lj54.xyz")};
     Atoms atoms(names,positions,velocities);
-
     /** Initial State */
     if(0) { //this means the first image is not the initial state but only kinda
     energy = lendardJonesDirectSummation(atoms,epsilon,sigma);
@@ -49,8 +48,7 @@ int main() {
         {
             std::cout << "Writing Dump at:" << currentTime << std::endl;
             std::cout << energyStorage[i] << std::endl;
-            dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",
-                     (unsigned int) (totalTime/timeStep),i/safeAtStep);
+            dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",1000,(unsigned int) i/safeAtStep);
         }
         //update time and counter
         currentTime += timeStep;
