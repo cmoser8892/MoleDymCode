@@ -14,8 +14,8 @@ int main() {
     double sigma = 1;
     double mass = 1;
     /** Times */
-    double timeStep = 0.0005 * sqrt((mass*sigma*sigma)/epsilon);
-    double totalTime = 10  * sqrt((mass*sigma*sigma)/epsilon); //TODO change back
+    double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
+    double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon); //TODO change back
     double safeDumpTime = 1  * sqrt((mass*sigma*sigma)/epsilon);
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
