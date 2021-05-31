@@ -37,7 +37,6 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             //normalize vector
             Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
             //calculate the deltaV
-            //Vector_t deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(j),atoms.positions.col(i)); //placeholder
             double deltaForce = calculateForceAnalytical(epsilon,sigma,currentDistance);
             Vector_t force = deltaForce * normalizedVectorToOtherAtom;
             //put the force there
@@ -76,9 +75,7 @@ double calculateDistanceBetweenVektors(Vector_t distanceVector) {
  */
 double calculateEnergy(double distance, double epsilon, double sigma)
 {
-    double first = pow(sigma/distance,12.);
-    double second = pow(sigma/distance,6.);
-    return 4.0*epsilon*(first - second);
+    return 4.0*epsilon*(pow(sigma/distance,12.) - pow(sigma/distance,6.));
 }
 
 /**
