@@ -92,10 +92,16 @@ double calculateForceAnalytical(double epsilon, double sigma, double distance)
 
 /**
  * @fn
- * @brief
+ * @brief only really works in kartesian coordinates mass just set to 1
  * @param atoms
  * @return
  */
 double calculateKineticEnergy(Atoms &atoms) {
-    return 0;
+    double energyReturn = 0;
+    for ( int i =0; i < atoms.nb_atoms(); ++i) {
+        energyReturn += 1/2* 1 * (pow(atoms.velocities(0,i),2)
+                                 +pow(atoms.velocities(1,i),2)
+                                 +pow(atoms.velocities(2,i),2));
+    }
+    return energyReturn;
 }

@@ -10,4 +10,6 @@
 void dumpData( Atoms &atoms,
         std::string location, std::string namingScheme, unsigned int expectedNumberOfDumps ,unsigned int number);
 
+void dumpEnergy( std::vector<double> data,
+                 std::string location, std::string name);
 #endif //MYPROJECT_HELPERFUNCTIONS_H
