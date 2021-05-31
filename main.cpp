@@ -4,7 +4,7 @@
 #include "Headerfiles/types.h"
 #include "Headerfiles//lenardJonesDirectionSummation.h"
 #include "Headerfiles/xyz.h"
-#include<fstream>
+#include "Headerfiles/helperfunctions.h"
 
 using namespace std;
 
@@ -13,10 +13,13 @@ int main() {
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
+    /** Times */
     double timeStep = 0.001 * sqrt((mass*sigma*sigma)/epsilon);
-    double totalTime = 0.001  * sqrt((mass*sigma*sigma)/epsilon); //TODO change back
+    double totalTime = 3  * sqrt((mass*sigma*sigma)/epsilon); //TODO change back
     double safeDumpTime = 1  * sqrt((mass*sigma*sigma)/epsilon);
+    int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
+    /** global */
     double energy = 0;
     /** Init */
     std::cout << "Molecular Dynamics Project" << std::endl;
@@ -25,26 +28,32 @@ int main() {
 
     /** Initial State */
     energy = lendardJonesDirectSummation(atoms,epsilon,sigma);
-
+    dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",
+             (unsigned int) (totalTime/timeStep),0);
     int i = 0;
     /** Loop */
-    do {
+    while (currentTime < totalTime) {
         i++;
-        std::cout << "Step:" << i << std::endl;
         //verlet1
-        verletStep1(atoms.positions,atoms.velocities,atoms.forces,timeStep);
+        verletStep1(atoms.positions, atoms.velocities, atoms.forces, timeStep);
         //forces
-        energy = lendardJonesDirectSummation(atoms,epsilon,sigma);
+        energy = lendardJonesDirectSummation(atoms, epsilon, sigma);
         energy += calculateKineticEnergy(atoms); //TODO: implementation
-        //TODO: dumps
+        //TODO: dump energy somewhere
         //verlet2
-        verletStep2(atoms.velocities,atoms.forces,timeStep);
+        verletStep2(atoms.velocities, atoms.forces, timeStep);
         //update current time
         currentTime += timeStep;
         //safe data dumps
-        std::cout << "Writing Dump at:" << currentTime << std::endl;
-        write_xyz("testTrajectory.xyz",atoms);
-    }while(currentTime < totalTime);
+        if((i%safeAtStep) == 0)
+        {
+            std::cout << "Writing Dump at:" << currentTime << std::endl;
+            dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",
+                     (unsigned int) (totalTime/timeStep),i/safeAtStep);
+        }
+        //std::cout << "Step:" << i << std::endl;
+        //std::cout << currentTime << std::endl;
+    }
 
     return 0;
 }
