@@ -38,7 +38,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
             //calculate the deltaV
             //Vector_t deltaForce = calculateForceAnalytical(epsilon,sigma,atoms.positions.col(j),atoms.positions.col(i)); //placeholder
-            double deltaForce = calculateForceAnaly(epsilon,sigma,currentDistance);
+            double deltaForce = calculateForceAnalytical(epsilon,sigma,currentDistance);
             Vector_t force = deltaForce * normalizedVectorToOtherAtom;
             //put the force there
             atoms.forces.col(i) += force;
@@ -86,42 +86,10 @@ double calculateEnergy(double distance, double epsilon, double sigma)
  * @brief
  * @param epsilon
  * @param sigma
- * @param vectorI
- * @param vectorJ
+ * @param distance
  * @return
  */
-Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ) {
-    Vector_t returnValue;
-    //do in steps to avoid confusion
-    /** Differences in X,Y and Z for later  */
-    double xMinusIJ = vectorI(0) - vectorJ(0);
-    double yMinusIJ = vectorI(1) - vectorJ(1);
-    double zMinusIJ = vectorI(2) - vectorJ(2);
-
-    /** Denominators for the Calculations s*/
-    double denominatorsInnerSum =  pow(xMinusIJ,2)
-                                  +pow(yMinusIJ,2)
-                                  +pow(zMinusIJ,2);
-    double denomniatorPart1 = pow(denominatorsInnerSum,7);
-    double denomniatorPart2 = pow(denominatorsInnerSum,4);
-
-    /** Nominator for the calc */
-    double nominatorPart1Common = 6*pow(sigma,12)   *2;
-    double nominatorPart2Common = 3*pow(sigma,6)    *2;
-
-    /** putting the inner equations together */
-    double innerEquationX = - ((nominatorPart1Common*xMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*xMinusIJ)/denomniatorPart2);
-    double innerEquationY = - ((nominatorPart1Common*yMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*yMinusIJ)/denomniatorPart2);
-    double innerEquationZ = - ((nominatorPart1Common*zMinusIJ)/denomniatorPart1) + ((nominatorPart2Common*zMinusIJ)/denomniatorPart2);
-
-    /** putting the whole equation together */
-    Vector_t innerEquation(innerEquationX , innerEquationY ,innerEquationZ);
-    returnValue = 4 * epsilon* innerEquation;
-    /** */
-    return returnValue;
-}
-
-double calculateForceAnaly(double epsilon, double sigma, double distance)
+double calculateForceAnalytical(double epsilon, double sigma, double distance)
 {
     double first = 6*pow(sigma,6)/pow(distance,7);
     double second = 12*pow(sigma,12)/pow(distance,13);

@@ -12,9 +12,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon = 1.0, double si
 double calculateDistanceBetweenVektors(Vector_t distanceVector);
 double calculateEnergy(double distance, double epsilon, double sigma);
 
-Vector_t calculateForceAnalytical(double epsilon, double sigma, Vector_t vectorI, Vector_t vectorJ);
-double calculateForceAnaly(double, double, double);
-double lj_direct_summation(Atoms &atoms, double epsilon, double sigma);
+double calculateForceAnalytical(double, double, double);
 
 
 #endif //MYPROJECT_LENARDJONESDIRECTIONSUMMATION_H
