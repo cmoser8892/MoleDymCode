@@ -1,67 +1,6 @@
-\documentclass{article}
-\setlength{\parindent}{0cm} 
-\usepackage[english]{babel} 
-\usepackage[utf8]{inputenc} 
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-\setlength{\parindent}{0cm} % nach Absatz  Spracheinstellung (keine Rechtschreibpr\"ufung), \"andert z.B. Table of content in Inhaltsverzeichnis
 %
+\input{Tex/includePackages}
 
-%\usepackage[authoryear,square]{natbib} 
-\usepackage[
-backend=bibtex8,
-style = alphabetic,
-%bibstyle = ,
-%citestyle = ,
-natbib=true
-]{biblatex}
-%\addbibresource{Literatur/Lit.bib}
-%\bibliographystyle{abbrvnat}
-%\usepackage{filecontents}
-%\usepackage{lipsum}
-%
-\usepackage{verbatim} % Code
-\usepackage{calc} % einfache arithmetische LATEX Befehle 
-\usepackage[colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black]{hyperref} % Farbdefinition von Links
-\usepackage{subfig} % einfache Darstellung von mehreren Bildern mit einer Beschreibung
-\usepackage{upgreek} % passt die Gr\"o{\ss}e von griechischen Buchstaben im Text an $upmu$m z.B. 
-\usepackage{icomma} % reguliert den Abstand des Kommas im dezimalen System
-\tolerance=1000 % Toleranz f\"ur den Zeilenumbruch, variiert zw. 0 und 10000
-\renewcommand{\baselinestretch}{1.25} % definiert den Zeilenabstand
-\usepackage{graphicx} % Graphiken
-\usepackage{amssymb} % stellt mehr mathematische Symble wie z.B. verschiedene Pfeilarten zur Verf\"ugung
-\usepackage{amsmath} % stellt mehr mathematische Umgebungen bereit
-\usepackage{color} % erm\"oglicht das einf\"arben von Schrift, Rahmen, Felder, Seiten ...
-\setlength{\topmargin}{0.5cm} % definiert den Abstand zwischen oberen Rand der Seite und der Kopfzeile
-\usepackage{caption} % definiert die Schriftart der Bildunterschrift und Tabellen\"uberschrift
-\renewcommand{\captionfont}{\small\sffamily}
-\renewcommand{\captionlabelfont}{\small\bfseries}
-\usepackage{enumitem} % erlaubt es die enumerate Umgebung zu unterbrechen
-\usepackage{verbatim}
-\usepackage{tikz} %nice graphik
-\usepackage{babel} 
-\usepackage[binary-units=true]{siunitx} 
-\sisetup{per-mode = symbol,per-symbol=p}
-\usepackage{acronym}
-\usepackage{pdfpages}
-%% Code
-\usepackage{listings}
-\usepackage{xcolor}
-\lstset { %
-	%language=C++,
-	%backgroundcolor=\color{black!5}, % set backgroundcolor
-	%basicstyle=\footnotesize,% basic font setting
-	frame=l,
-	language=C++,
-	%basicstyle=\ttfamily,
-	basicstyle=\footnotesize\ttfamily,
-	%breaklines=true,
-	numbers=left,
-	numberstyle=\tiny\color{gray},
-	keywordstyle=\color{blue},
-	commentstyle=\color{green}\ttfamily,
-	stringstyle=\color{mauve},
-	backgroundcolor=\color{black!5}, % set backgroundcolor
-}
 \begin{document}
 %
 %\input{Tex/titel}
@@ -83,7 +22,7 @@ natbib=true
 this is just to test weather or not i did the setup correctly
 äüß
 % MainInput
-
+\input{Tex/milestone4}
 % %bib 
 
  %\printbibliography
