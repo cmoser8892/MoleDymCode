@@ -31,3 +31,8 @@
 *.out
 *.app
 /AJupyter/energy.txt
+/AALatex/ccmain-blx.bib
+/AALatex/texput.log
+/AALatex/ccmain.synctex.gz
+/cmake-build-debug/
+/AALatex/build/
