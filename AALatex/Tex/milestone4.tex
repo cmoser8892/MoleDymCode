@@ -1,5 +1,26 @@
 \chapter{Milestone 4}
-\section{Force-Derivation from the Energy}
+\section{Force-Derivation from the Lenard Jones Potential}
+
+\begin{comment}
+1. Put the python code here
+2. write the base equations (lj + f)
+3. write the result form the python code 
+4. write some text
+5. c++ code that results from this?
+\end{comment}
+%% equations
+\begin{equation}
+	\overrightarrow{f_{k}} = \sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
+\end{equation}
+
+\begin{equation}
+	V(r) = 4\epsilon\bigg[\Big(\frac{\sigma}{r}\Big)^{12}- \Big(\frac{\sigma}{r}\Big)^{6} \bigg]
+\end{equation}
+
+\begin{equation}
+	\frac{\partial V}{\partial r_{ik}} = 4\epsilon\Bigg(\frac{6\sigma^{6}}{r_{ik}^{6}} - \frac{12\sigma^{12}}{r_{ik}^{13}} \Bigg)
+\end{equation}
+
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{4}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
@@ -14,11 +35,11 @@
 \PY{n}{energyRad}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{rad}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
-
-
 \prompt{Out}{outcolor}{4}{}
 
     $\displaystyle 4 e \left(\frac{6 s^{6}}{r^{7}} - \frac{12 s^{12}}{r^{13}}\right)$
+
+%%
 
 
 
