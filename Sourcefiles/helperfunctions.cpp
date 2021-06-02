@@ -8,7 +8,15 @@
 
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
-
+/**
+ * @fn void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsigned int expectedNumberOfDumps ,unsigned int number)
+ * @brief Creates a file in a series of files in .xyz format to be used for the simulation
+ * @param atoms
+ * @param location
+ * @param namingScheme
+ * @param expectedNumberOfDumps
+ * @param number
+ */
 void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsigned int expectedNumberOfDumps ,unsigned int number) {
     //create whole location string
     unsigned int condensedNumber = expectedNumberOfDumps * 10 + number;
@@ -19,7 +27,13 @@ void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsign
     //
     write_xyz(total,atoms);
 }
-
+/**
+ * @fn void dumpEnergy( std::vector<double> data,std::string location, std::string name)
+ * @brief dumps the date from the vector data to a file
+ * @param data
+ * @param location
+ * @param name
+ */
 void dumpEnergy( std::vector<double> data,
                  std::string location, std::string name) {
     std::string total = location + "/" + name +".txt";

@@ -77,12 +77,12 @@ double calculateEnergy(double distance, double epsilon, double sigma)
 }
 
 /**
- * @fn
- * @brief
+ * @fn double calculateForceAnalytical(double epsilon, double sigma, double distance)
+ * @brief calculates the force analytically form the derivation of the Lenard Jones Potential
  * @param epsilon
  * @param sigma
  * @param distance
- * @return
+ * @return force
  */
 double calculateForceAnalytical(double epsilon, double sigma, double distance)
 {
@@ -90,10 +90,10 @@ double calculateForceAnalytical(double epsilon, double sigma, double distance)
 }
 
 /**
- * @fn
- * @brief only really works in kartesian coordinates mass just set to 1
+ * @fn double calculateKineticEnergy(Atoms &atoms)
+ * @brief calculates teh Energy of the Atoms; only really works in kartesian coordinates mass just set to 1
  * @param atoms
- * @return
+ * @return the kinetic Energy in the System
  */
 double calculateKineticEnergy(Atoms &atoms) {
     double energyReturn = 0;
