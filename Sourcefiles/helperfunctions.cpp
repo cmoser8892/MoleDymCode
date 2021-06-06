@@ -44,7 +44,16 @@ void dumpEnergy( std::vector<double> data,
     file.close();
 }
 
-
+/**
+ * @fn
+ * @brief
+ * @param numberOfAtoms
+ * @param latticeConstant
+ * @return
+ */
 Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant) {
-
+    /**
+     * 1. First determin the Side lenght of the Cube
+     * 2. Fill it up
+     * */
 }
