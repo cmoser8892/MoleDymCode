@@ -12,4 +12,6 @@ void dumpData( Atoms &atoms,
 
 void dumpEnergy( std::vector<double> data,
                  std::string location, std::string name);
+
+Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant);
 #endif //MYPROJECT_HELPERFUNCTIONS_H

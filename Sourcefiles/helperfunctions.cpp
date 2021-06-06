@@ -43,3 +43,8 @@ void dumpEnergy( std::vector<double> data,
     }
     file.close();
 }
+
+
+Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant) {
+
+}
