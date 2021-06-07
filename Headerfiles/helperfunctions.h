@@ -19,6 +19,7 @@ double calculateCurrentTemperatur(Atoms &atoms);
 
 /** Other helpers*/
 double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep);
+double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms);
 bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor);
 Positions_t generateCube(Atoms &atoms, double cubeFactor);
 #endif //MYPROJECT_HELPERFUNCTIONS_H

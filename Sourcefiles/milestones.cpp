@@ -67,13 +67,13 @@ int milestone5Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 4*atomicUnit;
-    unsigned int nbAtoms = 27;
-    double targetTemperatur = 1.3e22;
+    unsigned int nbAtoms = 8;
+    double targetTemperatur = 100;
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon);
     double totalTime = 100 * sqrt((mass * sigma * sigma) / epsilon);
     double safeDumpTime = 100 * timeStep;
-    double relaxationTime = 100000*timeStep;
+    double relaxationTime = 10*timeStep;
     /** SafeLocations */
     std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
@@ -108,27 +108,30 @@ int milestone5Code(int argc, char *argv[]) {
         //verlet2
         verletStep2Atoms(atoms, timeStep);
         //velocity rescaling
-        berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
+        //berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
         //energy
         kineticEnergy = calculateKineticEnergy(atoms);
         energy += kineticEnergy;
         energyStorage[i] = energy;
         if ((i % safeAtStep) == 0) {
-            std::cout << "Writing Dump at:" << currentTime << std::endl;
+            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             std::cout << energyStorage[i] << std::endl;
             std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
+            /**
             if(checkMoleculeTrajectories(atoms,2* pow(2.0, 1.0/6.0)) == false) {
                 std::cout << "Cube Exploded" << std::endl;
                 break;
             }
+            */
         }
         //update time and counter
         currentTime += timeStep;
         i++;
     }
     //energy dump for ploting
+    std::cout << "Dumping the energy" << std::endl;
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
     return 0;
 }

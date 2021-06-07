@@ -124,7 +124,9 @@ double calculateKineticEnergy(Atoms &atoms) {
  * @return the temperatur of the system
  */
 double calculateCurrentTemperatur(Atoms &atoms) {
+    //TODO mean velocity of the Particles??
     double totalKineticEnergy = calculateKineticEnergy(atoms);
+    //totalKineticEnergy = calculateEnergyWithQuadradicMeanVelocity(atoms);
     double temperatur = 2./3. * (totalKineticEnergy/boltzmannConstant);
     return temperatur;
 }
@@ -141,6 +143,26 @@ double calculateCurrentTemperatur(Atoms &atoms) {
 double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep) {
     double currentTemperatur = targetTemperatur + (initalTemperatur - targetTemperatur)* exp(-timestep/relaxationTime);
     return currentTemperatur;
+}
+
+/**
+ * @fn
+ * @brief
+ * @param atoms
+ * @return
+ */
+double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms) {
+    /** same as other method btw */
+    Vector_t totalVelocity(0,0,0);
+    double totalMass = 0;
+    double kineticEnergy = 0;
+    for(int i = 0; i <atoms.nb_atoms(); ++i) {
+        totalVelocity += pow(atoms.velocities.col(i),2);
+        totalMass += atoms.mass(i);
+    }
+    totalVelocity = totalVelocity/atoms.nb_atoms();
+    kineticEnergy = 0.5 * totalMass *(totalVelocity(0) +totalVelocity(1) +totalVelocity(2));
+    return kineticEnergy;
 }
 
 /**
