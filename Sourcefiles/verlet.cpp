@@ -6,7 +6,7 @@
 
 /**
  * @fn void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_t &forces ,double timestep)
- * @brief calculates the first step
+ * @brief calculates the first step with a constant mass of 1
  * @param positions
  * @param velocities
  * @param forces
@@ -20,9 +20,17 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
     //postions
     positions += velocities * timestep;
 }
+
+void verletStep1Atoms(Atoms &atoms,double timestep) {
+    //velocity
+    atoms.velocities += 0.5 * atoms.forces * timestep/atoms.mass.rows();
+    //position
+    atoms.positions += atoms.velocities*timestep;
+}
+
 /**
  * @fn void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
- * @brief
+ * @brief calculates the second step with a constant mass of 1
  * @param velocities
  * @param forces
  * @param timestep
@@ -33,6 +41,9 @@ void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
     velocities += 0.5 * forces * timestep/mass;
 }
 
+void verletStep2Atoms(Atoms &atoms,double timestep) {
+    atoms.velocities += 0.5* atoms.forces * timestep/atoms.mass.rows();
+}
 
 /**
  * @fn void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocities, Forces_t &forces, double timestep, unsigned int nbSteps)

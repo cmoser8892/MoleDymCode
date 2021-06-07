@@ -63,5 +63,49 @@ int milestone4Code() {
 }
 
 int milestone5Code() {
+    /** Vars */
+    double epsilon = 1;
+    double sigma = 1;
+    double mass = 1;
+    /** Times */
+    double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
+    double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon);
+    double safeDumpTime = 1  * sqrt((mass*sigma*sigma)/epsilon);
+    int safeAtStep = safeDumpTime/timeStep;
+    double currentTime = 0;
+    /** global */
+    double energy = 0;
+    std::vector<double> energyStorage(totalTime/timeStep);
+    /** Init */
+    auto [names, positions, velocities]{read_xyz_with_velocities("../AJupyter/lj54.xyz")};
+    Atoms atoms(names,positions,velocities);
+    /** Initial State */
+    int i = 0;
+    /** Loop */
+    while (currentTime <= totalTime) {
+        //verlet1
+        verletStep1Atoms(atoms, timeStep);
+        //forces and energy
+        energy = lendardJonesDirectSummation(atoms, epsilon, sigma);
+        //verlet2
+        verletStep2Atoms(atoms, timeStep);
+        //safe data dumps
+        energy += calculateKineticEnergy(atoms);
+        energyStorage[i] = energy;
+        if((i%safeAtStep) == 0)
+        {
+            std::cout << "Writing Dump at:" << currentTime << std::endl;
+            std::cout << energyStorage[i] << std::endl;
+            dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",1000,(unsigned int) i/safeAtStep);
+        }
+        //update time and counter
+        currentTime += timeStep;
+        i++;
+        //std::cout << "Step:" << i << std::endl;
+        //std::cout << currentTime << std::endl;
+    }
+    //energy dump for ploting
+    dumpEnergy(energyStorage,"/home/cm/CLionProjects/MoleDymCode/AJupyter","energy");
+    return 0;
     return 0;
 }
