@@ -12,6 +12,7 @@ using namespace std;
  */
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
+    if(0){
     /** Variables */
     unsigned int nbAtoms = 10;
     double sigma = 1.0;
@@ -30,6 +31,6 @@ int main() {
     std::cout << atoms.velocities << std::endl;
     berendsenThermostat(atoms,0,1,50);
     std::cout << atoms.velocities << std::endl;
-    return 0;
-    //return milestone4Code();
+    return 0;}
+    return milestone4Code();
 }
