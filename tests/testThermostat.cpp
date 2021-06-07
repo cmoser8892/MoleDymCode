@@ -17,10 +17,9 @@ TEST(Berendsen, ThermostatTest) {
     double targetTemperatur = 0;
     /**  set  */
     Positions_t p = createLatticeCube(nbAtoms,distance);
-    Atoms atoms(p);
+    Atoms atoms(p,atomicUnit);
     atoms.velocities.setOnes();
     double initialTemperatur = calculateCurrentTemperatur(atoms);
-    std::cout << initialTemperatur << std::endl;
     /** run a small simulation */
     double currentTime = 0;
     while(currentTime < simulationTime) {

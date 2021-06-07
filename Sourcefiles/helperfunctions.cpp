@@ -58,11 +58,12 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
      * */
     Positions_t returnValue(3, numberOfAtoms);
     int cubeSideLenght = pow(numberOfAtoms,1./3.) +1;
-    std::cout << cubeSideLenght << std::endl;
+    //
     int xCounter = 0;
     int yCounter = 0;
     int zCounter = 0;
     int atomNumberCounter = 0;
+    //
     while(zCounter < cubeSideLenght) {
         while(yCounter < cubeSideLenght) {
             while (xCounter < cubeSideLenght) {

@@ -53,6 +53,15 @@ public:
         velocities.setZero();
         forces.setZero();
     }
+
+    Atoms(const Positions_t &p, const double m) :
+            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}
+    {
+        velocities.setZero();
+        forces.setZero();
+        mass = m;
+    }
+
     size_t nb_atoms() const {
         return positions.cols();
     }
