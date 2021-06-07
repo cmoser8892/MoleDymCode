@@ -6,7 +6,7 @@
 
 /**
  * @fn void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_t &forces ,double timestep)
- * @brief calculates the first step with a constant mass of 1
+ * @brief calculates the first step with a constant mass of 1// dont use use the ..atoms method
  * @param positions
  * @param velocities
  * @param forces
@@ -20,7 +20,12 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
     //postions
     positions += velocities * timestep;
 }
-
+/**
+ * @fn void verletStep1Atoms(Atoms &atoms,double timestep)
+ * @brief calculates the first step with a variable mass of the atom
+ * @param atoms
+ * @param timestep
+ */
 void verletStep1Atoms(Atoms &atoms,double timestep) {
     //velocity
     for(int i = 0; i < atoms.nb_atoms(); i++) {
@@ -32,7 +37,7 @@ void verletStep1Atoms(Atoms &atoms,double timestep) {
 
 /**
  * @fn void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
- * @brief calculates the second step with a constant mass of 1
+ * @brief calculates the second step with a constant mass of 1// dont use use the ..atoms method
  * @param velocities
  * @param forces
  * @param timestep
@@ -43,6 +48,12 @@ void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
     velocities += 0.5 * forces * timestep/mass;
 }
 
+/**
+ * @fn void verletStep2Atoms(Atoms &atoms,double timestep)
+ * @brief calculates the second step with a variable mass of the atom
+ * @param atoms
+ * @param timestep
+ */
 void verletStep2Atoms(Atoms &atoms,double timestep) {
     for(int i = 0; i < atoms.nb_atoms(); i++) {
         atoms.velocities.col(i) += 0.5 *atoms.forces.col(i) * timestep/atoms.mass(i);
@@ -51,7 +62,7 @@ void verletStep2Atoms(Atoms &atoms,double timestep) {
 
 /**
  * @fn void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocities, Forces_t &forces, double timestep, unsigned int nbSteps)
- * @brief Propagates positions and velocities forward without the influence of any force
+ * @brief Propagates positions and velocities forward without the influence of any force; used in the tests
  * @param positions
  * @param velocities
  * @param forces
@@ -71,8 +82,8 @@ void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocit
 }
 
 /**
- * @fn
- * @brief
+ * @fn void verletIntegratorConstantForceAtoms(Atoms &atoms, double timestep, unsigned int nbSteps)
+ * @brief Propagates positions and velocities forward without the influence of any force; used in the tests
  * @param atoms
  * @param timestep
  * @param nbSteps
