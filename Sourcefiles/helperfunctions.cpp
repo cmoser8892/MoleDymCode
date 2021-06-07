@@ -96,7 +96,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
 double calculateKineticEnergy(Atoms &atoms) {
     double energyReturn = 0;
     for ( int i =0; i < atoms.nb_atoms(); ++i) {
-        double thisEnergy = 0.5 * atoms.mass(0,i) * (pow(atoms.velocities(0,i),2)
+        double thisEnergy = 0.5 * atoms.mass(i) * (pow(atoms.velocities(0,i),2)
                                        +pow(atoms.velocities(1,i),2)
                                        +pow(atoms.velocities(2,i),2));
         energyReturn += thisEnergy;

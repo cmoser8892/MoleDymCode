@@ -12,3 +12,10 @@ TEST(HelloTest, BasicAssertions) {
   // Expect equality.
   EXPECT_EQ(7 * 6, 42);
 }
+
+/**
+TEST(Test Suit, Test name)
+{
+    ASSERT_TRUE(false) << "Implement me!!";
+}
+*/

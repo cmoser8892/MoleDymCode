@@ -23,7 +23,9 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
 
 void verletStep1Atoms(Atoms &atoms,double timestep) {
     //velocity
-    atoms.velocities += 0.5 * atoms.forces * timestep/atoms.mass;
+    for(int i = 0; i < atoms.nb_atoms(); i++) {
+        atoms.velocities.col(i) += 0.5 * atoms.forces.col(i) * timestep/atoms.mass(i);
+    }
     //position
     atoms.positions += atoms.velocities*timestep;
 }
@@ -42,7 +44,9 @@ void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
 }
 
 void verletStep2Atoms(Atoms &atoms,double timestep) {
-    atoms.velocities += 0.5* atoms.forces * timestep / atoms.mass;
+    for(int i = 0; i < atoms.nb_atoms(); i++) {
+        atoms.velocities.col(i) += 0.5 *atoms.forces.col(i) * timestep/atoms.mass(i);
+    }
 }
 
 /**
@@ -63,5 +67,21 @@ void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocit
         //std::cout << "Step: " << i << std::endl;
         verletStep1(positions,velocities,forces,timestep);
         verletStep2(velocities,forces,timestep);
+    }
+}
+
+/**
+ * @fn
+ * @brief
+ * @param atoms
+ * @param timestep
+ * @param nbSteps
+ */
+void verletIntegratorConstantForceAtoms(Atoms &atoms, double timestep, unsigned int nbSteps) {
+    // For loop
+    for(int i = 0; i < nbSteps; ++i) {
+        //std::cout << "Step: " << i << std::endl;
+        verletStep1Atoms(atoms,timestep);
+        verletStep2Atoms(atoms,timestep);
     }
 }

@@ -61,9 +61,27 @@ TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionMultipleAtom)
     }
 }
 
-/**
-TEST(Test Suit, Test name)
+TEST(VerletTest, IntegratorCheckConstantForceXYZDirectionMultipleAtomNewMethod)
 {
-    ASSERT_TRUE(false) << "Implement me!!";
+    //single Atom test
+    int nbAtoms = 10;
+    Atoms atoms(10);
+    atoms.forces.row(0) = 1.0;
+    atoms.forces.row(1) = 1.0;
+    atoms.forces.row(2) = 1.0;
+    double timestep = 1.0;
+    //run fkt
+    verletIntegratorConstantForceAtoms(atoms, timestep, 10);
+    //check
+    for(int i = 0; i < nbAtoms; ++i)
+    {
+        //check positions
+        ASSERT_NEAR(atoms.positions(0,i),50,1e-6);
+        ASSERT_NEAR(atoms.positions(1,i),50,1e-6);
+        ASSERT_NEAR(atoms.positions(2,i),50,1e-6);
+        //check velocities
+        ASSERT_NEAR(atoms.velocities(0,i),10,1e-6);
+        ASSERT_NEAR(atoms.velocities(0,i),10,1e-6);
+        ASSERT_NEAR(atoms.velocities(0,i),10,1e-6);
+    }
 }
-*/

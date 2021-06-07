@@ -79,35 +79,33 @@ int milestone5Code() {
     /** Init */
     auto [names, positions, velocities]{read_xyz_with_velocities("../AJupyter/lj54.xyz")};
     Atoms atoms(names,positions,velocities);
-    std::cout << atoms.mass.transpose()<< std::endl;
+    std::cout << atoms.mass<< std::endl;
     /** Initial State */
     int i = 0;
     /** Loop */
-    if(0) {
-        while (currentTime <= totalTime) {
-            //verlet1
-            verletStep1Atoms(atoms, timeStep);
-            //forces and energy
-            energy = lendardJonesDirectSummation(atoms, epsilon, sigma);
-            //verlet2
-            verletStep2Atoms(atoms, timeStep);
-            //safe data dumps
-            energy += calculateKineticEnergy(atoms);
-            energyStorage[i] = energy;
-            if ((i % safeAtStep) == 0) {
-                std::cout << "Writing Dump at:" << currentTime << std::endl;
-                std::cout << energyStorage[i] << std::endl;
-                dumpData(atoms, "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps", "Trajectory",
-                         1000, (unsigned int) i / safeAtStep);
-            }
-            //update time and counter
-            currentTime += timeStep;
-            i++;
-            //std::cout << "Step:" << i << std::endl;
-            //std::cout << currentTime << std::endl;
+    while (currentTime <= totalTime) {
+        //verlet1
+        verletStep1Atoms(atoms, timeStep);
+        //forces and energy
+        energy = lendardJonesDirectSummation(atoms, epsilon, sigma);
+        //verlet2
+        verletStep2Atoms(atoms, timeStep);
+        //safe data dumps
+        energy += calculateKineticEnergy(atoms);
+        energyStorage[i] = energy;
+        if ((i % safeAtStep) == 0) {
+            std::cout << "Writing Dump at:" << currentTime << std::endl;
+            std::cout << energyStorage[i] << std::endl;
+            dumpData(atoms, "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps", "Trajectory",
+                     1000, (unsigned int) i / safeAtStep);
         }
-        //energy dump for ploting
-        dumpEnergy(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");
+        //update time and counter
+        currentTime += timeStep;
+        i++;
+        //std::cout << "Step:" << i << std::endl;
+        //std::cout << currentTime << std::endl;
     }
+    //energy dump for ploting
+    dumpEnergy(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");
     return 0;
 }

@@ -15,6 +15,6 @@ void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep);
 void verletStep2Atoms(Atoms &atoms,double timestep);
 
 //
-void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocities, Forces_t &forces
-                                   , double timestep, unsigned int nbSteps);
+void verletIntegratorConstantForce(Positions_t &positions, Velocities_t &velocities, Forces_t &forces, double timestep, unsigned int nbSteps);
+void verletIntegratorConstantForceAtoms(Atoms &atoms, double timestep, unsigned int nbSteps);
 #endif //__VERLET_H_
