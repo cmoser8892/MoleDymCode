@@ -17,7 +17,7 @@ public:
 
     //set methods
     Atoms(const int &size) :
-        positions{3,size}, velocities{3,size}, forces{3, size}, mass{size}
+        positions{3,size}, velocities{3,size}, forces{3, size}, mass{size}, names(size)
     {
         positions.setZero();
         velocities.setZero();
@@ -26,7 +26,7 @@ public:
     }
 
     Atoms(const Positions_t &p) :
-        positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}
+        positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
     {
         velocities.setZero();
         forces.setZero();
@@ -34,28 +34,30 @@ public:
     }
 
     Atoms(const Positions_t &p, const Velocities_t &v) :
-        positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()}  {
+        positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
+    {
         assert(p.cols() == v.cols());
         forces.setZero();
         mass.setOnes();
     }
 
     Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v) :
-            names{n} ,positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()} {
+            names{n} ,positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()}
+    {
         assert(p.cols() == v.cols());
         forces.setZero();
         mass.setOnes();
     }
 
     Atoms(const Positions_t &p, const Mass_t &m) :
-            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{m}
+            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{m}, names(p.cols())
     {
         velocities.setZero();
         forces.setZero();
     }
 
     Atoms(const Positions_t &p, const double m) :
-            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}
+            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
     {
         velocities.setZero();
         forces.setZero();

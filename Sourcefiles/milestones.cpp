@@ -67,19 +67,20 @@ int milestone5Code() {
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
+    unsigned int nbAtoms = 1;
     /** Times */
     double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
     double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon);
-    double safeDumpTime = 1  * sqrt((mass*sigma*sigma)/epsilon);
+    double safeDumpTime = 100* timeStep;
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
     /** global */
     double energy = 0;
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
-    auto [names, positions, velocities]{read_xyz_with_velocities("../AJupyter/lj54.xyz")};
-    Atoms atoms(names,positions,velocities);
-    std::cout << atoms.mass<< std::endl;
+    Positions_t  p = createLatticeCube(27,sigma);
+    Atoms atoms(p,mass);
+    setANameInAtoms(atoms, 'X');
     /** Initial State */
     int i = 0;
     /** Loop */

@@ -27,6 +27,7 @@ void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsign
     //
     write_xyz(total,atoms);
 }
+
 /**
  * @fn void dumpEnergy( std::vector<double> data,std::string location, std::string name)
  * @brief dumps the date from the vector data to a file
@@ -42,6 +43,18 @@ void dumpEnergy( std::vector<double> data,
      file << data[i] << std::endl;
     }
     file.close();
+}
+
+/**
+ * @fn void setANameInAtoms(Atoms &atoms, char name)
+ * @brief sets the name of an atom to X so data can be dumped
+ * @param atoms
+ * @param name
+ */
+void setANameInAtoms(Atoms &atoms, char name) {
+    for (int i = 0; i < atoms.nb_atoms(); ++i) {
+        atoms.names[i] = name;
+    }
 }
 
 /**
