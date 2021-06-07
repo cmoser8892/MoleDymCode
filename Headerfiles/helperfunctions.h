@@ -17,6 +17,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
 double calculateKineticEnergy(Atoms &atoms);
 double calculateCurrentTemperatur(Atoms &atoms);
 
-/** */
+/** Other helpers*/
 double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep);
+bool checkMoleculeTrajectories(Atoms &atoms);
 #endif //MYPROJECT_HELPERFUNCTIONS_H

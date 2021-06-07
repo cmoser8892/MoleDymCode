@@ -62,23 +62,24 @@ int milestone4Code() {
     return 0;
 }
 
-int milestone5Code() {
+int milestone5Code(int argc, char *argv[]) {
     /** Vars */
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
-    unsigned int nbAtoms = 1;
+    unsigned int nbAtoms = 4;
     /** Times */
     double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
     double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon);
     double safeDumpTime = 100* timeStep;
+    /**  */
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
     /** global */
     double energy = 0;
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
-    Positions_t  p = createLatticeCube(27,sigma);
+    Positions_t  p = createLatticeCube(nbAtoms,sigma);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, 'X');
     /** Initial State */
@@ -103,8 +104,6 @@ int milestone5Code() {
         //update time and counter
         currentTime += timeStep;
         i++;
-        //std::cout << "Step:" << i << std::endl;
-        //std::cout << currentTime << std::endl;
     }
     //energy dump for ploting
     dumpEnergy(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");

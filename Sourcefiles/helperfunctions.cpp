@@ -142,3 +142,8 @@ double temperaturDampening(double initalTemperatur, double targetTemperatur, dou
     double currentTemperatur = targetTemperatur + (initalTemperatur - targetTemperatur)* exp(-timestep/relaxationTime);
     return currentTemperatur;
 }
+
+
+bool checkMoleculeTrajectories(Atoms &atoms) {
+
+}
