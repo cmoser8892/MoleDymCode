@@ -23,5 +23,4 @@ using Names_t = std::vector<std::string>;
 /** Constants */
 static double boltzmannConstant = 1.380649e-23;
 
-
 #endif //MYPROJECT_TYPES_H

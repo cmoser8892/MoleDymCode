@@ -8,6 +8,7 @@
 #include "../Headerfiles/xyz.h"
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/milestones.h"
+#include "../Headerfiles/berendsenThermostat.h"
 
 int milestone4Code() {
     /** Vars */
@@ -58,5 +59,9 @@ int milestone4Code() {
     }
     //energy dump for ploting
     dumpEnergy(energyStorage,"/home/cm/CLionProjects/MoleDymCode/AJupyter","energy");
+    return 0;
+}
+
+int milestone5Code() {
     return 0;
 }
