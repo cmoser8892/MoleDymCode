@@ -70,7 +70,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
      * 2. Fill it up
      * */
     Positions_t returnValue(3, numberOfAtoms);
-    int cubeSideLenght = (int) ceil(pow(numberOfAtoms,1./3.));
+    int cubeSideLenght = ceil(pow(numberOfAtoms,1./3.));
     //
     int xCounter = 0;
     int yCounter = 0;
@@ -143,12 +143,18 @@ double temperaturDampening(double initalTemperatur, double targetTemperatur, dou
     return currentTemperatur;
 }
 
-
+/**
+ * @fn
+ * @brief
+ * @param atoms
+ * @param cubeFactor
+ * @return
+ */
 bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
     /** Basic idea, check weather or not the atoms fling themself outside of another cube thats a bit bigger than the original one */
     Positions_t cube = generateCube(atoms,cubeFactor);
     bool returnValue = true;
-    std::cout << atoms.positions << std::endl;
+    //std::cout << atoms.positions << std::endl;
     for(int i = 0; i < atoms.nb_atoms();++i) {
         /** check for every position if it still is inside of the cube
          * as it is alinged just need to check for xmin and xmax
@@ -184,7 +190,13 @@ bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
 
     return returnValue;
 }
-
+/**
+ * @fn Positions_t generateCube(Atoms &atoms, double cubeFactor)
+ * @brief generates a cube that encapsulates the simulated cube
+ * @param atoms
+ * @param cubeFactor
+ * @return positions of the cube
+ */
 Positions_t generateCube(Atoms &atoms, double cubeFactor) {
     Positions_t cube = createLatticeCube(8,1);
     double cubeSideLenght = (int)ceil(pow(atoms.nb_atoms(),1./3.));

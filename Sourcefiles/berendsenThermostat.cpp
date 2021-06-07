@@ -20,7 +20,6 @@ void berendsenThermostat(Atoms &atoms, double targetTemperature, double timestep
     double currentTemperatur = calculateCurrentTemperatur(atoms);
     //calculate the rescaling factor
     double rescalingFactor = sqrt(1 + (targetTemperature/currentTemperatur -1) * (timestep/relaxationTime));
-
     //rescale the velocities
     atoms.velocities = rescalingFactor * atoms.velocities;
 }
