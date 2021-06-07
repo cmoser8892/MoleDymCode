@@ -45,8 +45,8 @@ void dumpEnergy( std::vector<double> data,
 }
 
 /**
- * @fn
- * @brief
+ * @fn Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant)
+ * @brief creates positions in an arranged cube kinda inefficient
  * @param numberOfAtoms
  * @param latticeConstant
  * @return
@@ -84,4 +84,33 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
         zCounter++;
     }
     return returnValue;
+}
+
+/**
+ * @fn double calculateKineticEnergy(Atoms &atoms)
+ * @brief calculates teh Energy of the Atoms; only really works in kartesian coordinates mass just set to 1
+ * @param atoms
+ * @return the kinetic Energy in the System
+ */
+double calculateKineticEnergy(Atoms &atoms) {
+    double energyReturn = 0;
+    for ( int i =0; i < atoms.nb_atoms(); ++i) {
+        double thisEnergy = 0.5 * 1 * (pow(atoms.velocities(0,i),2)
+                                       +pow(atoms.velocities(1,i),2)
+                                       +pow(atoms.velocities(2,i),2));
+        energyReturn += thisEnergy;
+    }
+    return energyReturn;
+}
+
+/**
+ * @fn double calculateCurrentTemperatur(Atoms &atoms)
+ * @brief calculates the current Temperatur of the simulation using boltzmann
+ * @param atoms
+ * @return the temperatur of the system
+ */
+double calculateCurrentTemperatur(Atoms &atoms) {
+    double totalKineticEnergy = calculateKineticEnergy(atoms);
+    double temperatur =2./3. * (totalKineticEnergy/boltzmannConstant);
+    return temperatur;
 }

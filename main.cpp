@@ -5,6 +5,11 @@
 
 using namespace std;
 
+/**
+ * Notes:
+ * TEST FIRST for the thermostat
+ *
+ */
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
     /** Variables */

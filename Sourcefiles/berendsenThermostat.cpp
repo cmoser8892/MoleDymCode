@@ -5,6 +5,6 @@
 #include "../Headerfiles/berendsenThermostat.h"
 #include <iostream>
 
-void berendsenThermostat(Atoms &atoms, double temperature, double timestep, double relaxationTime) {
+void berendsenThermostat(Atoms &atoms, double targetTemperature, double timestep, double relaxationTime) {
 
 }

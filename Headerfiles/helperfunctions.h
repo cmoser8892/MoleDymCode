@@ -7,11 +7,12 @@
 
 #include "../Headerfiles/atoms.h"
 
-void dumpData( Atoms &atoms,
-        std::string location, std::string namingScheme, unsigned int expectedNumberOfDumps ,unsigned int number);
+/** Data dump*/
+void dumpData( Atoms &atoms, std::string location, std::string namingScheme, unsigned int expectedNumberOfDumps ,unsigned int number);
+void dumpEnergy( std::vector<double> data, std::string location, std::string name);
 
-void dumpEnergy( std::vector<double> data,
-                 std::string location, std::string name);
-
+/**  calculation Functions */
 Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant);
+double calculateKineticEnergy(Atoms &atoms);
+double calculateCurrentTemperatur(Atoms &atoms);
 #endif //MYPROJECT_HELPERFUNCTIONS_H
