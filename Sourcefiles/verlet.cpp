@@ -23,7 +23,7 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
 
 void verletStep1Atoms(Atoms &atoms,double timestep) {
     //velocity
-    atoms.velocities += 0.5 * atoms.forces * timestep/atoms.mass.rows();
+    atoms.velocities += 0.5 * atoms.forces * timestep/atoms.mass;
     //position
     atoms.positions += atoms.velocities*timestep;
 }
@@ -42,7 +42,7 @@ void verletStep2(Velocities_t &velocities, Forces_t &forces, double timestep)
 }
 
 void verletStep2Atoms(Atoms &atoms,double timestep) {
-    atoms.velocities += 0.5* atoms.forces * timestep/atoms.mass.rows();
+    atoms.velocities += 0.5* atoms.forces * timestep / atoms.mass;
 }
 
 /**

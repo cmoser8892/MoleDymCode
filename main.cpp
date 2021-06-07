@@ -7,6 +7,6 @@ using namespace std;
 
 int main() {
     std::cout << "Molecular Dynamics Project" << std::endl;
-    return milestone4Code();
+    //return milestone4Code();
     return milestone5Code();
 }
