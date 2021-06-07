@@ -18,7 +18,6 @@
 void berendsenThermostat(Atoms &atoms, double targetTemperature, double timestep, double relaxationTime) {
     //initialization
     double currentTemperatur = calculateCurrentTemperatur(atoms);
-    unsigned int numberOfAtoms = atoms.nb_atoms();
     //calculate the rescaling factor
     double rescalingFactor = sqrt(1 + (targetTemperature/currentTemperatur -1) * (timestep/relaxationTime));
 

@@ -15,4 +15,7 @@ void dumpEnergy( std::vector<double> data, std::string location, std::string nam
 Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant);
 double calculateKineticEnergy(Atoms &atoms);
 double calculateCurrentTemperatur(Atoms &atoms);
+
+/** */
+double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep);
 #endif //MYPROJECT_HELPERFUNCTIONS_H

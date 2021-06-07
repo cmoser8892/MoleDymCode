@@ -95,7 +95,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
 double calculateKineticEnergy(Atoms &atoms) {
     double energyReturn = 0;
     for ( int i =0; i < atoms.nb_atoms(); ++i) {
-        double thisEnergy = 0.5 * 1 * (pow(atoms.velocities(0,i),2)
+        double thisEnergy = 0.5 * atomicUnit * (pow(atoms.velocities(0,i),2)
                                        +pow(atoms.velocities(1,i),2)
                                        +pow(atoms.velocities(2,i),2));
         energyReturn += thisEnergy;
@@ -111,6 +111,20 @@ double calculateKineticEnergy(Atoms &atoms) {
  */
 double calculateCurrentTemperatur(Atoms &atoms) {
     double totalKineticEnergy = calculateKineticEnergy(atoms);
-    double temperatur =2./3. * (totalKineticEnergy/boltzmannConstant);
+    double temperatur = 2./3. * (totalKineticEnergy/boltzmannConstant);
     return temperatur;
+}
+
+/**
+ * @fn double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep)
+ * @brief exponential dampening of the temperatur as a function
+ * @param initalTemperatur
+ * @param targetTemperatur
+ * @param relaxationTime
+ * @param timestep
+ * @return temperatur that the system should have
+ */
+double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep) {
+    double currentTemperatur = targetTemperatur + (initalTemperatur - targetTemperatur)* exp(-timestep/relaxationTime);
+    return currentTemperatur;
 }
