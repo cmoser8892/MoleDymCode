@@ -23,12 +23,12 @@ int main() {
     //
     Atoms atoms(p);
     std::cout << calculateCurrentTemperatur(atoms) << std::endl;
-    //
-    atoms.velocities.setConstant(25);
+    //relaxation time prob to low
+    atoms.velocities.setConstant(10);
     std::cout << atoms.velocities << std::endl;
-    berendsenThermostat(atoms,0,1,2);
+    berendsenThermostat(atoms,0,1,50);
     std::cout << atoms.velocities << std::endl;
-    berendsenThermostat(atoms,0,1,2);
+    berendsenThermostat(atoms,0,1,50);
     std::cout << atoms.velocities << std::endl;
     return 0;
     //return milestone4Code();
