@@ -70,7 +70,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
      * 2. Fill it up
      * */
     Positions_t returnValue(3, numberOfAtoms);
-    int cubeSideLenght = pow(numberOfAtoms,1./3.) +1;
+    int cubeSideLenght = (int) ceil(pow(numberOfAtoms,1./3.));
     //
     int xCounter = 0;
     int yCounter = 0;
@@ -144,6 +144,61 @@ double temperaturDampening(double initalTemperatur, double targetTemperatur, dou
 }
 
 
-bool checkMoleculeTrajectories(Atoms &atoms) {
+bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
+    /** Basic idea, check weather or not the atoms fling themself outside of another cube thats a bit bigger than the original one */
+    Positions_t cube = generateCube(atoms,cubeFactor);
+    bool returnValue = true;
+    std::cout << atoms.positions << std::endl;
+    for(int i = 0; i < atoms.nb_atoms();++i) {
+        /** check for every position if it still is inside of the cube
+         * as it is alinged just need to check for xmin and xmax
+         * */
+        //check if outside min position
+        if(!(cube(0,0) <= atoms.positions(0,i))) {//x
+            returnValue = false;
+            break;
+        }
+        if(!(cube(1,0) <= atoms.positions(1,i))) {//y
+            returnValue = false;
+            break;
+        }
+        if(!(cube(2,0) <= atoms.positions(2,i))){//z
+            returnValue = false;
+            break;
+        }
+        //check max
+        if(!(cube(0,7) >= atoms.positions(0,i))) {//x
+            returnValue = false;
+            break;
+        }
+        if(!(cube(1,7) >= atoms.positions(1,i))) {//y
+            returnValue = false;
+            break;
+        }
+        if(!(cube(2,7) >= atoms.positions(2,i))){//z
+            returnValue = false;
+            break;
+        }
 
+    }
+
+    return returnValue;
+}
+
+Positions_t generateCube(Atoms &atoms, double cubeFactor) {
+    Positions_t cube = createLatticeCube(8,1);
+    double cubeSideLenght = (int)ceil(pow(atoms.nb_atoms(),1./3.));
+    Vector_t zeroPoint{0,0,0};
+    Vector_t maxPoint{cubeSideLenght,cubeSideLenght,cubeSideLenght};
+    for(int i = 0; i < 8;++i) {
+        cube.col(i) = cube.col(i) * cubeFactor * cubeSideLenght;
+    }
+    Vector_t shiftVector = 0.5 *((maxPoint -zeroPoint) -(cube.col(7)-cube.col(0)));
+    //std::cout << shiftVector << std::endl;
+    //std::cout << cube << std::endl;
+    for(int i = 0;i < 8;++i) {
+        cube.col(i) = cube.col(i) +shiftVector;
+    }
+    //std::cout << cube << std::endl;
+    return cube;
 }

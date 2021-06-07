@@ -67,11 +67,23 @@ int milestone5Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
-    unsigned int nbAtoms = 4;
+    unsigned int nbAtoms = 27;
     /** Times */
-    double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
-    double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon);
-    double safeDumpTime = 100* timeStep;
+    double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon);
+    double totalTime = 100 * sqrt((mass * sigma * sigma) / epsilon);
+    double safeDumpTime = 100 * timeStep;
+    /** SafeLocations */
+    std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
+    std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
+    std::string trajectoryBaseName = "Trajectory";
+    std::string energyName = "energy";
+    if(argc == 1) {
+        /** Do nothing */
+        std::cout << "No arguments given" << std::endl;
+    }
+    else if(argc >= 2){
+        /** rewrite varibles*/
+    }
     /**  */
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
@@ -82,6 +94,9 @@ int milestone5Code(int argc, char *argv[]) {
     Positions_t  p = createLatticeCube(nbAtoms,sigma);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, 'X');
+    //atoms.positions(2,0) = -40;
+    std::cout << checkMoleculeTrajectories(atoms,2) << std::endl;
+    return 0;
     /** Initial State */
     int i = 0;
     /** Loop */
@@ -92,13 +107,13 @@ int milestone5Code(int argc, char *argv[]) {
         energy = lendardJonesDirectSummation(atoms, epsilon, sigma);
         //verlet2
         verletStep2Atoms(atoms, timeStep);
-        //safe data dumps
+        //energy
         energy += calculateKineticEnergy(atoms);
         energyStorage[i] = energy;
         if ((i % safeAtStep) == 0) {
             std::cout << "Writing Dump at:" << currentTime << std::endl;
             std::cout << energyStorage[i] << std::endl;
-            dumpData(atoms, "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps", "Trajectory",
+            dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
         }
         //update time and counter
@@ -106,6 +121,6 @@ int milestone5Code(int argc, char *argv[]) {
         i++;
     }
     //energy dump for ploting
-    dumpEnergy(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");
+    dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
     return 0;
 }
