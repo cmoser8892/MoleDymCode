@@ -81,6 +81,7 @@ int milestone5Code(int argc, char *argv[]) {
     std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
     std::string trajectoryBaseName = "Trajectory";
     std::string energyName = "energy";
+    /** Argument stuff */
     if(argc == 1) {
         /** Do nothing */
         std::cout << "No arguments given" << std::endl;
