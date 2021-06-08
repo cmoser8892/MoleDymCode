@@ -63,17 +63,19 @@ int milestone4Code() {
 }
 
 int milestone5Code(int argc, char *argv[]) {
+    int returnValue = 0;
     /** Vars */
     double epsilon = 1;
     double sigma = 1;
-    double mass = 4*atomicUnit;
-    unsigned int nbAtoms = 8;
-    double targetTemperatur = 100;
+    double mass = 12*atomicUnit; // 12C6
+    unsigned int nbAtoms = 48;
+    double targetTemperatur = 274;
     /** Times */
-    double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon);
-    double totalTime = 100 * sqrt((mass * sigma * sigma) / epsilon);
+    double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
+    double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTime = 10*timeStep;
+    double relaxationTimeFactor = 100.0;
+    double relaxationTime = relaxationTimeFactor*timeStep;
     /** SafeLocations */
     std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
@@ -85,8 +87,22 @@ int milestone5Code(int argc, char *argv[]) {
     }
     else if(argc >= 2){
         /** rewrite varibles */
+        //atoms in the simulation
+        nbAtoms = std::atoi(argv[1]); //arg2
+        std::cout << nbAtoms << std::endl;
+        //new safe locations given
+        if(argc >= 3) {
+            //relaxation time rescaling
+            relaxationTimeFactor = std::atof(argv[2]); //arg3
+            std::cout << relaxationTimeFactor << std::endl;
+            relaxationTime = relaxationTimeFactor*timeStep;
+            if(argc >= 4) {
+                trajectorySafeLocation = argv[3]; //arg4
+                energyDataSafeLocation = argv[4]; //arg5
+            }
+        }
     }
-    /**  */
+    /** Simulation related Variables */
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
     /** global */
@@ -108,30 +124,34 @@ int milestone5Code(int argc, char *argv[]) {
         //verlet2
         verletStep2Atoms(atoms, timeStep);
         //velocity rescaling
-        //berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
+        berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
         //energy
         kineticEnergy = calculateKineticEnergy(atoms);
         energy += kineticEnergy;
         energyStorage[i] = energy;
+        //check for the temperatur to increase the relaxation and keep the sim happy
+        if(abs(calculateCurrentTemperatur(atoms)-targetTemperatur) < 10.) {
+            relaxationTime *= 10000;
+        }
+        //safe
         if ((i % safeAtStep) == 0) {
-            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
-            std::cout << energyStorage[i] << std::endl;
-            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            //std::cout << energyStorage[i] << std::endl;
+            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
-            /**
             if(checkMoleculeTrajectories(atoms,2* pow(2.0, 1.0/6.0)) == false) {
-                std::cout << "Cube Exploded" << std::endl;
+                std::cerr << "Cube Exploded at: " << i << std::endl;
+                returnValue = -1;
                 break;
             }
-            */
         }
         //update time and counter
         currentTime += timeStep;
         i++;
     }
     //energy dump for ploting
-    std::cout << "Dumping the energy" << std::endl;
+    //std::cout << "Dumping the energy" << std::endl;
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
-    return 0;
+    return returnValue;
 }
