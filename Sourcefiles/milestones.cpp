@@ -74,7 +74,7 @@ int milestone5Code(int argc, char *argv[]) {
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 100.0;
+    double relaxationTimeFactor = 80.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     /** SafeLocations */
     std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
@@ -131,7 +131,9 @@ int milestone5Code(int argc, char *argv[]) {
         energy += kineticEnergy;
         energyStorage[i] = energy;
         //check for the temperatur to increase the relaxation and keep the sim happy
+        //btw this increased the relaxationtime slowly to infinity
         if(abs(calculateCurrentTemperatur(atoms)-targetTemperatur) < 10.) {
+            std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
             relaxationTime *= 100000;
         }
         //safe
