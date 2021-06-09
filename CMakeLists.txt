@@ -29,7 +29,7 @@ set(MYPROJECT_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/helperfunctions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/berendsenThermostat.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/milestones.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/neighbours.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/neighbors.cpp)
 
 set(MYPROJECT_executable_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)

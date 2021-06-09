@@ -18,7 +18,7 @@ set(myproject_tests_SRCS
         ${CMAKE_SOURCE_DIR}/Sourcefiles/lenardJonesDirectionSummation.cpp
         ${CMAKE_SOURCE_DIR}/Sourcefiles/berendsenThermostat.cpp
         ${CMAKE_SOURCE_DIR}/Sourcefiles/helperfunctions.cpp
-        ${CMAKE_SOURCE_DIR}/Sourcefiles/xyz.cpp)
+        ${CMAKE_SOURCE_DIR}/Sourcefiles/xyz.cpp testNeighbors.cpp)
 
 # Tests
 include_directories(yamd_tests ${CMAKE_SOURCE_DIR})
