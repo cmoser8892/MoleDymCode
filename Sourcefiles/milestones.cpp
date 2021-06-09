@@ -68,8 +68,8 @@ int milestone5Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 12*atomicUnit; // 12C6
-    unsigned int nbAtoms = 48;
-    double targetTemperatur = 274;
+    unsigned int nbAtoms = 80;
+    double targetTemperatur = 275; //about roomtemp
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
@@ -132,13 +132,13 @@ int milestone5Code(int argc, char *argv[]) {
         energyStorage[i] = energy;
         //check for the temperatur to increase the relaxation and keep the sim happy
         if(abs(calculateCurrentTemperatur(atoms)-targetTemperatur) < 10.) {
-            relaxationTime *= 10000;
+            relaxationTime *= 100000;
         }
         //safe
         if ((i % safeAtStep) == 0) {
-            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
-            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(checkMoleculeTrajectories(atoms,2* pow(2.0, 1.0/6.0)) == false) {
