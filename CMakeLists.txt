@@ -18,7 +18,8 @@ set(MYPROJECT_HDRS
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/xyz.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/helperfunctions.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/berendsenThermostat.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/milestones.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/milestones.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/neighbors.h)
 
 set(MYPROJECT_SRCS
         #Add source files here
@@ -27,7 +28,8 @@ set(MYPROJECT_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/xyz.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/helperfunctions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/berendsenThermostat.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/milestones.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/milestones.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/neighbours.cpp)
 
 set(MYPROJECT_executable_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
