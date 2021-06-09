@@ -15,7 +15,16 @@ public:
     Names_t names;
     Mass_t mass;
 
-    //set methods
+    /** Comments for readablity
+     * Atoms(const int &size)
+     * Atoms(const Positions_t &p)
+     * Atoms(const Positions_t &p, const Velocities_t &v)
+     * Atoms(const Names_t &n, const Positions_t &p)
+     * Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v)
+     * Atoms(const Positions_t &p, const Mass_t &m)
+     * Atoms(const Positions_t &p, const double m)
+     * */
+    //given a constant size
     Atoms(const int &size) :
         positions{3,size}, velocities{3,size}, forces{3, size}, mass{size}, names(size)
     {
@@ -25,6 +34,7 @@ public:
         mass.setOnes();
     }
 
+    //given Positions
     Atoms(const Positions_t &p) :
         positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
     {
@@ -33,6 +43,7 @@ public:
         mass.setOnes();
     }
 
+    //given Positions and velocities
     Atoms(const Positions_t &p, const Velocities_t &v) :
         positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
     {
@@ -41,6 +52,16 @@ public:
         mass.setOnes();
     }
 
+    //given names and Positions
+    Atoms(const Names_t &n, const Positions_t &p) :
+            names{n} ,positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}
+    {
+        velocities.setZero();
+        forces.setZero();
+        mass.setOnes();
+    }
+
+    //given names, Positions and velocities
     Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v) :
             names{n} ,positions{p}, velocities{v}, forces{3, p.cols()}, mass{p.cols()}
     {
@@ -49,6 +70,7 @@ public:
         mass.setOnes();
     }
 
+    //given the Positions and the individual masses
     Atoms(const Positions_t &p, const Mass_t &m) :
             positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{m}, names(p.cols())
     {
@@ -56,6 +78,7 @@ public:
         forces.setZero();
     }
 
+    //given the Positions and a mass for every atom
     Atoms(const Positions_t &p, const double m) :
             positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
     {
@@ -64,6 +87,7 @@ public:
         mass = m;
     }
 
+    //access function
     size_t nb_atoms() const {
         return positions.cols();
     }

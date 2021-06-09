@@ -15,5 +15,6 @@
 
 int milestone4Code();
 int milestone5Code(int argc = 0, char *argv[] = NULL);
+int milestone6Code(int argc = 0, char *argv[] = NULL);
 
 #endif //MYPROJECT_MILESTONES_H
