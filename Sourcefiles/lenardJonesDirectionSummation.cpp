@@ -73,7 +73,8 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, do
 
             /** Energy calculation */
             //TODO shifting??
-            totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
+            //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
+            totalPotentialEnergy += (calculateEnergy(currentDistance,epsilon,sigma) - calculateEnergy(cutOff,epsilon,sigma));
 
             /** Force calculation */
             //normalize vector

@@ -185,11 +185,13 @@ TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
 }
 
 TEST(LJDirectSummationTest,ComparistionBetweenOldAndNew) {
+    // should not place too high of a value in this test the one below is the important one
     int nbAtoms = 4;
-    NeighborList list(10.0); //high so it can be ignored
+    double sigma = 1;
+    NeighborList list(8*sigma); //high so it can be ignored
     Positions_t  p = createLatticeCube(nbAtoms);
     Atoms atoms(p);
-    EXPECT_NEAR(lendardJonesDirectSummation(atoms), lenardJonesDirectSummationWithCutoff(atoms,list),1e-10);
+    EXPECT_NEAR(lendardJonesDirectSummation(atoms), lenardJonesDirectSummationWithCutoff(atoms,list),1e-3);
 }
 
 TEST(LJDirectSummationTest, ModifiedForcesTest) {
@@ -197,7 +199,7 @@ TEST(LJDirectSummationTest, ModifiedForcesTest) {
     constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
     constexpr double sigma = 0.3;
     constexpr double delta = 0.00001;  // difference used for numerical (finite difference) computation of forces
-    NeighborList neighborList(10.0); //set it that it does not influence the atoms
+    NeighborList neighborList(2.5*sigma); //set it that it does not influence the atoms
 
     Atoms atoms(nb_atoms);
     atoms.positions.setRandom();  // random numbers between -1 and 1
