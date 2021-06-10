@@ -161,6 +161,7 @@ int milestone5Code(int argc, char *argv[]) {
 }
 
 int milestone6Code(int argc, char *argv[]) {
+    int returnValue = 0;
     /** Atoms variables */
     double epsilon = 1;
     double sigma = 1;
@@ -170,20 +171,35 @@ int milestone6Code(int argc, char *argv[]) {
     Positions_t  p = createLatticeCube(nbAtoms,sigma);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, 'X');
-    /** Neighbor List stuff */
-    double cutoffRange = sqrt(2.0);
+    // neighbor list
+    double cutoffRange = 2.5* sigma;
     NeighborList neighborList(cutoffRange);
-    neighborList.update(atoms);
-    int counter = 0;
-    for(auto[i,j]:neighborList) {
-        if(i <j) {
-            counter++;
-            //i and j are atom postions nice
-            std::cout << i  << "  " << j << std::endl;
 
-        }
+    /** SafeLocations */
+    std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
+    std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
+    std::string trajectoryBaseName = "Trajectory";
+    std::string energyName = "energy";
+
+    /** Times */
+    double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
+    double totalTime = 10000 *timeStep;
+    double safeDumpTime = 100 * timeStep;
+    double relaxationTimeFactor = 80.0;
+    double relaxationTime = relaxationTimeFactor*timeStep;
+    int safeAtStep = safeDumpTime/timeStep;
+
+    /** safekeeping */
+    std::vector<double> energyStorage(totalTime/timeStep);
+    double energy = 0;
+    double kineticEnergy = 0;
+
+    /** Loop */
+    int i = 0;
+    double currentTime = 0;
+    while (currentTime <= totalTime) {
+        break;
     }
 
-
-    return 0;
+    return returnValue;
 }

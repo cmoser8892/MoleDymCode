@@ -41,6 +41,10 @@ public:
         }
     }
 
+    double interactionRange() const {
+        return interaction_range_;
+    }
+
     class iterator : public std::iterator<
             std::input_iterator_tag,
             std::tuple<int, int>,    // value_type
