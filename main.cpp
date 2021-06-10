@@ -9,5 +9,5 @@ int main(int argc, char *argv[]) {
     std::cout << "Molecular Dynamics Project" << std::endl;
     //return milestone4Code();
     //return milestone5Code(argc,argv);
-    return milestone6Code();
+    return milestone6Code(argc,argv);
 }

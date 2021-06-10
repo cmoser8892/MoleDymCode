@@ -162,26 +162,20 @@ int milestone5Code(int argc, char *argv[]) {
 
 int milestone6Code(int argc, char *argv[]) {
     int returnValue = 0;
-
+    bool once = false;
     /** Variables for the simulation */
     /** Atoms variables */
     double epsilon = 1;
-    double sigma = 1;
+    double sigma = 1*pow(2.0, 1.0/6.0);
     double mass = 12*atomicUnit; // 12C6
-    unsigned int nbAtoms = 48;
-    //init of the atoms
-    Positions_t  p = createLatticeCube(nbAtoms,sigma);
-    Atoms atoms(p,mass);
-    setANameInAtoms(atoms, 'X');
-    // neighbor list
-    double cutoffRange = 2.5* sigma;
-    NeighborList neighborList(cutoffRange);
+    unsigned int nbAtoms = 96;
+    double targetTemperatur = 275; //about roomtemp
 
     /** Times */
-    double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
+    double timeStep = 0.001 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 80.0;
+    double relaxationTimeFactor = 20.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -216,28 +210,52 @@ int milestone6Code(int argc, char *argv[]) {
             }
         }
     }
+    /** set up atoms */
+    //init of the atoms
+    Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    Atoms atoms(p,mass);
+    setANameInAtoms(atoms, 'X');
+    // neighbor list
+    double cutoffRange = 2.5* sigma;
+    NeighborList neighborList(cutoffRange);
 
     /** Loop */
     int i = 0;
     double currentTime = 0;
     //
     while (currentTime <= totalTime) {
+        //verlet1
         verletStep1Atoms(atoms, timeStep);
         //forces and energy
         energy = lenardJonesDirectSummationWithCutoff(atoms,neighborList,epsilon,sigma);
         //verlet2
         verletStep2Atoms(atoms, timeStep);
+        //velocity rescaling
+        berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
         //energy
         kineticEnergy = calculateKineticEnergy(atoms);
         energy += kineticEnergy;
         energyStorage[i] = energy;
-        //Dumping
+        //relaxation time to infinity
+        if(abs(calculateCurrentTemperatur(atoms)-targetTemperatur) < 10.) {
+            if(once == false) {
+                std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
+                relaxationTime *= 100000;
+                once = true;
+            }
+        }
+        //Dumping the data and checking for an explosion
         if ((i % safeAtStep) == 0) {
             std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
-            std::cout << energyStorage[i] << std::endl;
+            //std::cout << energyStorage[i] << std::endl;
             //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
+            if(checkMoleculeTrajectories(atoms,100) == false) {
+                std::cerr << "Cube Exploded at: " << i << std::endl;
+                returnValue = -1;
+                break;
+            }
         }
         //update time and counter
         currentTime += timeStep;
