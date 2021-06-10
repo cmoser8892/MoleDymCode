@@ -25,6 +25,7 @@
 #include <gtest/gtest.h>
 
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
+#include "../Headerfiles/helperfunctions.h"
 
 TEST(LJDirectSummationTest, Forces) {
     constexpr int nb_atoms = 10;
@@ -180,5 +181,55 @@ TEST(LJDirectSummationTest,ForceMinimumTwoAtoms) {
         EXPECT_NEAR(atoms.forces(1, 0), 0, 1e-5);
         EXPECT_NE(atoms.forces(1, 0), 0);
         EXPECT_EQ(atoms.forces(2, 0), 0);
+    }
+}
+
+TEST(LJDirectSummationTest,ComparistionBetweenOldAndNew) {
+    int nbAtoms = 4;
+    NeighborList list(10.0); //high so it can be ignored
+    Positions_t  p = createLatticeCube(nbAtoms);
+    Atoms atoms(p);
+    EXPECT_NEAR(lendardJonesDirectSummation(atoms), lenardJonesDirectSummationWithCutoff(atoms,list),1e-10);
+}
+
+TEST(LJDirectSummationTest, ModifiedForcesTest) {
+    constexpr int nb_atoms = 10;
+    constexpr double epsilon = 0.7;  // choose different to 1 to pick up missing factors
+    constexpr double sigma = 0.3;
+    constexpr double delta = 0.00001;  // difference used for numerical (finite difference) computation of forces
+    NeighborList neighborList(10.0); //set it that it does not influence the atoms
+
+    Atoms atoms(nb_atoms);
+    atoms.positions.setRandom();  // random numbers between -1 and 1
+
+    // compute and store energy of the indisturbed configuration
+    double e0{lenardJonesDirectSummationWithCutoff(atoms,neighborList, epsilon, sigma)};
+    Forces_t forces0{atoms.forces};
+
+    // loop over all atoms and compute forces from a finite differences approximation
+    Forces_t dummy_forces(3, nb_atoms);  // we don't actually need these
+    for (int i{0}; i < nb_atoms; ++i) {
+        // loop over all Cartesian directions
+        for (int j{0}; j < 3; ++j) {
+            // move atom to the right
+            atoms.positions(j, i) += delta;
+            double eplus{lenardJonesDirectSummationWithCutoff(atoms,neighborList, epsilon, sigma)};
+            // move atom to the left
+            atoms.positions(j, i) -= 2 * delta;
+            double eminus{lenardJonesDirectSummationWithCutoff(atoms,neighborList, epsilon, sigma)};
+            // move atom back to original position
+            atoms.positions(j, i) += delta;
+
+            // finite-differences forces
+            double fd_force{-(eplus - eminus) / (2 * delta)};
+
+            // check whether finite-difference and analytic forces agree
+            if (abs(forces0(j, i)) > 1e-10) {
+                EXPECT_NEAR(abs(fd_force - forces0(j, i)) / forces0(j, i), 0, 1e-5);
+
+            } else {
+                EXPECT_NEAR(fd_force, forces0(j, i), 1e-10);
+            }
+        }
     }
 }

@@ -178,7 +178,9 @@ int milestone6Code(int argc, char *argv[]) {
     for(auto[i,j]:neighborList) {
         if(i <j) {
             counter++;
-            std::cout << counter << std::endl;
+            //i and j are atom postions nice
+            std::cout << i  << "  " << j << std::endl;
+
         }
     }
 

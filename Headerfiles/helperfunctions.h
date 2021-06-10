@@ -13,7 +13,7 @@ void dumpEnergy( std::vector<double> data, std::string location, std::string nam
 void setANameInAtoms(Atoms &atoms, char name);
 
 /**  calculation Functions */
-Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant);
+Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant = 1.0);
 double calculateKineticEnergy(Atoms &atoms);
 double calculateCurrentTemperatur(Atoms &atoms);
 

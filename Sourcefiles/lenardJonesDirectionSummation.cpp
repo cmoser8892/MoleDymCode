@@ -50,13 +50,13 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
 }
 
 /**
- * @fn
- * @brief
+ * @fn double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, double epsilon, double sigma)
+ * @brief updated lenardJonesDirectSummation updated for Milestone 6
  * @param atoms
  * @param list
  * @param epsilon
  * @param sigma
- * @return
+ * @return potential Energy in the system
  */
 double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, double epsilon, double sigma) {
     //basic vars
@@ -64,7 +64,27 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, do
     atoms.forces.setZero();
     list.update(atoms);
     //loop
+    for(auto[i,j]:list) {
+        if(i <j) {
+            /** Calculate a the distance vector*/
+            Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
+            double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
 
+            /** Energy calculation */
+            totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
+
+            /** Force calculation */
+            //normalize vector
+            Vector_t normalizedVectorToOtherAtom = vectorToOtherAtom/currentDistance;
+            //calculate the deltaV
+            double deltaForce = calculateForceAnalytical(epsilon,sigma,currentDistance);
+            Vector_t force = deltaForce * normalizedVectorToOtherAtom;
+            //put the force there
+            atoms.forces.col(i) += force;
+            //other atom has the force in the other direction
+            atoms.forces.col(j) -= force;
+        }
+    }
     //
     return totalPotentialEnergy;
 }
