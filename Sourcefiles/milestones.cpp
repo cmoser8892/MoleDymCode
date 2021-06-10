@@ -9,6 +9,7 @@
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/milestones.h"
 #include "../Headerfiles/berendsenThermostat.h"
+#include "../Headerfiles/neighbors.h"
 
 int milestone4Code() {
     /** Vars */
@@ -160,5 +161,27 @@ int milestone5Code(int argc, char *argv[]) {
 }
 
 int milestone6Code(int argc, char *argv[]) {
+    /** Atoms variables */
+    double epsilon = 1;
+    double sigma = 1;
+    double mass = 12*atomicUnit; // 12C6
+    unsigned int nbAtoms = 4;
+    //init of the atoms
+    Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    Atoms atoms(p,mass);
+    setANameInAtoms(atoms, 'X');
+    /** Neighbor List stuff */
+    double cutoffRange = sqrt(2.0);
+    NeighborList neighborList(cutoffRange);
+    neighborList.update(atoms);
+    int counter = 0;
+    for(auto[i,j]:neighborList) {
+        if(i <j) {
+            counter++;
+            std::cout << counter << std::endl;
+        }
+    }
+
+
     return 0;
 }

@@ -50,6 +50,27 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
 }
 
 /**
+ * @fn
+ * @brief
+ * @param atoms
+ * @param list
+ * @param epsilon
+ * @param sigma
+ * @return
+ */
+double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, double epsilon, double sigma) {
+    //basic vars
+    double totalPotentialEnergy = 0.0;
+    atoms.forces.setZero();
+    list.update(atoms);
+    //loop
+
+    //
+    return totalPotentialEnergy;
+}
+
+/** Satans little Helpers */
+/**
  * @fn double calculateDistanceBetweenVektors(Vector_t distanceVector)
  * @brief calculates the length of the Vector
  * @param distanceVector
@@ -88,3 +109,5 @@ double calculateForceAnalytical(double epsilon, double sigma, double distance)
 {
     return 4* epsilon *((6*pow(sigma,6)/pow(distance,7)) - (12*pow(sigma,12)/pow(distance,13)));
 }
+
+
