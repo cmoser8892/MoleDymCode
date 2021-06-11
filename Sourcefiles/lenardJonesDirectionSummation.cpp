@@ -58,12 +58,12 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
  * @param sigma
  * @return potential Energy in the system
  */
-double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, double epsilon, double sigma) {
+double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRange, double epsilon, double sigma) {
     //basic vars
     double totalPotentialEnergy = 0.0;
     atoms.forces.setZero();
+    NeighborList list(interactionRange);
     list.update(atoms);
-    double cutOff = list.interactionRange();
     //loop
     for(auto[i,j]:list) {
         if(i <j) {
@@ -74,7 +74,7 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList &list, do
             /** Energy calculation */
             //TODO shifting??
             //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
-            totalPotentialEnergy += (calculateEnergy(currentDistance,epsilon,sigma) - calculateEnergy(cutOff,epsilon,sigma));
+            totalPotentialEnergy += (calculateEnergy(currentDistance,epsilon,sigma) - calculateEnergy(interactionRange,epsilon,sigma));
 
             /** Force calculation */
             //normalize vector
