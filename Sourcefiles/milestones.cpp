@@ -273,3 +273,9 @@ int milestone6Code(int argc, char *argv[]) {
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
     return returnValue;
 }
+
+int milestone7Code(int argc, char *argv[]) {
+    int returnValue = 0;
+
+    return returnValue;
+}
