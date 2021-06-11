@@ -1,4 +1,4 @@
-# Skeleton
+# MD Project
 
 Skeleton for numerical projects with C++. This skeleton use
 [CMake](https://cmake.org/) and  automatically downloads
