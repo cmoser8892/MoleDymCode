@@ -44,6 +44,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
         if (i < j) {
             Eigen::Array3d distance_vector{atoms.positions.col(i) - atoms.positions.col(j)};
             double distance_sq{(distance_vector * distance_vector).sum()};
+            //
             if (distance_sq < cutoff_sq) {
                 double density_contribution{xi_sq * std::exp(-2 * q * (std::sqrt(distance_sq) / re - 1.0))};
                 embedding(i) += density_contribution;
@@ -65,6 +66,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
 
             Eigen::Array3d distance_vector{atoms.positions.col(i) - atoms.positions.col(j)};
             double distance_sq{(distance_vector * distance_vector).sum()};
+            //TODO :?? why
             if (distance_sq < cutoff_sq) {
                 double distance{std::sqrt(distance_sq)};
                 double d_embedding_density_j{0};

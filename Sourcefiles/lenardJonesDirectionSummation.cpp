@@ -70,7 +70,10 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRang
             /** Calculate a the distance vector*/
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
-
+            if(currentDistance > list.interactionRange())
+            {
+                std::cout << "Fucked up implementation" << std::endl;
+            }
             /** Energy calculation */
             //TODO shifting??
             //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);

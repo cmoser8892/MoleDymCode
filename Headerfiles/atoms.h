@@ -23,6 +23,7 @@ public:
      * Atoms(const Names_t &n, const Positions_t &p, const Velocities_t &v)
      * Atoms(const Positions_t &p, const Mass_t &m)
      * Atoms(const Positions_t &p, const double m)
+     * Atoms(const Names_t &n, const Positions_t &p, const double m)
      * */
     //given a constant size
     Atoms(const int &size) :
@@ -86,6 +87,15 @@ public:
         forces.setZero();
         mass = m;
     }
+
+    Atoms(const Names_t &n, const Positions_t &p, const double m) :
+            positions{p}, velocities{3, p.cols()}, forces{3, p.cols()}, mass{p.cols()}, names(p.cols())
+    {
+        velocities.setZero();
+        forces.setZero();
+        mass = m;
+    }
+
 
     //access function
     size_t nb_atoms() const {

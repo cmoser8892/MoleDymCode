@@ -10,6 +10,7 @@
 #include "../Headerfiles/milestones.h"
 #include "../Headerfiles/berendsenThermostat.h"
 #include "../Headerfiles/neighbors.h"
+#include "../Headerfiles/embeddedAtomPotential.h"
 
 int milestone4Code() {
     /** Vars */
@@ -26,7 +27,7 @@ int milestone4Code() {
     double energy = 0;
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
-    auto [names, positions, velocities]{read_xyz_with_velocities("../AJupyter/lj54.xyz")};
+    auto [names, positions, velocities]{read_xyz_with_velocities("../AData/lj54.xyz")};
     Atoms atoms(names,positions,velocities);
     /** Initial State */
     if(0) { //this means the first image is not the initial state but only kinda
@@ -276,6 +277,80 @@ int milestone6Code(int argc, char *argv[]) {
 
 int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
+    /** Gold Params
+        double cutoff = 5.0;
+        double A = 0.2061;
+        double xi = 1.790;
+        double p = 10.229;
+        double q = 4.036;
+        double re = 4.079 / sqrt(2));
+    */
+    /** Basic simulation variables */
+    double mass = 196.97*atomicUnit; // 197Au79
+    unsigned int nbAtoms = 12;
+    bool thermostatUsed = false;
+    double targetTemperatur = 275; //about roomtemp
 
+    /** Times */
+    double timeStep = 1e-15; //fs
+    double totalTime = 1000 *timeStep;
+    double safeDumpTime = 100 * timeStep;
+    double relaxationTimeFactor = 100.0;
+    double relaxationTime = relaxationTimeFactor*timeStep;
+    int safeAtStep = safeDumpTime/timeStep; //bad casting lol
+
+    /** SafeLocations */
+    std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
+    std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
+    std::string trajectoryBaseName = "Trajectory";
+    std::string energyName = "energy";
+    std::vector<double> energyStorage(totalTime/timeStep);
+    double energy = 0;
+    double kineticEnergy = 0;
+
+    /** Set up atoms */
+    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    Atoms atoms(names,positions,mass);
+    nbAtoms = atoms.nb_atoms();
+    std::cout << atoms.mass << std::endl;
+
+
+    /** Main Loop
+    int i = 0;
+    double currentTime = 0;
+    //
+    while (currentTime <= totalTime) {
+        //computation
+        verletStep1Atoms(atoms,timeStep);
+        energy = gupta(atoms,)
+        verletStep2Atoms(atoms,timeStep);
+
+        if(thermostatUsed == true) {
+            //velocity rescaling
+            berendsenThermostat(atoms, targetTemperatur, timeStep, relaxationTime);
+        }
+        //safe data
+        if ((i % safeAtStep) == 0) {
+            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            //std::cout << energyStorage[i] << std::endl;
+            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
+                     1000, (unsigned int) i / safeAtStep);
+            if(thermostatUsed == true) {
+                if (checkMoleculeTrajectories(atoms, 100) == false) {
+                    std::cerr << "Cube Exploded at: " << i << std::endl;
+                    returnValue = -1;
+                    break;
+                }
+            }
+        }
+
+        //update time and counter
+        currentTime += timeStep;
+        i++;
+    }
+    //safe the energy readings
+    dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
+     */
     return returnValue;
 }
