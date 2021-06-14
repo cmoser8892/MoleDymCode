@@ -293,7 +293,7 @@ int milestone7Code(int argc, char *argv[]) {
     double cutoff = 5.0;
 
     /** Times */
-    double timeStep = 1e-15; //fs
+    double timeStep = 1e-21; //fs
     double totalTime = 1000 *timeStep;
     double safeDumpTime = 100 * timeStep;
     double relaxationTimeFactor = 100.0;
@@ -310,15 +310,16 @@ int milestone7Code(int argc, char *argv[]) {
     double kineticEnergy = 0;
 
     /** Set up atoms */
-    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
-    Atoms atoms(names,positions,mass);
+    //auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    //Atoms atoms(names,positions,mass);
+    Positions_t  p = createLatticeCube(nbAtoms,1);
+    Atoms atoms(p,mass);
+    setANameInAtoms(atoms, "Au");
     nbAtoms = atoms.nb_atoms();
-    dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
-             1000, 1);
     NeighborList list(cutoff);
     list.update(atoms);
 
-    /** Main Loop
+    /** Main Loop */
     int i = 0;
     double currentTime = 0;
     //
@@ -359,6 +360,6 @@ int milestone7Code(int argc, char *argv[]) {
     }
     //safe the energy readings
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
-    */
+    //*/
     return returnValue;
 }

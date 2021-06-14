@@ -66,7 +66,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
 
             Eigen::Array3d distance_vector{atoms.positions.col(i) - atoms.positions.col(j)};
             double distance_sq{(distance_vector * distance_vector).sum()};
-            //TODO :?? why
+            //TODO :?? it makes it that with normal params no force ever is calculated
             if (distance_sq < cutoff_sq) {
                 double distance{std::sqrt(distance_sq)};
                 double d_embedding_density_j{0};
@@ -95,6 +95,5 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
             }
         }
     }
-
     return potential_energy;
 }
