@@ -310,10 +310,10 @@ int milestone7Code(int argc, char *argv[]) {
     double kineticEnergy = 0;
 
     /** Set up atoms */
-    //auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
-    //Atoms atoms(names,positions,mass);
-    Positions_t  p = createLatticeCube(nbAtoms,1);
-    Atoms atoms(p,mass);
+    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    Atoms atoms(names,positions,mass);
+    //Positions_t  p = createLatticeCube(nbAtoms,1);
+    //Atoms atoms(p,mass);
     setANameInAtoms(atoms, "Au");
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);

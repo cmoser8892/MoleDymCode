@@ -32,8 +32,9 @@
  *     Cleri, Rosato, "Tight-binding potentials for transition metals and alloys", Phys. Rev. B 48, 22 (1993)
  * The default values for the parameters are the Au parameters from Cleri & Rosato's paper.
  */
-double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, double A, double xi, double p, double q,
+double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double xi, double p, double q,
              double re) {
+    double cutoff = neighbor_list.interactionRange();
     auto cutoff_sq{cutoff * cutoff};
     double xi_sq{xi * xi};
 
