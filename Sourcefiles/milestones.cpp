@@ -115,7 +115,7 @@ int milestone5Code(int argc, char *argv[]) {
     /** Init */
     Positions_t  p = createLatticeCube(nbAtoms,sigma);
     Atoms atoms(p,mass);
-    setANameInAtoms(atoms, 'X');
+    setANameInAtoms(atoms, "X");
     /** Initial State */
     int i = 0;
     /** Loop */
@@ -216,7 +216,7 @@ int milestone6Code(int argc, char *argv[]) {
     //init of the atoms
     Positions_t  p = createLatticeCube(nbAtoms,sigma);
     Atoms atoms(p,mass);
-    setANameInAtoms(atoms, 'X');
+    setANameInAtoms(atoms, "X");
     // neighbor list
     double cutoffRange = 2.5* sigma;
     NeighborList neighborList(cutoffRange);
@@ -278,18 +278,19 @@ int milestone6Code(int argc, char *argv[]) {
 int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
     /** Gold Params
-        double cutoff = 5.0;
-        double A = 0.2061;
-        double xi = 1.790;
-        double p = 10.229;
-        double q = 4.036;
-        double re = 4.079 / sqrt(2));
+        double cutoff = 5.0; //?
+        double A = 0.2061; //eV
+        double xi = 1.790; //eV
+        double p = 10.229; //
+        double q = 4.036; //
+        double re = 4.079 / sqrt(2)); //distance ?
     */
     /** Basic simulation variables */
     double mass = 196.97*atomicUnit; // 197Au79
     unsigned int nbAtoms = 12;
     bool thermostatUsed = false;
     double targetTemperatur = 275; //about roomtemp
+    double cutoff = 5.0;
 
     /** Times */
     double timeStep = 1e-15; //fs
@@ -312,27 +313,34 @@ int milestone7Code(int argc, char *argv[]) {
     auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
     nbAtoms = atoms.nb_atoms();
-    std::cout << atoms.mass << std::endl;
-
+    dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
+             1000, 1);
+    NeighborList list(cutoff);
+    list.update(atoms);
 
     /** Main Loop
     int i = 0;
     double currentTime = 0;
     //
     while (currentTime <= totalTime) {
-        //computation
+        // computation
         verletStep1Atoms(atoms,timeStep);
-        energy = gupta(atoms,)
+        //update list before
+        list.update(atoms);
+        energy = gupta(atoms,list);
         verletStep2Atoms(atoms,timeStep);
 
         if(thermostatUsed == true) {
             //velocity rescaling
             berendsenThermostat(atoms, targetTemperatur, timeStep, relaxationTime);
         }
-        //safe data
+        // Data safe
+        kineticEnergy = calculateKineticEnergy(atoms);
+        energy += kineticEnergy;
+        energyStorage[i] = energy;
         if ((i % safeAtStep) == 0) {
-            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
-            //std::cout << energyStorage[i] << std::endl;
+            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            std::cout << energyStorage[i] << std::endl;
             //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
@@ -351,6 +359,6 @@ int milestone7Code(int argc, char *argv[]) {
     }
     //safe the energy readings
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
-     */
+    */
     return returnValue;
 }

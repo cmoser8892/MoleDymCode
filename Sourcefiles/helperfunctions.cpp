@@ -51,7 +51,7 @@ void dumpEnergy( std::vector<double> data,
  * @param atoms
  * @param name
  */
-void setANameInAtoms(Atoms &atoms, char name) {
+void setANameInAtoms(Atoms &atoms, std::string name) {
     for (int i = 0; i < atoms.nb_atoms(); ++i) {
         atoms.names[i] = name;
     }
