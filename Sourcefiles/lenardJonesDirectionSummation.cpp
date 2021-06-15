@@ -66,7 +66,7 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRang
     list.update(atoms);
     //loop
     for(auto[i,j]:list) {
-        if(i <j) {
+        if(i < j) {
             /** Calculate a the distance vector*/
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);

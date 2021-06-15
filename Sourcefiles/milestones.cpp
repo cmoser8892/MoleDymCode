@@ -287,7 +287,7 @@ int milestone7Code(int argc, char *argv[]) {
     */
     /** Basic simulation variables */
     double mass = 196.97*atomicUnit; // 197Au79
-    unsigned int nbAtoms = 12;
+    unsigned int nbAtoms = 25;
     bool thermostatUsed = false;
     double targetTemperatur = 275; //about roomtemp
     double cutoff = 5.0;
@@ -310,11 +310,14 @@ int milestone7Code(int argc, char *argv[]) {
     double kineticEnergy = 0;
 
     /** Set up atoms */
-    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
-    Atoms atoms(names,positions,mass);
-    //Positions_t  p = createLatticeCube(nbAtoms,1);
-    //Atoms atoms(p,mass);
+    //auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    //Atoms atoms(names,positions,mass);
+    Positions_t  p = createLatticeCube(nbAtoms,1);
+    Atoms atoms(p,mass);
     setANameInAtoms(atoms, "Au");
+    Eigen::Array3d distance_vector{atoms.positions.col(0) - atoms.positions.col(1)};
+    double distance_sq{(distance_vector * distance_vector).sum()};
+    std::cout << distance_sq << std::endl;
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
     list.update(atoms);
