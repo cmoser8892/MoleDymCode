@@ -290,7 +290,7 @@ int milestone7Code(int argc, char *argv[]) {
     unsigned int nbAtoms = 12;
     bool thermostatUsed = false;
     double targetTemperatur = 275; //about roomtemp
-    double cutoff = 10.0;
+    double cutoff = 4.0;
 
     /** Times */
     double timeStep = 1e-21; //fs
