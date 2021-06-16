@@ -1,4 +1,5 @@
-\chapter{Milestone 6}
+%\chapter{Milestone 6}
+\section{Milestone 6}
 \begin{comment}
 - not sure if correct 
 - will need to discuss this
@@ -9,8 +10,23 @@
 \end{comment}
 \begin{figure}[!h]
 	\begin{center}
+		\includegraphics[scale=1]{Figure/plotAtomTimes.png}
+	\end{center}
+	\caption[Simulationtime without Neighborlist]{Simulationtime without Neighborlist}
+	\label{PlotAtomTimesSecond}
+\end{figure}
+\begin{figure}[!h]
+	\begin{center}
 		\includegraphics[scale=1]{Figure/plotAtomTimesTree.png}
 	\end{center}
-	\caption[Simulationtime with a Cutoff]{Simulationtime from 8 to 192 Atoms }
+	\caption[Simulationtime with the old Neighborlist]{Simulationtime with the old Neighborlist}
+	\label{PlotAtomTimesOldNeighbor}
+\end{figure}
+
+\begin{figure}[!h]
+	\begin{center}
+		\includegraphics[scale=1]{Figure/plotAtomTimesNew.png}
+	\end{center}
+	\caption[Simulationtime with the new Neighborlist]{Simulationtime with the new Neighborlist  }
 	\label{PlotAtomTimesCutoff}
 \end{figure}
