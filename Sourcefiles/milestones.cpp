@@ -220,6 +220,7 @@ int milestone6Code(int argc, char *argv[]) {
     setANameInAtoms(atoms, "X");
     // neighbor list
     NeighborList neighborList(cutoffRange);
+    neighborList.update(atoms);
 
     /** Loop */
     int i = 0;

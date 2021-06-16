@@ -60,12 +60,12 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
  * @param sigma
  * @return potential Energy in the system
  */
-double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRange, double epsilon, double sigma) {
+double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList list, double epsilon, double sigma) {
     //basic vars
     double totalPotentialEnergy = 0.0;
     atoms.forces.setZero();
-    NeighborList list(interactionRange);
     list.update(atoms);
+    double interactionRange = list.interactionRange();
     //loop
     for(auto[i,j]:list) {
         if(i < j) {

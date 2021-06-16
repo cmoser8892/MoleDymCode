@@ -9,7 +9,7 @@
 #include "../Headerfiles/neighbors.h"
 
 double lendardJonesDirectSummation(Atoms &atoms, double epsilon = 1.0, double sigma = 1.0);
-double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRange, double epsilon = 1.0, double sigma = 1.0);
+double lenardJonesDirectSummationWithCutoff(Atoms &atoms,NeighborList list, double epsilon = 1.0, double sigma = 1.0);
 
 /** Helpers */
 double calculateDistanceBetweenVektors(Vector_t distanceVector);
