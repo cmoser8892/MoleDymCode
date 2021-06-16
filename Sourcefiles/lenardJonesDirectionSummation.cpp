@@ -65,13 +65,22 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList list, dou
     double totalPotentialEnergy = 0.0;
     atoms.forces.setZero();
     list.update(atoms);
+    bool badList = true;
     double interactionRange = list.interactionRange();
     //loop
     for(auto[i,j]:list) {
         if(i < j) {
+            //neighorlist stuff
             if(noSpam == false) {
                 //TODO above 26 the factors are missing should be there
-                std::cout << i << "; " << j << std::endl;
+                //std::cout << i << "; " << j << std::endl;
+                // only works if the system is relaxed properly
+                if(i == atoms.nb_atoms()) {
+                    badList = false;
+                }
+                else {
+                    //nop
+                }
             }
             /** Calculate a the distance vector*/
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
@@ -94,7 +103,10 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList list, dou
         }
     }
     //
-    noSpam = true;
+    //noSpam = true;
+    if(badList == false) {
+        std::cerr << "List gone bad; could be a false Positive thou" << std::endl;
+    }
     return totalPotentialEnergy;
 }
 

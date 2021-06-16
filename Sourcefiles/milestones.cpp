@@ -170,15 +170,15 @@ int milestone6Code(int argc, char *argv[]) {
     double sigma = 1; //*pow(2.0, 1.0/6.0);
     double mass = 12*atomicUnit; // 12C6
     unsigned int nbAtoms = 32;
-    bool thermostatUsed = false;
+    bool thermostatUsed = true;
     double targetTemperatur = 275; //about roomtemp
-    double cutoffRange = 1.5 * sigma;
+    double cutoffRange = 2.5 * sigma;
 
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 2.0;
+    double relaxationTimeFactor = 10.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -215,7 +215,7 @@ int milestone6Code(int argc, char *argv[]) {
     }
     /** set up atoms */
     //init of the atoms
-    Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     // neighbor list
