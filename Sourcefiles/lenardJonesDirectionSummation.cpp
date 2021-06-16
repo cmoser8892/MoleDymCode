@@ -78,7 +78,6 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRang
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
 
             /** Energy calculation */
-            //TODO shifting??
             //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
             totalPotentialEnergy += (calculateEnergy(currentDistance,epsilon,sigma) - calculateEnergy(interactionRange,epsilon,sigma));
 
