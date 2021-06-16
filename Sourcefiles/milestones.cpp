@@ -191,6 +191,7 @@ int milestone6Code(int argc, char *argv[]) {
     double energy = 0;
     double kineticEnergy = 0;
 
+
     /** Argument Processing */
     if(argc == 1) {
         /** Do nothing */
