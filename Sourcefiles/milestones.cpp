@@ -169,15 +169,16 @@ int milestone6Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1; //*pow(2.0, 1.0/6.0);
     double mass = 12*atomicUnit; // 12C6
-    unsigned int nbAtoms = 12;
-    bool thermostatUsed = true;
+    unsigned int nbAtoms = 32;
+    bool thermostatUsed = false;
     double targetTemperatur = 275; //about roomtemp
+    double cutoffRange = 1.5 * sigma;
 
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 100.0;
+    double relaxationTimeFactor = 2.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -218,7 +219,6 @@ int milestone6Code(int argc, char *argv[]) {
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     // neighbor list
-    double cutoffRange = 2.5* sigma;
     NeighborList neighborList(cutoffRange);
 
     /** Loop */
@@ -290,10 +290,10 @@ int milestone7Code(int argc, char *argv[]) {
     unsigned int nbAtoms = 12;
     bool thermostatUsed = false;
     double targetTemperatur = 275; //about roomtemp
-    double cutoff = 4.0;
+    double cutoff = 10.0;
 
     /** Times */
-    double timeStep = 1e-21; //fs
+    double timeStep = 1e-15; //fs
     double totalTime = 1000 *timeStep;
     double safeDumpTime = 100 * timeStep;
     double relaxationTimeFactor = 100.0;
@@ -312,14 +312,13 @@ int milestone7Code(int argc, char *argv[]) {
     /** Set up atoms */
     auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
-    //Positions_t  p = createLatticeCube(nbAtoms,1);
-    //Atoms atoms(p,mass);
-    //setANameInAtoms(atoms, "Au");
     Eigen::Array3d distance_vector{atoms.positions.col(0) - atoms.positions.col(1)};
     double distance_sq{(distance_vector * distance_vector).sum()};
     std::cout << distance_sq << std::endl;
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
+    Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
+    Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
     list.update(atoms);
 
     /** Main Loop */

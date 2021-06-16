@@ -5,6 +5,8 @@
 #include "../Headerfiles/lenardJonesDirectionSummation.h"
 #include <iostream>
 
+bool noSpam = false;
+
 /**
  * @func double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma)
  * @brief calculates the Lenard Jones Potential as it is specificated in Milestone 4
@@ -67,13 +69,14 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRang
     //loop
     for(auto[i,j]:list) {
         if(i < j) {
+            if(noSpam == false) {
+                //TODO above 26 the factors are missing should be there
+                std::cout << i << "; " << j << std::endl;
+            }
             /** Calculate a the distance vector*/
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
             double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
-            if(currentDistance > list.interactionRange())
-            {
-                std::cout << "Fucked up implementation" << std::endl;
-            }
+
             /** Energy calculation */
             //TODO shifting??
             //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
@@ -92,6 +95,7 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, double interactionRang
         }
     }
     //
+    noSpam = true;
     return totalPotentialEnergy;
 }
 

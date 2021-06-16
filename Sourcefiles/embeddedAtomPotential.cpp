@@ -60,7 +60,6 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
 
     // compute forces
     for (auto[i, j]: neighbor_list) {
-        std::cout << i << " " << j << std::endl;
         if (i < j) {
             double d_embedding_density_i{0};
             // this is the derivative of sqrt(embedding)

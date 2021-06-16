@@ -45,20 +45,20 @@ const std::tuple<const Eigen::ArrayXi &, const Eigen::ArrayXi &> NeighborList::u
     // interaction range. Also compute the number of cells in each Cartesian direction.
     for (int i{0}; i < 3; ++i) {
         origin(i) = r.row(i).minCoeff();
-        lengths(i) = r.row(i).maxCoeff() - origin(i);
+        lengths(i) = r.row(i).maxCoeff() - origin(i); // vector?
         nb_grid_pts(i) = static_cast<int>(std::ceil(lengths(i) / interaction_range_));
-
         // This can only happen if all atoms sit within a plane. It is unlikely, but...
         if (nb_grid_pts(i) <= 0) {
             nb_grid_pts(i) = 1;
         }
-
+        //set the cube a bit bigger than it actually is
         double padding_length{nb_grid_pts(i) * interaction_range_ - lengths(i)};
         origin(i) -= padding_length / 2;
         lengths(i) += padding_length;
     }
-
-    // Compute cell indices. The follow array contains the cell index for each atom.
+    //std::cout << origin << "; " << lengths << std::endl;
+    /** looks ok */
+    //TODO most likely part that fails
     Eigen::ArrayXi atom_to_cell{coordinate_to_index(
             ((r.row(0) - origin(0)) * nb_grid_pts(0) / lengths(0)).floor().cast<int>(),
             ((r.row(1) - origin(1)) * nb_grid_pts(1) / lengths(1)).floor().cast<int>(),
@@ -115,12 +115,13 @@ const std::tuple<const Eigen::ArrayXi &, const Eigen::ArrayXi &> NeighborList::u
                 static_cast<int>(std::floor((r(1, i) - origin(1)) / lengths(1))),
                 static_cast<int>(std::floor((r(2, i) - origin(2)) / lengths(2)))};
 
-        // Loop over neighboring cells.
+
         for (int x = -1; x <= 1; ++x) {
             for (int y = -1; y <= 1; ++y) {
                 for (int z = -1; z <= 1; ++z) {
                     Eigen::Array3i neigh_cell_coord{cell_coord(0) + x, cell_coord(1) + y, cell_coord(2) + z};
 
+                    //zero check
                     if ((neigh_cell_coord >= 0).all() && (neigh_cell_coord < nb_grid_pts).all()) {
                         int cell_index{coordinate_to_index(neigh_cell_coord, nb_grid_pts)};
 

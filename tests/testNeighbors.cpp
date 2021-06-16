@@ -24,6 +24,7 @@
 
 #include "../Headerfiles/atoms.h"
 #include "../Headerfiles/neighbors.h"
+#include "../Headerfiles/xyz.h"
 
 #include <gtest/gtest.h>
 
@@ -42,4 +43,25 @@ TEST(NeighborsTest, Test1) {
     EXPECT_TRUE((neighbors(Eigen::seq(seed(1), seed(2)-1)) == Eigen::Array3i{3, 0, 2}).all());
     EXPECT_TRUE((neighbors(Eigen::seq(seed(2), seed(3)-1)) == Eigen::Array2i{0, 1}).all());
     EXPECT_TRUE((neighbors(Eigen::seq(seed(3), seed(4)-1)) == Eigen::Array2i{0, 1}).all());
+}
+
+
+TEST(NeighborsTest, Test2) {
+    // create atoms
+    double mass = 196.97*atomicUnit; // 197Au79
+    double cutoff = 10.0;
+    auto [names, positions]{read_xyz("../../AData/cluster_923.xyz")};
+    Atoms atoms(names,positions,mass);
+    NeighborList list(cutoff);
+    list.update(atoms);
+    for (auto[i, j]: list) {
+        //check distanc 565 to 672
+        if(i == 562){
+            if(j == 672) {
+                std::cout << "found"<< std::endl;
+                ASSERT_TRUE(false);
+            }
+        }
+    }
+
 }
