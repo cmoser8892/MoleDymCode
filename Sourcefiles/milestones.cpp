@@ -176,7 +176,7 @@ int milestone6Code(int argc, char *argv[]) {
 
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
-    double totalTime = 10000 *timeStep;
+    double totalTime = 100 *timeStep;
     double safeDumpTime = 100 * timeStep;
     double relaxationTimeFactor = 10.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
