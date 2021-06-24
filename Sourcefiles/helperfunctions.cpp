@@ -218,44 +218,28 @@ double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms) {
 }
 
 /**
- * @fn
- * @brief
+ * @fn bool checkMoleculeTrajectories(Atoms &atoms, double scaling)
+ * @brief creates a capsul defined by two points min and max and applies a sclaing to the capsul
  * @param atoms
  * @param cubeFactor
- * @return
+ * @return true or false if ALL the atoms are inside the capsule
  */
-bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
+bool checkMoleculeTrajectories(Atoms &atoms, double scaling) {
     /** Basic idea, check weather or not the atoms fling themself outside of another cube thats a bit bigger than the original one */
-    Positions_t cube = generateCube(atoms,cubeFactor);
+    Positions_t controlPostitions = generateCapsel(atoms, 2);
     bool returnValue = true;
     std::cout << atoms.positions << std::endl;
     for(int i = 0; i < atoms.nb_atoms();++i) {
         /** check for every position if it still is inside of the cube
          * as it is alinged just need to check for xmin and xmax
          * */
-        //check if outside min position
-        if(!(cube(0,0) <= atoms.positions(0,i))) {//x
+        //minum Position
+        if(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)) != true) {
             returnValue = false;
             break;
         }
-        if(!(cube(1,0) <= atoms.positions(1,i))) {//y
-            returnValue = false;
-            break;
-        }
-        if(!(cube(2,0) <= atoms.positions(2,i))){//z
-            returnValue = false;
-            break;
-        }
-        //check max
-        if(!(cube(0,7) >= atoms.positions(0,i))) {//x
-            returnValue = false;
-            break;
-        }
-        if(!(cube(1,7) >= atoms.positions(1,i))) {//y
-            returnValue = false;
-            break;
-        }
-        if(!(cube(2,7) >= atoms.positions(2,i))){//z
+        //maximum Position
+        if(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)) != true) {
             returnValue = false;
             break;
         }
@@ -264,47 +248,26 @@ bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
 
     return returnValue;
 }
-/**
- * @fn Positions_t generateCube(Atoms &atoms, double cubeFactor)
- * @brief generates a cube that encapsulates the simulated cube
- * @param atoms
- * @param cubeFactor
- * @return positions of the cube
- */
-Positions_t generateCube(Atoms &atoms, double cubeFactor) {
-    Positions_t cube = createLatticeCube(8,1);
-    double cubeSideLenght = (int)ceil(pow(atoms.nb_atoms(),1./3.));
-    Vector_t zeroPoint{0,0,0};
-    Vector_t maxPoint{cubeSideLenght,cubeSideLenght,cubeSideLenght};
-    for(int i = 0; i < 8;++i) {
-        cube.col(i) = cube.col(i) * cubeFactor * cubeSideLenght;
-    }
-    Vector_t shiftVector = 0.5 *((maxPoint -zeroPoint) -(cube.col(7)-cube.col(0)));
-    //std::cout << shiftVector << std::endl;
-    //std::cout << cube << std::endl;
-    for(int i = 0;i < 8;++i) {
-        cube.col(i) = cube.col(i) +shiftVector;
-    }
-    //std::cout << cube << std::endl;
-    return cube;
-}
-
 
 /**
  * @fn Positions_t generateCapsel(Atoms &atoms, double cubeFactor)
- * @brief creates a capsle around the strucure so that the atoms can be checked to not escape
+ * @brief creates two points of capsel around the structure so that the atoms can be checked to not escape
  * @param atoms
  * @param cubeFactor
  * @return
  */
-Positions_t generateCapsel(Atoms &atoms, double cubeFactor) {
+Positions_t generateCapsel(Atoms &atoms, double scaling) {
     Positions_t returnValue(3,2);
     returnValue.setZero();
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
     Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
     Vector_t middlePoint = 0.5*(max -min);
-    //
-
+    //scaling is done from the middlepoint
+    Vector_t middleToMin = middlePoint + scaling * (min- middlePoint);
+    Vector_t middleToMax = middlePoint + scaling * (max- middlePoint) ;
+    //write back
+    returnValue.col(0) = middleToMin;
+    returnValue.col(0) = middleToMax;
     return returnValue;
 }
 

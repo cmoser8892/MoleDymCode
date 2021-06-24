@@ -347,7 +347,7 @@ int milestone7Code(int argc, char *argv[]) {
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms, 2.5) == false) {
+                if (checkMoleculeTrajectories(atoms, 1.5) == false) {
                     std::cerr << "Cube Exploded at: " << i << std::endl;
                     returnValue = -1;
                     break;

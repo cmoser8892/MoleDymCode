@@ -6,6 +6,7 @@
 //
 #include "../Headerfiles/atoms.h"
 #include "../Headerfiles/helperfunctions.h"
+#include "../Headerfiles/xyz.h"
 
 TEST(TestHelperfunctions, cubicEncapsulation)
 {
@@ -19,15 +20,47 @@ TEST(TestHelperfunctions, cubicEncapsulation)
     for(int i = 0; i < atoms.nb_atoms(); ++i) {
         //should be easier too just compare the values of the Vectors
         //the positions should be smaller than the min
-        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)),true);
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
         //the positions should be smaller than the max
-        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)),true);
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
     }
 }
 
 TEST(TestHelperfunctions, encapsulatingFunction)
 {
-    //ASSERT_TRUE(false) << "Implement me!!";
+    Positions_t p = createLatticesLongRod(8,2,10);
+    Atoms atoms(p);
+    Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
+    Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
+    Positions_t controlPostitions = generateCapsel(atoms, 2);
+
+    //check weather all atoms are inside
+    for(int i = 0; i < atoms.nb_atoms(); ++i) {
+        //should be easier too just compare the values of the Vectors
+        //the positions should be smaller than the min
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
+        //the positions should be smaller than the max
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
+    }
+}
+
+TEST(TestHelperfunctions, encapsulatingFunctionWithHexagon)
+{
+    double mass = 196.97*atomicUnit; // 197Au79
+    auto [names, positions]{read_xyz("../../AData/cluster_923.xyz")};
+    Atoms atoms(names,positions,mass);
+    Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
+    Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
+    Positions_t controlPostitions = generateCapsel(atoms, 2);
+
+    //check weather all atoms are inside
+    for(int i = 0; i < atoms.nb_atoms(); ++i) {
+        //should be easier too just compare the values of the Vectors
+        //the positions should be smaller than the min
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
+        //the positions should be smaller than the max
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
+    }
 }
 
 
