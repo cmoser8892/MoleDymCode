@@ -23,5 +23,6 @@ double temperaturDampening(double initalTemperatur, double targetTemperatur, dou
 double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms);
 bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor);
 Positions_t generateCube(Atoms &atoms, double cubeFactor);
+Positions_t generateCapsle(Atoms &atoms, double cubeFactor);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H

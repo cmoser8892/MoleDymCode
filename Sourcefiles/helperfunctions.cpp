@@ -288,3 +288,16 @@ Positions_t generateCube(Atoms &atoms, double cubeFactor) {
     //std::cout << cube << std::endl;
     return cube;
 }
+
+
+/**
+ * @fn Positions_t generateCapsle(Atoms &atoms, double cubeFactor)
+ * @brief creates a capsle around the strucure so that the atoms can be checked to not escape
+ * @param atoms
+ * @param cubeFactor
+ * @return
+ */
+Positions_t generateCapsle(Atoms &atoms, double cubeFactor) {
+    Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
+    Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
+}

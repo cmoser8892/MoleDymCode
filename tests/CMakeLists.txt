@@ -15,6 +15,7 @@ set(myproject_tests_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/testThermostat.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/testNeighbors.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/testEmbeddedAtomPotential.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/testHelperfunctions.cpp
         #additional files
         ${CMAKE_SOURCE_DIR}/Sourcefiles/verlet.cpp
         ${CMAKE_SOURCE_DIR}/Sourcefiles/lenardJonesDirectionSummation.cpp
