@@ -51,7 +51,7 @@ TEST(TestHelperfunctions, encapsulatingFunctionWithHexagon)
     Atoms atoms(names,positions,mass);
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
     Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
-    Positions_t controlPostitions = generateCapsel(atoms, 2);
+    Positions_t controlPostitions = generateCapsel(atoms, 1.1);
 
     //check weather all atoms are inside
     for(int i = 0; i < atoms.nb_atoms(); ++i) {
