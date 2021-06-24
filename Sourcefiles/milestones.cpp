@@ -114,7 +114,7 @@ int milestone5Code(int argc, char *argv[]) {
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
     //Positions_t  p = createLatticeCube(nbAtoms,sigma);
-    Positions_t  p = generateLatticesLongRod(nbAtoms,3,sigma+0.000001);
+    Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     /** Initial State */
@@ -293,14 +293,14 @@ int milestone7Code(int argc, char *argv[]) {
     double mass = 196.97*atomicUnit; // 197Au79
     unsigned int nbAtoms = 12;
     bool thermostatUsed = true;
-    double targetTemperatur = 275; //about roomtemp
-    double cutoff = 10.0;
+    double targetTemperatur = 1337; //gold Melting point
+    double cutoff = 3.0;
 
     /** Times */
     double timeStep = 1e-15; //fs
     double totalTime = 1000 *timeStep;
-    double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 80.0;
+    double safeDumpTime = 20 * timeStep;
+    double relaxationTimeFactor = 1.00000001;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -331,7 +331,7 @@ int milestone7Code(int argc, char *argv[]) {
         list.update(atoms);
         energy = gupta(atoms,list);
         verletStep2Atoms(atoms,timeStep);
-
+        //thermostat
         if(thermostatUsed == true) {
             //velocity rescaling
             berendsenThermostat(atoms, targetTemperatur, timeStep, relaxationTime);
