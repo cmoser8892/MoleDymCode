@@ -62,7 +62,7 @@ void setANameInAtoms(Atoms &atoms, std::string name) {
  * @brief creates positions in an arranged cube kinda inefficient
  * @param numberOfAtoms
  * @param latticeConstant
- * @return
+ * @return Positions of the atoms
  */
 Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant) {
     /**
@@ -93,10 +93,62 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
             }
             xCounter = 0;
             yCounter++;
+            if(atomNumberCounter == numberOfAtoms) {
+                break;
+            }
         }
         yCounter = 0;
         zCounter++;
+        if(atomNumberCounter == numberOfAtoms) {
+            break;
+        }
     }
+    return returnValue;
+}
+
+/**
+ * @fn Positions_t generateLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant)
+ * @brief this creates Positons for a rod with a baseSideLength till the atoms are used up; modified generateLatticeCube Code
+ * @param numberOfAtoms
+ * @param baseSideLength
+ * @param latticeConstant
+ * @return Positions of the atoms
+ */
+Positions_t generateLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant) {
+    Positions_t returnValue(3, numberOfAtoms);
+    //
+    int xCounter = 0;
+    int yCounter = 0;
+    int zCounter = 0;
+    int atomNumberCounter = 0;
+    // modified cube code !!
+    while(1) {
+        while(yCounter < baseSideLength) {
+            while (xCounter < baseSideLength) {
+                //cancel only breakout here
+                if(atomNumberCounter == numberOfAtoms) {
+                    break;
+                }
+                // Set value all the other stuff just fancy
+                Vector_t set(xCounter*latticeConstant,yCounter*latticeConstant,zCounter*latticeConstant);
+                returnValue.col(atomNumberCounter) = set;
+                atomNumberCounter++;
+                //
+                xCounter++;
+            }
+            xCounter = 0;
+            yCounter++;
+            if(atomNumberCounter == numberOfAtoms) {
+                break;
+            }
+        }
+        yCounter = 0;
+        zCounter++;
+        if(atomNumberCounter == numberOfAtoms) {
+            break;
+        }
+    }
+    //
     return returnValue;
 }
 

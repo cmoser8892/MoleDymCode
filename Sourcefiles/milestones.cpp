@@ -70,7 +70,7 @@ int milestone5Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 12*atomicUnit; // 12C6
-    unsigned int nbAtoms = 4;
+    unsigned int nbAtoms = 160;
     double targetTemperatur = 275; //about roomtemp
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
@@ -113,7 +113,8 @@ int milestone5Code(int argc, char *argv[]) {
     double kineticEnergy = 0;
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
-    Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    //Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    Positions_t  p = generateLatticesLongRod(nbAtoms,3,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     /** Initial State */
@@ -140,12 +141,12 @@ int milestone5Code(int argc, char *argv[]) {
         }
         //safe
         if ((i % safeAtStep) == 0) {
-            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
             //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
-            if(checkMoleculeTrajectories(atoms,2* pow(2.0, 1.0/6.0)) == false) {
+            if(checkMoleculeTrajectories(atoms,100) == false) {
                 std::cerr << "Cube Exploded at: " << i << std::endl;
                 returnValue = -1;
                 break;
@@ -167,18 +168,18 @@ int milestone6Code(int argc, char *argv[]) {
     /** Variables for the simulation */
     /** Atoms variables */
     double epsilon = 1;
-    double sigma = 1; //*pow(2.0, 1.0/6.0);
+    double sigma = 0.8; //*pow(2.0, 1.0/6.0);
     double mass = 12*atomicUnit; // 12C6
-    unsigned int nbAtoms = 32;
+    unsigned int nbAtoms = 60;
     bool thermostatUsed = true;
     double targetTemperatur = 275; //about roomtemp
     double cutoffRange = 2.5 * sigma;
 
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
-    double totalTime = 100 *timeStep;
+    double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 10.0;
+    double relaxationTimeFactor = 50.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -216,7 +217,8 @@ int milestone6Code(int argc, char *argv[]) {
     }
     /** set up atoms */
     //init of the atoms
-    Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
+    //Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
+    Positions_t  p = generateLatticesLongRod(nbAtoms,3,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     // neighbor list
@@ -244,10 +246,10 @@ int milestone6Code(int argc, char *argv[]) {
         energyStorage[i] = energy;
         //relaxation time
         if(thermostatUsed == true) {
-            if (abs(calculateCurrentTemperatur(atoms) - targetTemperatur) < 10.) {
+            if (abs(calculateCurrentTemperatur(atoms) - targetTemperatur) < 100.) {
                 if (once == false) {
-                    //std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
-                    relaxationTime *= 100000;
+                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
+                    relaxationTime *= 1000000;
                     once = true;
                 }
             }
@@ -255,9 +257,9 @@ int milestone6Code(int argc, char *argv[]) {
 
         //Dumping the data and checking for an explosion
         if ((i % safeAtStep) == 0) {
-            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
-            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
