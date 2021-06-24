@@ -282,7 +282,7 @@ int milestone6Code(int argc, char *argv[]) {
 int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
     /** Gold Params
-        double cutoff = 5.0; //?
+        double cutoff = 2.0; //?
         double A = 0.2061; //eV
         double xi = 1.790; //eV
         double p = 10.229; //
@@ -297,10 +297,10 @@ int milestone7Code(int argc, char *argv[]) {
     double cutoff = 3.0;
 
     /** Times */
-    double timeStep = 1e-15; //fs
+    double timeStep = 50e-15; //fs
     double totalTime = 1000 *timeStep;
-    double safeDumpTime = 20 * timeStep;
-    double relaxationTimeFactor = 1.00000001;
+    double safeDumpTime = 10 * timeStep;
+    double relaxationTimeFactor = 1.;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
