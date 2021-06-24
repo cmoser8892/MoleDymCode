@@ -107,14 +107,14 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
 }
 
 /**
- * @fn Positions_t generateLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant)
+ * @fn Positions_t createLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant)
  * @brief this creates Positons for a rod with a baseSideLength till the atoms are used up; modified generateLatticeCube Code
  * @param numberOfAtoms
  * @param baseSideLength
  * @param latticeConstant
  * @return Positions of the atoms
  */
-Positions_t generateLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant) {
+Positions_t createLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength, double latticeConstant) {
     Positions_t returnValue(3, numberOfAtoms);
     //
     int xCounter = 0;
@@ -291,13 +291,54 @@ Positions_t generateCube(Atoms &atoms, double cubeFactor) {
 
 
 /**
- * @fn Positions_t generateCapsle(Atoms &atoms, double cubeFactor)
+ * @fn Positions_t generateCapsel(Atoms &atoms, double cubeFactor)
  * @brief creates a capsle around the strucure so that the atoms can be checked to not escape
  * @param atoms
  * @param cubeFactor
  * @return
  */
-Positions_t generateCapsle(Atoms &atoms, double cubeFactor) {
+Positions_t generateCapsel(Atoms &atoms, double cubeFactor) {
+    Positions_t returnValue(3,2);
+    returnValue.setZero();
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
     Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
+    Vector_t middlePoint = 0.5*(max -min);
+    //
+
+    return returnValue;
+}
+
+/**
+ * @fn bool compareVectorsBigSmall(Vector_t v1, Vector_t v2)
+ * @brief checks weather v1 is bigger than v2 in all directions
+ * @param v1
+ * @param v2
+ * @return true or false
+ */
+bool compareVectorsBigSmall(Vector_t v1, Vector_t v2) {
+    bool returnValue = true;
+    if(v1(0) < v2(0)) {
+        returnValue = false;
+    }
+    if(v1(1) < v2(1)) {
+        returnValue = false;
+    }
+    if(v1(2) < v2(2)) {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
+/**
+ * @fn double calculateDistanceBetweenVectors(Vector_t distanceVector)
+ * @brief calculates the length of the Vector
+ * @param distanceVector
+ * @return double the length of the Vektor
+ */
+double calculateDistanceBetweenVectors(Vector_t distanceVector) {
+    //pythagoras
+    double dist = distanceVector(0)* distanceVector(0) +
+                  distanceVector(1)* distanceVector(1) +
+                  distanceVector(2)* distanceVector(2);
+    return sqrt(dist);
 }

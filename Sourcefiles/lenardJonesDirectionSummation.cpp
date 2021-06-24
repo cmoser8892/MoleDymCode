@@ -2,8 +2,10 @@
 // Created by cm on 13.05.21.
 //
 
-#include "../Headerfiles/lenardJonesDirectionSummation.h"
+
 #include <iostream>
+#include "../Headerfiles/lenardJonesDirectionSummation.h"
+#include "../Headerfiles/helperfunctions.h"
 
 bool noSpam = false;
 
@@ -29,7 +31,7 @@ double lendardJonesDirectSummation(Atoms &atoms, double epsilon, double sigma) {
             /** Distance */
             //calculate the current energy between the atom i and j
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
-            double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
+            double currentDistance = calculateDistanceBetweenVectors(vectorToOtherAtom);
 
             /** Energy */
             totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
@@ -84,7 +86,7 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList list, dou
             }
             /** Calculate a the distance vector*/
             Vector_t vectorToOtherAtom = atoms.positions.col(j)-atoms.positions.col(i);
-            double currentDistance = calculateDistanceBetweenVektors(vectorToOtherAtom);
+            double currentDistance = calculateDistanceBetweenVectors(vectorToOtherAtom);
 
             /** Energy calculation */
             //totalPotentialEnergy += calculateEnergy(currentDistance,epsilon,sigma);
@@ -111,19 +113,6 @@ double lenardJonesDirectSummationWithCutoff(Atoms &atoms, NeighborList list, dou
 }
 
 /** Satans little Helpers */
-/**
- * @fn double calculateDistanceBetweenVektors(Vector_t distanceVector)
- * @brief calculates the length of the Vector
- * @param distanceVector
- * @return double the length of the Vektor
- */
-double calculateDistanceBetweenVektors(Vector_t distanceVector) {
-    //pythagoras
-    double dist = distanceVector(0)* distanceVector(0) +
-                  distanceVector(1)* distanceVector(1) +
-                  distanceVector(2)* distanceVector(2);
-    return sqrt(dist);
-}
 
 /**
  * @fn double calculateEnergy(double distance, double epsilon, double sigma)

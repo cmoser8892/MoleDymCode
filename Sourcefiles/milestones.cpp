@@ -218,7 +218,7 @@ int milestone6Code(int argc, char *argv[]) {
     /** set up atoms */
     //init of the atoms
     //Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
-    Positions_t  p = generateLatticesLongRod(nbAtoms,3,sigma+0.000001);
+    Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     // neighbor list

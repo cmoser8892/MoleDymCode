@@ -14,7 +14,7 @@ void setANameInAtoms(Atoms &atoms, std::string name);
 
 /**  calculation Functions */
 Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant = 1.0);
-Positions_t generateLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength = 3, double latticeConstant = 1.0);
+Positions_t createLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength = 3, double latticeConstant = 1.0);
 double calculateKineticEnergy(Atoms &atoms);
 double calculateCurrentTemperatur(Atoms &atoms);
 
@@ -23,6 +23,8 @@ double temperaturDampening(double initalTemperatur, double targetTemperatur, dou
 double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms);
 bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor);
 Positions_t generateCube(Atoms &atoms, double cubeFactor);
-Positions_t generateCapsle(Atoms &atoms, double cubeFactor);
+Positions_t generateCapsel(Atoms &atoms, double cubeFactor);
+bool compareVectorsBigSmall(Vector_t v1, Vector_t v2);
+double calculateDistanceBetweenVectors(Vector_t distanceVector);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H
