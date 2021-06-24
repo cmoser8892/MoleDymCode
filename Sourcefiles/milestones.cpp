@@ -292,7 +292,7 @@ int milestone7Code(int argc, char *argv[]) {
     /** Basic simulation variables */
     double mass = 196.97*atomicUnit; // 197Au79
     unsigned int nbAtoms = 12;
-    bool thermostatUsed = false;
+    bool thermostatUsed = true;
     double targetTemperatur = 275; //about roomtemp
     double cutoff = 10.0;
 
@@ -300,7 +300,7 @@ int milestone7Code(int argc, char *argv[]) {
     double timeStep = 1e-15; //fs
     double totalTime = 1000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 100.0;
+    double relaxationTimeFactor = 80.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -316,13 +316,8 @@ int milestone7Code(int argc, char *argv[]) {
     /** Set up atoms */
     auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
-    Eigen::Array3d distance_vector{atoms.positions.col(0) - atoms.positions.col(1)};
-    double distance_sq{(distance_vector * distance_vector).sum()};
-    std::cout << distance_sq << std::endl;
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
-    Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
-    Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
     list.update(atoms);
 
     /** Main Loop */
@@ -347,12 +342,12 @@ int milestone7Code(int argc, char *argv[]) {
         energyStorage[i] = energy;
         if ((i % safeAtStep) == 0) {
             std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
-            std::cout << energyStorage[i] << std::endl;
-            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            //std::cout << energyStorage[i] << std::endl;
+            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms, 100) == false) {
+                if (checkMoleculeTrajectories(atoms, 2.5) == false) {
                     std::cerr << "Cube Exploded at: " << i << std::endl;
                     returnValue = -1;
                     break;

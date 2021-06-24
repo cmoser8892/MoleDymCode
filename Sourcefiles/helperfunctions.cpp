@@ -228,7 +228,7 @@ bool checkMoleculeTrajectories(Atoms &atoms, double cubeFactor) {
     /** Basic idea, check weather or not the atoms fling themself outside of another cube thats a bit bigger than the original one */
     Positions_t cube = generateCube(atoms,cubeFactor);
     bool returnValue = true;
-    //std::cout << atoms.positions << std::endl;
+    std::cout << atoms.positions << std::endl;
     for(int i = 0; i < atoms.nb_atoms();++i) {
         /** check for every position if it still is inside of the cube
          * as it is alinged just need to check for xmin and xmax
