@@ -301,7 +301,7 @@ int milestone7Code(int argc, char *argv[]) {
     double timeStep = 1e-15; //fs
     double totalTime = 1000 *timeStep;
     double safeDumpTime = 10 * timeStep;
-    double relaxationTimeFactor = 50.0;
+    double relaxationTimeFactor = 1.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -320,7 +320,7 @@ int milestone7Code(int argc, char *argv[]) {
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
     list.update(atoms);
-    Positions_t controlCube = generateCapsel(atoms, 1.5);
+    Positions_t controlCube = generateCapsel(atoms, 100);
     /** Main Loop */
     int i = 0;
     double currentTime = 0;
