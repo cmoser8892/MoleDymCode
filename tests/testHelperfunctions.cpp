@@ -8,8 +8,7 @@
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
 
-TEST(TestHelperfunctions, cubicEncapsulation)
-{
+TEST(TestHelperfunctions, cubicEncapsulation) {
     Positions_t p = createLatticeCube(8,10);
     Atoms atoms(p);
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
@@ -26,8 +25,7 @@ TEST(TestHelperfunctions, cubicEncapsulation)
     }
 }
 
-TEST(TestHelperfunctions, encapsulatingFunction)
-{
+TEST(TestHelperfunctions, encapsulatingFunction) {
     Positions_t p = createLatticesLongRod(8,2,10);
     Atoms atoms(p);
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
@@ -44,8 +42,7 @@ TEST(TestHelperfunctions, encapsulatingFunction)
     }
 }
 
-TEST(TestHelperfunctions, encapsulatingFunctionWithHexagon)
-{
+TEST(TestHelperfunctions, encapsulatingFunctionWithHexagon) {
     double mass = 196.97*atomicUnit; // 197Au79
     auto [names, positions]{read_xyz("../../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
@@ -114,4 +111,33 @@ TEST(TestHelperfunctions, vectorCompare) {
         ASSERT_EQ(compareVectorsBigSmall(v1, v2), false);
         ASSERT_EQ(compareVectorsBigSmall(v2, v1), true);
     }
+}
+
+TEST(TestHelperfunctions, testcheckTrajectories) {
+    //create postions
+    Atoms atoms(createLatticeCube(8));
+    //create the capsul
+    Positions_t controlCube = generateCapsel(atoms, 1.5);
+    //check
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),true);
+    //move on atom
+    atoms.positions.col(0) = 10;
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),false);
+    //move on atom
+    atoms.positions.col(0) = -10;
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),false);
+    //move back
+    atoms.positions.col(0) = 0;
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),true);
+    //create new control
+    controlCube = generateCapsel(atoms, 1.0);
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),true);
+    //make too small
+    controlCube = generateCapsel(atoms, 0.9);
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube),false);
+    //make way to big
+    controlCube = generateCapsel(atoms, 100);
+    //std::cout << controlCube << std::endl;
+    atoms.positions.col(0) = 50;
+    EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube), true);
 }
