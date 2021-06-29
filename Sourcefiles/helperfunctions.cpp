@@ -220,12 +220,11 @@ double calculateEnergyWithQuadradicMeanVelocity(Atoms &atoms) {
  * @fn bool checkMoleculeTrajectories(Atoms &atoms, double scaling)
  * @brief creates a capsul defined by two points min and max and applies a sclaing to the capsul
  * @param atoms
- * @param cubeFactor
+ * @param controlPositions the max and min Positions of the original cube
  * @return true or false if ALL the atoms are inside the capsule
  */
-bool checkMoleculeTrajectories(Atoms &atoms, double scaling) {
+bool checkMoleculeTrajectories(Atoms &atoms, Positions_t controlPositions) {
     /** Basic idea, check weather or not the atoms fling themself outside of another cube thats a bit bigger than the original one */
-    Positions_t controlPostitions = generateCapsel(atoms, 2);
     bool returnValue = true;
 
     for(int i = 0; i < atoms.nb_atoms();++i) {
@@ -233,12 +232,12 @@ bool checkMoleculeTrajectories(Atoms &atoms, double scaling) {
          * as it is alinged just need to check for xmin and xmax
          * */
         //maximum Position
-        if(compareVectorsBigSmall(controlPostitions.col(1),atoms.positions.col(i)) != true) {
+        if(compareVectorsBigSmall(controlPositions.col(1),atoms.positions.col(i)) != true) {
             returnValue = false;
             break;
         }
         //minimum
-        if(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)) != true) {
+        if(compareVectorsBigSmall(atoms.positions.col(i),controlPositions.col(0)) != true) {
             returnValue = false;
             break;
         }

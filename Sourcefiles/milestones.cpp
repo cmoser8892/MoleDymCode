@@ -117,6 +117,7 @@ int milestone5Code(int argc, char *argv[]) {
     Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001);
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
+    Positions_t controlCube = generateCapsel(atoms, 100);
     /** Initial State */
     int i = 0;
     /** Loop */
@@ -146,7 +147,7 @@ int milestone5Code(int argc, char *argv[]) {
             //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
-            if(checkMoleculeTrajectories(atoms,100) == false) {
+            if(checkMoleculeTrajectories(atoms,controlCube) == false) {
                 std::cerr << "Cube Exploded at: " << i << std::endl;
                 returnValue = -1;
                 break;
@@ -224,7 +225,7 @@ int milestone6Code(int argc, char *argv[]) {
     // neighbor list
     NeighborList neighborList(cutoffRange);
     neighborList.update(atoms);
-
+    Positions_t controlCube = generateCapsel(atoms, 100);
     /** Loop */
     int i = 0;
     double currentTime = 0;
@@ -263,7 +264,7 @@ int milestone6Code(int argc, char *argv[]) {
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms, 100) == false) {
+                if (checkMoleculeTrajectories(atoms, controlCube) == false) {
                     std::cerr << "Cube Exploded at: " << i << std::endl;
                     returnValue = -1;
                     break;
@@ -319,7 +320,7 @@ int milestone7Code(int argc, char *argv[]) {
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
     list.update(atoms);
-
+    Positions_t controlCube = generateCapsel(atoms, 1.5);
     /** Main Loop */
     int i = 0;
     double currentTime = 0;
@@ -347,7 +348,7 @@ int milestone7Code(int argc, char *argv[]) {
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms, 200) == false) {
+                if (checkMoleculeTrajectories(atoms,  controlCube) == false) {
                     std::cerr << "Cube Exploded at: " << i << std::endl;
                     returnValue = -1;
                     break;
