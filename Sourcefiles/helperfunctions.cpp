@@ -232,13 +232,13 @@ bool checkMoleculeTrajectories(Atoms &atoms, double scaling) {
         /** check for every position if it still is inside of the cube
          * as it is alinged just need to check for xmin and xmax
          * */
-        //minum Position
-        if(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)) != true) {
+        //maximum Position
+        if(compareVectorsBigSmall(controlPostitions.col(1),atoms.positions.col(i)) != true) {
             returnValue = false;
             break;
         }
-        //maximum Position
-        if(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)) != true) {
+        //minimum
+        if(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)) != true) {
             returnValue = false;
             break;
         }

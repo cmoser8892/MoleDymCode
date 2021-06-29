@@ -19,10 +19,10 @@ TEST(TestHelperfunctions, cubicEncapsulation)
     //check weather all atoms are inside
     for(int i = 0; i < atoms.nb_atoms(); ++i) {
         //should be easier too just compare the values of the Vectors
-        //the positions should be smaller than the min
-        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
         //the positions should be smaller than the max
-        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(1),atoms.positions.col(i)),true);
+        //the positions should be smaller than the min
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)),true);
     }
 }
 
@@ -37,10 +37,10 @@ TEST(TestHelperfunctions, encapsulatingFunction)
     //check weather all atoms are inside
     for(int i = 0; i < atoms.nb_atoms(); ++i) {
         //should be easier too just compare the values of the Vectors
-        //the positions should be smaller than the min
-        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
         //the positions should be smaller than the max
-        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(1),atoms.positions.col(i)),true);
+        //the positions should be smaller than the min
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)),true);
     }
 }
 
@@ -56,10 +56,10 @@ TEST(TestHelperfunctions, encapsulatingFunctionWithHexagon)
     //check weather all atoms are inside
     for(int i = 0; i < atoms.nb_atoms(); ++i) {
         //should be easier too just compare the values of the Vectors
-        //the positions should be smaller than the min
-        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(0),atoms.positions.col(i)),true);
         //the positions should be smaller than the max
-        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(1)),true);
+        EXPECT_EQ(compareVectorsBigSmall(controlPostitions.col(1),atoms.positions.col(i)),true);
+        //the positions should be smaller than the min
+        EXPECT_EQ(compareVectorsBigSmall(atoms.positions.col(i),controlPostitions.col(0)),true);
     }
 }
 
