@@ -244,7 +244,6 @@ bool checkMoleculeTrajectories(Atoms &atoms, double scaling) {
         }
 
     }
-
     return returnValue;
 }
 
@@ -266,7 +265,7 @@ Positions_t generateCapsel(Atoms &atoms, double scaling) {
     Vector_t middleToMax = middlePoint + scaling * (max- middlePoint) ;
     //write back
     returnValue.col(0) = middleToMin;
-    returnValue.col(0) = middleToMax;
+    returnValue.col(1) = middleToMax;
     return returnValue;
 }
 

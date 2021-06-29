@@ -297,10 +297,10 @@ int milestone7Code(int argc, char *argv[]) {
     double cutoff = 3.0;
 
     /** Times */
-    double timeStep = 50e-15; //fs
+    double timeStep = 1e-15; //fs
     double totalTime = 1000 *timeStep;
     double safeDumpTime = 10 * timeStep;
-    double relaxationTimeFactor = 1.;
+    double relaxationTimeFactor = 50.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -314,7 +314,7 @@ int milestone7Code(int argc, char *argv[]) {
     double kineticEnergy = 0;
 
     /** Set up atoms */
-    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    auto [names, positions]{read_xyz("../AData/cluster_3871.xyz")};
     Atoms atoms(names,positions,mass);
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
@@ -347,7 +347,7 @@ int milestone7Code(int argc, char *argv[]) {
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms, 1.5) == false) {
+                if (checkMoleculeTrajectories(atoms, 200) == false) {
                     std::cerr << "Cube Exploded at: " << i << std::endl;
                     returnValue = -1;
                     break;
