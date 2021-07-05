@@ -6,6 +6,7 @@
 #define MYPROJECT_BERENDSENTHERMOSTAT_H
 
 #include "../Headerfiles/atoms.h"
-void berendsenThermostat(Atoms &atoms, double targetTemperature, double timestep, double relaxationTime);
 
+void berendsenThermostat(Atoms &atoms, double targetTemperature, double timestep, double relaxationTime);
+void berendsenThermostatEV(Atoms &atoms, double targetTemperature, double timestep, double relaxationTime);
 #endif //MYPROJECT_BERENDSENTHERMOSTAT_H

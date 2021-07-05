@@ -17,6 +17,7 @@ Positions_t createLatticeCube(unsigned int numberOfAtoms, double latticeConstant
 Positions_t createLatticesLongRod(unsigned int numberOfAtoms, unsigned int baseSideLength = 3, double latticeConstant = 1.0);
 double calculateKineticEnergy(Atoms &atoms);
 double calculateCurrentTemperatur(Atoms &atoms);
+double calculateCurrentTemperaturEV(Atoms &atoms);
 
 /** Other helpers*/
 double temperaturDampening(double initalTemperatur, double targetTemperatur, double relaxationTime, double timestep);

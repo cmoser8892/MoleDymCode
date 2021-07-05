@@ -291,7 +291,7 @@ int milestone7Code(int argc, char *argv[]) {
         double re = 4.079 / sqrt(2)); //distance ?
     */
     /** Basic simulation variables */
-    double mass = 196.97*atomicUnit; // 197Au79
+    double mass = 196.97;//96.97*atomicUnit; // 197Au79
     unsigned int nbAtoms = 12;
     bool thermostatUsed = true;
     double targetTemperatur = 1337; //gold Melting point
@@ -299,9 +299,9 @@ int milestone7Code(int argc, char *argv[]) {
 
     /** Times */
     double timeStep = 1e-15; //fs
-    double totalTime = 1000 *timeStep;
+    double totalTime = 1000 * timeStep;
     double safeDumpTime = 10 * timeStep;
-    double relaxationTimeFactor = 1.0;
+    double relaxationTimeFactor = 100.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     int safeAtStep = safeDumpTime/timeStep; //bad casting lol
 
@@ -320,7 +320,7 @@ int milestone7Code(int argc, char *argv[]) {
     nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
     list.update(atoms);
-    Positions_t controlCube = generateCapsel(atoms, 100);
+    Positions_t controlCube = generateCapsel(atoms, 2);
     /** Main Loop */
     int i = 0;
     double currentTime = 0;
@@ -335,7 +335,7 @@ int milestone7Code(int argc, char *argv[]) {
         //thermostat
         if(thermostatUsed == true) {
             //velocity rescaling
-            berendsenThermostat(atoms, targetTemperatur, timeStep, relaxationTime);
+            berendsenThermostatEV(atoms, targetTemperatur, timeStep, relaxationTime);
         }
         // Data safe
         kineticEnergy = calculateKineticEnergy(atoms);
@@ -344,7 +344,7 @@ int milestone7Code(int argc, char *argv[]) {
         if ((i % safeAtStep) == 0) {
             std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
-            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperaturEV(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {

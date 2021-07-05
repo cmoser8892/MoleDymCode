@@ -171,7 +171,7 @@ double calculateKineticEnergy(Atoms &atoms) {
 
 /**
  * @fn double calculateCurrentTemperatur(Atoms &atoms)
- * @brief calculates the current Temperatur of the simulation using boltzmann
+ * @brief calculates the current Temperatur of the simulation using boltzmann using normal units
  * @param atoms
  * @return the temperatur of the system
  */
@@ -179,6 +179,18 @@ double calculateCurrentTemperatur(Atoms &atoms) {
     double totalKineticEnergy = calculateKineticEnergy(atoms);
     //totalKineticEnergy = calculateEnergyWithQuadradicMeanVelocity(atoms);
     double temperatur = 2./3. * (totalKineticEnergy/boltzmannConstant);
+    return temperatur;
+}
+
+/**
+ * @fn double calculateCurrentTemperaturEV(Atoms &atoms)
+ * @brief calculates the Temperatur, when the energy is given in eV
+ * @param atoms
+ * @return
+ */
+double calculateCurrentTemperaturEV(Atoms &atoms) {
+    double totalKineticEnergy = calculateKineticEnergy(atoms);
+    double temperatur = 2./3. * (totalKineticEnergy/boltzmannElectronVolt);
     return temperatur;
 }
 
