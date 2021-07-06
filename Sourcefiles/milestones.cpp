@@ -12,6 +12,11 @@
 #include "../Headerfiles/neighbors.h"
 #include "../Headerfiles/embeddedAtomPotential.h"
 
+/**
+ * @fn int milestone4Code()
+ * @brief function that contains all of the Milestone4 code
+ * @return not relevant
+ */
 int milestone4Code() {
     /** Vars */
     double epsilon = 1;
@@ -64,6 +69,13 @@ int milestone4Code() {
     return 0;
 }
 
+/**
+ * @fn int milestone5Code(int argc, char *argv[])
+ * @brief function that contains all of the Milestone5 code
+ * @param argc
+ * @param argv
+ * @return not relvant
+ */
 int milestone5Code(int argc, char *argv[]) {
     int returnValue = 0;
     /** Vars */
@@ -163,6 +175,13 @@ int milestone5Code(int argc, char *argv[]) {
     return returnValue;
 }
 
+/**
+ * @fn int milestone6Code(int argc, char *argv[])
+ * @brief function that contains all of the Milestone6 code
+ * @param argc
+ * @param argv
+ * @return not relvant
+ */
 int milestone6Code(int argc, char *argv[]) {
     int returnValue = 0;
     bool once = false;
@@ -280,6 +299,13 @@ int milestone6Code(int argc, char *argv[]) {
     return returnValue;
 }
 
+/**
+ * @fn int milestone7Code(int argc, char *argv[])
+ * @brief function that contains all of the Milestone7 code
+ * @param argc
+ * @param argv
+ * @return not relvant
+ */
 int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
     bool once = false;
@@ -294,7 +320,6 @@ int milestone7Code(int argc, char *argv[]) {
     /** Basic simulation variables */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    unsigned int nbAtoms = 12;
     bool thermostatUsed = true;
     double targetTemperatur = (273+25); ///gold Melting point is 1337K
     double cutoff = 3.0;
@@ -319,7 +344,6 @@ int milestone7Code(int argc, char *argv[]) {
     /** Set up atoms */
     auto [names, positions]{read_xyz("../AData/cluster_3871.xyz")};
     Atoms atoms(names,positions,mass);
-    nbAtoms = atoms.nb_atoms();
     NeighborList list(cutoff);
     list.update(atoms);
     Positions_t controlCube = generateCapsel(atoms, 2);
@@ -347,7 +371,7 @@ int milestone7Code(int argc, char *argv[]) {
         if(thermostatUsed == true) {
             if (abs(calculateCurrentTemperaturEV(atoms) - targetTemperatur) < 10.) {
                 if (once == false) {
-                    relaxationTime *= 1000000;
+                    relaxationTime *= 1e8;
                     std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
                     once = true;
                 }
@@ -377,4 +401,30 @@ int milestone7Code(int argc, char *argv[]) {
     dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
     //*/
     return returnValue;
+}
+
+/**
+ * @fn double simulationBuildStone(SimulationData_t data)
+ * @brief
+ * @param data
+ * @return the energy at that step
+ */
+double simulationBuildStone(SimulationData_t data) {
+    double returnEnergy = 0;
+    // simulation initialization
+    int i = 0;
+    double currentTime = 0;
+    NeighborList list(data.cutoffDistance);
+    //
+    while (currentTime <= data.totalSimulationTime) {
+        // computation
+        verletStep1Atoms(data.atoms,data.timestep);
+        //update list before
+        list.update(data.atoms);
+        returnEnergy = gupta(data.atoms,list);
+        verletStep2Atoms(data.atoms,data.timestep);
+        //basic loop stuff last
+        currentTime += data.timestep;
+        i++;
+    }
 }

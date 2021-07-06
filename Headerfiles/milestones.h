@@ -18,4 +18,13 @@ int milestone5Code(int argc = 0, char *argv[] = NULL);
 int milestone6Code(int argc = 0, char *argv[] = NULL);
 int milestone7Code(int argc = 0, char *argv[] = NULL);
 
+/** Big Helper */
+typedef struct SimulationData {
+    Atoms &atoms;
+    double timestep;
+    double totalSimulationTime;
+    double cutoffDistance;
+}SimulationData_t;
+double simulationBuildStone(SimulationData_t data);
+
 #endif //MYPROJECT_MILESTONES_H

@@ -8,6 +8,7 @@
 
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
+
 /**
  * @fn void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsigned int expectedNumberOfDumps ,unsigned int number)
  * @brief Creates a file in a series of files in .xyz format to be used for the simulation
