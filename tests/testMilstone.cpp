@@ -15,7 +15,7 @@ TEST(TestMilestone, TestSimulationBlock) {
     SimulationData_t data;
     data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
     //
-    simulationBuildStone(data,atoms);
+    auto[energy,temperatur]{simulationBuildStone(data,atoms)};
 
     ASSERT_TRUE(false) << "Implement me!!";
 }
