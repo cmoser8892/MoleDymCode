@@ -404,27 +404,47 @@ int milestone7Code(int argc, char *argv[]) {
 }
 
 /**
- * @fn double simulationBuildStone(SimulationData_t data)
- * @brief
+ * @fn std::tuple<double energy, double temperature> simulationBuildStone(SimulationData_t data)
+ * @brief runs one simulation(-part) and saves the trajectory (allways with
  * @param data
- * @return the energy at that step
+ * @return the energy (first) and then the temperatur at that step
  */
-double simulationBuildStone(SimulationData_t data) {
+std::tuple<double, double> simulationBuildStone(SimulationData_t data) {
     double returnEnergy = 0;
+    double returnTemperatur = calculateCurrentTemperaturEV(data.atoms);
     // simulation initialization
     int i = 0;
     double currentTime = 0;
     NeighborList list(data.cutoffDistance);
-    //
-    while (currentTime <= data.totalSimulationTime) {
-        // computation
-        verletStep1Atoms(data.atoms,data.timestep);
+    Positions_t controlCube = generateCapsel(data.atoms, 2);
+    //run the simulation for some time
+    while (currentTime <= data.simulationTime) {
+        /// computation
+        verletStep1Atoms(data.atoms,data.timeStep);
         //update list before
         list.update(data.atoms);
         returnEnergy = gupta(data.atoms,list);
-        verletStep2Atoms(data.atoms,data.timestep);
-        //basic loop stuff last
-        currentTime += data.timestep;
+        //thermostat
+        berendsenThermostatEV(data.atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
+        //last step
+        verletStep2Atoms(data.atoms,data.timeStep);
+        //add the kinetic energy to the potential
+        returnEnergy = calculateKineticEnergy(data.atoms);
+        //calculate the temperature for each step (debugging)
+        returnTemperatur = calculateCurrentTemperaturEV(data.atoms);
+
+        ///basic loop stuff last
+        currentTime += data.timeStep;
         i++;
     }
+    //check if valid
+    if (checkMoleculeTrajectories(data.atoms,  controlCube) == false) {
+        std::cerr << "Cube Exploded at: " << i << std::endl;
+        //exit the program
+        exit(EXIT_FAILURE);
+    }
+    //save the trajectory
+    dumpData(data.atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
+    //return stuff
+    return {returnEnergy, returnTemperatur};
 }

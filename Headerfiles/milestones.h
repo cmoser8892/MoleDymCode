@@ -20,11 +20,22 @@ int milestone7Code(int argc = 0, char *argv[] = NULL);
 
 /** Big Helper */
 typedef struct SimulationData {
+    unsigned int simulationID;
+
+    ///basic simulation stuff
     Atoms &atoms;
-    double timestep;
-    double totalSimulationTime;
+    double timeStep;
+    double simulationTime;
+    double relaxationTime;
     double cutoffDistance;
+    double targetTemperatur;
+
+    ///data related stuff
+    unsigned int maxTrajectoryNumber;
+    std::string trajectorySafeLocation;
+    std::string trajectoryBaseName;
 }SimulationData_t;
-double simulationBuildStone(SimulationData_t data);
+
+std::tuple<double energy, double temperature> simulationBuildStone(SimulationData_t data);
 
 #endif //MYPROJECT_MILESTONES_H
