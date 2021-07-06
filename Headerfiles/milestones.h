@@ -36,6 +36,6 @@ typedef struct SimulationData {
     std::string trajectoryBaseName;
 }SimulationData_t;
 
-std::tuple<double energy, double temperature> simulationBuildStone(SimulationData_t data);
+std::tuple<double, double > simulationBuildStone(SimulationData_t data);
 
 #endif //MYPROJECT_MILESTONES_H
