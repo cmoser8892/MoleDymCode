@@ -410,7 +410,7 @@ int milestone7Code(int argc, char *argv[]) {
  * @param atoms
  * @return the energy (first) and then the temperatur at that step
  */
-std::tuple<double, double> simulationBuildStone(SimulationData_t data, Atoms &atoms) {
+std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &atoms) {
     double returnEnergy = 0;
     double returnTemperatur = calculateCurrentTemperaturEV(atoms);
     // simulation initialization

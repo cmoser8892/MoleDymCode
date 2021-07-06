@@ -13,7 +13,7 @@ TEST(TestMilestone, TestSimulationBlock) {
     Positions_t positions = createLatticeCube(8);
     Atoms atoms(positions,10);
     SimulationData_t data;
-    data.simulationID = 0;
+    data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
     //
     simulationBuildStone(data,atoms);
 
