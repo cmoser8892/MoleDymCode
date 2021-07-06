@@ -296,7 +296,7 @@ int milestone7Code(int argc, char *argv[]) {
     double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     unsigned int nbAtoms = 12;
     bool thermostatUsed = true;
-    double targetTemperatur = 1337; //gold Melting point
+    double targetTemperatur = (273+25); ///gold Melting point is 1337K
     double cutoff = 3.0;
 
     /** Times */
@@ -345,10 +345,10 @@ int milestone7Code(int argc, char *argv[]) {
         energyStorage[i] = energy;
         //
         if(thermostatUsed == true) {
-            if (abs(calculateCurrentTemperatur(atoms) - targetTemperatur) < 100.) {
+            if (abs(calculateCurrentTemperaturEV(atoms) - targetTemperatur) < 10.) {
                 if (once == false) {
-                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
                     relaxationTime *= 1000000;
+                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
                     once = true;
                 }
             }
