@@ -404,14 +404,15 @@ int milestone7Code(int argc, char *argv[]) {
 }
 
 /**
- * @fn std::tuple<double energy, double temperature> simulationBuildStone(SimulationData_t data)
+ * @fn std::tuple<double energy, double temperature> simulationBuildStone(SimulationData_t data,Atoms &atoms) )
  * @brief runs one simulation(-part) and saves the trajectory (allways with
  * @param data
+ * @param atoms
  * @return the energy (first) and then the temperatur at that step
  */
-std::tuple<double, double> simulationBuildStone(SimulationData_t data) {
+std::tuple<double, double> simulationBuildStone(SimulationData_t data, Atoms &atoms) {
     double returnEnergy = 0;
-    double returnTemperatur = calculateCurrentTemperaturEV(data.atoms);
+    double returnTemperatur = calculateCurrentTemperaturEV(atoms);
     // simulation initialization
     int i = 0;
     double currentTime = 0;
@@ -419,31 +420,31 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t data) {
     //run the simulation for some time
     while (currentTime <= data.simulationTime) {
         /// computation
-        verletStep1Atoms(data.atoms,data.timeStep);
+        verletStep1Atoms(atoms,data.timeStep);
         //update list before
-        list.update(data.atoms);
-        returnEnergy = gupta(data.atoms,list);
+        list.update(atoms);
+        returnEnergy = gupta(atoms,list);
         //thermostat
-        berendsenThermostatEV(data.atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
+        berendsenThermostatEV(atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
         //last step
-        verletStep2Atoms(data.atoms,data.timeStep);
+        verletStep2Atoms(atoms,data.timeStep);
         //add the kinetic energy to the potential
-        returnEnergy = calculateKineticEnergy(data.atoms);
+        returnEnergy = calculateKineticEnergy(atoms);
         //calculate the temperature for each step (debugging)
-        returnTemperatur = calculateCurrentTemperaturEV(data.atoms);
+        returnTemperatur = calculateCurrentTemperaturEV(atoms);
 
         ///basic loop stuff last
         currentTime += data.timeStep;
         i++;
     }
     //check if valid
-    if (checkMoleculeTrajectories(data.atoms,  data.controlCube) == false) {
+    if (checkMoleculeTrajectories(atoms,  data.controlCube) == false) {
         std::cerr << "Cube Exploded at: " << data.simulationID << std::endl;
         //exit the program
         exit(EXIT_FAILURE);
     }
     //save the trajectory
-    dumpData(data.atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
+    dumpData(atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
     //return stuff
     return {returnEnergy, returnTemperatur};
 }

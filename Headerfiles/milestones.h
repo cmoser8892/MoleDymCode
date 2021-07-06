@@ -19,11 +19,11 @@ int milestone6Code(int argc = 0, char *argv[] = NULL);
 int milestone7Code(int argc = 0, char *argv[] = NULL);
 
 /** Big Helper */
+//all in a struct so it is still readable and you dont confuse the stuff as easily
 typedef struct SimulationData {
     unsigned int simulationID;
 
     ///basic simulation stuff
-    Atoms &atoms;
     Positions_t controlCube;
     double timeStep;
     double simulationTime;
@@ -37,6 +37,6 @@ typedef struct SimulationData {
     std::string trajectoryBaseName;
 }SimulationData_t;
 
-std::tuple<double, double > simulationBuildStone(SimulationData_t data);
+std::tuple<double, double > simulationBuildStone(SimulationData_t data, Atoms &atoms);
 
 #endif //MYPROJECT_MILESTONES_H
