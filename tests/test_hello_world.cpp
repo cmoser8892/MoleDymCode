@@ -18,8 +18,7 @@ TEST(HelloTest, BasicAssertions) {
  * Basic test body
 #include <gtest/gtest.h>
 
-TEST(TestSuit, TestName)
-{
+TEST(TestSuit, TestName) {
     ASSERT_TRUE(false) << "Implement me!!";
 }
 */

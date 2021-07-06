@@ -141,3 +141,12 @@ TEST(TestHelperfunctions, testcheckTrajectories) {
     atoms.positions.col(0) = 50;
     EXPECT_EQ(checkMoleculeTrajectories(atoms,controlCube), true);
 }
+
+TEST(TestHelperfunctions, heatdepostitTest) {
+    double energy = 10;
+    Positions_t lattice = createLatticeCube(8);
+    //constant mass
+    Atoms atoms(lattice,1);
+    depositHeat(energy,atoms);
+    EXPECT_EQ(calculateCurrentTemperaturEV(atoms),2./3. * (energy/boltzmannElectronVolt));
+}

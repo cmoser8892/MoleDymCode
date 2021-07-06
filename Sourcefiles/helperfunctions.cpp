@@ -314,3 +314,30 @@ double calculateDistanceBetweenVectors(Vector_t distanceVector) {
                   distanceVector(2)* distanceVector(2);
     return sqrt(dist);
 }
+
+/**
+ * @fn void depositHeat(double heat, Atoms &atoms)
+ * @brief deposits an amount of heat(energy) equally for each atom
+ * @param heat
+ * @param atoms
+ * @return
+ */
+void depositHeat(double heat, Atoms &atoms) {
+    //get the number of Atoms
+    int nbAtoms = atoms.nb_atoms();
+    //get the energy added to one atom
+    double individualEnergy = heat/nbAtoms;
+    //push throu
+    for(int i = 0; i < nbAtoms; ++i) {
+        //calculate the velocity
+        double thisAtomsVelocity = sqrt((2*individualEnergy)/atoms.mass(i));
+        // give it a random direction
+        Vector_t v;
+        v.setRandom();
+        v /= calculateDistanceBetweenVectors(v);
+        //add the velocity to the vector
+        v *= thisAtomsVelocity;
+        //add it to the velocities
+        atoms.velocities.col(i) += v;
+    }
+}
