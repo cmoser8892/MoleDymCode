@@ -282,8 +282,9 @@ int milestone6Code(int argc, char *argv[]) {
 
 int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
+    bool once = false;
     /** Gold Params
-        double cutoff = 2.0; //?
+        double cutoff = 2.0; //A?
         double A = 0.2061; //eV
         double xi = 1.790; //eV
         double p = 10.229; //
@@ -291,7 +292,8 @@ int milestone7Code(int argc, char *argv[]) {
         double re = 4.079 / sqrt(2)); //distance ?
     */
     /** Basic simulation variables */
-    double mass = 196.97;//96.97*atomicUnit; // 197Au79
+    double atomicMassAu = 196.97; // 197Au79
+    double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     unsigned int nbAtoms = 12;
     bool thermostatUsed = true;
     double targetTemperatur = 1337; //gold Melting point
@@ -341,6 +343,17 @@ int milestone7Code(int argc, char *argv[]) {
         kineticEnergy = calculateKineticEnergy(atoms);
         energy += kineticEnergy;
         energyStorage[i] = energy;
+        //
+        if(thermostatUsed == true) {
+            if (abs(calculateCurrentTemperatur(atoms) - targetTemperatur) < 100.) {
+                if (once == false) {
+                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
+                    relaxationTime *= 1000000;
+                    once = true;
+                }
+            }
+        }
+
         if ((i % safeAtStep) == 0) {
             std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
