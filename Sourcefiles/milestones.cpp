@@ -416,7 +416,6 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t data) {
     int i = 0;
     double currentTime = 0;
     NeighborList list(data.cutoffDistance);
-    Positions_t controlCube = generateCapsel(data.atoms, 2);
     //run the simulation for some time
     while (currentTime <= data.simulationTime) {
         /// computation
@@ -438,8 +437,8 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t data) {
         i++;
     }
     //check if valid
-    if (checkMoleculeTrajectories(data.atoms,  controlCube) == false) {
-        std::cerr << "Cube Exploded at: " << i << std::endl;
+    if (checkMoleculeTrajectories(data.atoms,  data.controlCube) == false) {
+        std::cerr << "Cube Exploded at: " << data.simulationID << std::endl;
         //exit the program
         exit(EXIT_FAILURE);
     }

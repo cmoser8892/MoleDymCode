@@ -24,6 +24,7 @@ typedef struct SimulationData {
 
     ///basic simulation stuff
     Atoms &atoms;
+    Positions_t controlCube;
     double timeStep;
     double simulationTime;
     double relaxationTime;
