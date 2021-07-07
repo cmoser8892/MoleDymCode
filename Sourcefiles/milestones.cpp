@@ -400,6 +400,8 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
     //run the simulation for some time
     while (currentTime <= data.simulationTime) {
         /// computation
+        std::cout << atoms.velocities << std::endl;
+        std::cout << atoms.positions << std::endl;
         verletStep1Atoms(atoms,data.timeStep);
         //update list before
         list.update(atoms);
