@@ -21,7 +21,11 @@ int milestone7Code(int argc = 0, char *argv[] = NULL);
 /** Big Helper */
 //all in a struct so it is still readable and you dont confuse the stuff as easily
 typedef struct SimulationData {
+    ///data related stuff
     unsigned int simulationID = 0;
+    unsigned int maxTrajectoryNumber = 0;
+    std::string trajectorySafeLocation = "";
+    std::string trajectoryBaseName = "";
 
     ///basic simulation stuff
     Positions_t controlCube;
@@ -31,10 +35,6 @@ typedef struct SimulationData {
     double cutoffDistance = 0;
     double targetTemperatur = 0;
 
-    ///data related stuff
-    unsigned int maxTrajectoryNumber = 0;
-    std::string trajectorySafeLocation = "";
-    std::string trajectoryBaseName = "";
 }SimulationData_t;
 
 std::tuple<double, double > simulationBuildStone(SimulationData_t &data, Atoms &atoms);

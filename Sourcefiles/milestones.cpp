@@ -424,15 +424,14 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         //update list before
         list.update(atoms);
         returnEnergy = gupta(atoms,list);
-        //thermostat
-        berendsenThermostatEV(atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
         //last step
         verletStep2Atoms(atoms,data.timeStep);
+        //thermostat
+        berendsenThermostatEV(atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
         //add the kinetic energy to the potential
-        returnEnergy = calculateKineticEnergy(atoms);
+        returnEnergy += calculateKineticEnergy(atoms);
         //calculate the temperature for each step (debugging)
         returnTemperatur = calculateCurrentTemperaturEV(atoms);
-
         ///basic loop stuff last
         currentTime += data.timeStep;
         i++;
