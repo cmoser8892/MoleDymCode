@@ -55,3 +55,18 @@ TEST(BerendsenExponentialDamp, ThermostatTest1Atom) {
     }
 }
 
+TEST(BerendsenExponentialDamp, NilTest) {
+    unsigned int nbAtoms = 8;
+    Positions_t p = createLatticeCube(nbAtoms);
+    Atoms atoms(p,5);
+    double timeStep = 1e-15;
+    double relaxationTime = 100* timeStep;
+    double targetTemperatur = 275;
+    berendsenThermostat(atoms,targetTemperatur,timeStep,relaxationTime);
+    for(int i = 0; i < nbAtoms; ++i) {
+        for( int j = 0; j < 3; ++j) {
+            EXPECT_EQ(atoms.velocities(j,i),0);
+        }
+    }
+}
+

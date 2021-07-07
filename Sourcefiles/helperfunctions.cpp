@@ -180,6 +180,9 @@ double calculateCurrentTemperatur(Atoms &atoms) {
     double totalKineticEnergy = calculateKineticEnergy(atoms);
     //totalKineticEnergy = calculateEnergyWithQuadradicMeanVelocity(atoms);
     double temperatur = 2./3. * (totalKineticEnergy/boltzmannConstant);
+    if(temperatur == 0) {
+        temperatur = 1e-5; //set it to a minimal temperatur so it does not crash
+    }
     return temperatur;
 }
 
@@ -192,6 +195,9 @@ double calculateCurrentTemperatur(Atoms &atoms) {
 double calculateCurrentTemperaturEV(Atoms &atoms) {
     double totalKineticEnergy = calculateKineticEnergy(atoms);
     double temperatur = 2./3. * (totalKineticEnergy/boltzmannElectronVolt);
+    if(temperatur == 0) {
+        temperatur = 1e-5; //set it to a minimal temperatur so it does not crash
+    }
     return temperatur;
 }
 
