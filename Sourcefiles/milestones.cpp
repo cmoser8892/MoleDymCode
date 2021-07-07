@@ -317,89 +317,36 @@ int milestone7Code(int argc, char *argv[]) {
         double q = 4.036; //
         double re = 4.079 / sqrt(2)); //distance ?
     */
-    /** Basic simulation variables */
+    /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    bool thermostatUsed = true;
-    double targetTemperatur = (273+25); ///gold Melting point is 1337K
-    double cutoff = 3.0;
-
-    /** Times */
-    double timeStep = 1e-15; //fs
-    double totalTime = 1000 * timeStep;
-    double safeDumpTime = 10 * timeStep;
-    double relaxationTimeFactor = 100.0;
-    double relaxationTime = relaxationTimeFactor*timeStep;
-    int safeAtStep = safeDumpTime/timeStep; //bad casting lol
-
-    /** SafeLocations */
-    std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
-    std::string energyDataSafeLocation = "/home/cm/CLionProjects/MoleDymCode/AJupyter";
-    std::string trajectoryBaseName = "Trajectory";
-    std::string energyName = "energy";
-    std::vector<double> energyStorage(totalTime/timeStep);
-    double energy = 0;
-    double kineticEnergy = 0;
-
-    /** Set up atoms */
-    auto [names, positions]{read_xyz("../AData/cluster_3871.xyz")};
+    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
-    NeighborList list(cutoff);
-    list.update(atoms);
-    Positions_t controlCube = generateCapsel(atoms, 2);
-    /** Main Loop */
-    int i = 0;
-    double currentTime = 0;
-    //
-    while (currentTime <= totalTime) {
-        // computation
-        verletStep1Atoms(atoms,timeStep);
-        //update list before
-        list.update(atoms);
-        energy = gupta(atoms,list);
-        verletStep2Atoms(atoms,timeStep);
-        //thermostat
-        if(thermostatUsed == true) {
-            //velocity rescaling
-            berendsenThermostatEV(atoms, targetTemperatur, timeStep, relaxationTime);
-        }
-        // Data safe
-        kineticEnergy = calculateKineticEnergy(atoms);
-        energy += kineticEnergy;
-        energyStorage[i] = energy;
-        //
-        if(thermostatUsed == true) {
-            if (abs(calculateCurrentTemperaturEV(atoms) - targetTemperatur) < 10.) {
-                if (once == false) {
-                    relaxationTime *= 1e8;
-                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
-                    once = true;
-                }
-            }
-        }
-
-        if ((i % safeAtStep) == 0) {
-            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
-            //std::cout << energyStorage[i] << std::endl;
-            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperaturEV(atoms) << std::endl;
-            dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
-                     1000, (unsigned int) i / safeAtStep);
-            if(thermostatUsed == true) {
-                if (checkMoleculeTrajectories(atoms,  controlCube) == false) {
-                    std::cerr << "Cube Exploded at: " << i << std::endl;
-                    returnValue = -1;
-                    break;
-                }
-            }
-        }
-
-        //update time and counter
-        currentTime += timeStep;
-        i++;
+    /** set up data */
+    //write all the data in the data stucture
+    SimulationData_t data;
+    ///
+    data.simulationID = 0;
+    data.maxTrajectoryNumber = 1000;
+    data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
+    data.trajectoryBaseName = "Trajectory";
+    ///
+    data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
+    data.timeStep = 1e-15;
+    data.simulationTime = 10 * data.timeStep;
+    data.relaxationTime = 100*data.timeStep;
+    data.cutoffDistance = 3.0;
+    data.targetTemperatur = 296;
+    /** Main simulation */
+    int runs = 20;
+    /// simulation
+    for(int i = 0; i < runs;++i) {
+        data.simulationID = i;
+        auto[energy,temperatur]{simulationBuildStone(data,atoms)};
+        std::cout   << "Step:" << i << " "
+                    << "Current Energy: " << energy << " "
+                    << "Current Temperatur: " << temperatur << std::endl;
     }
-    //safe the energy readings
-    dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
-    //*/
     return returnValue;
 }
 
