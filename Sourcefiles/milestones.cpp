@@ -327,7 +327,7 @@ int milestone7Code(int argc, char *argv[]) {
     SimulationData_t data;
     ///
     data.simulationID = 0;
-    data.maxTrajectoryNumber = 1000;
+    data.maxTrajectoryNumber = 10000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
     ///
@@ -336,17 +336,50 @@ int milestone7Code(int argc, char *argv[]) {
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 100*data.timeStep;
     data.cutoffDistance = 3.0;
-    data.targetTemperatur = 296;
+    data.targetTemperatur = 300;
     /** Main simulation */
-    int runs = 20;
-    /// simulation
-    for(int i = 0; i < runs;++i) {
-        data.simulationID = i;
-        auto[energy,temperatur]{simulationBuildStone(data,atoms)};
-        std::cout   << "Step:" << i << " "
-                    << "Current Energy: " << energy << " "
-                    << "Current Temperatur: " << temperatur << std::endl;
+    std::vector<double> temperaturStorage;
+    std::vector<double> energyStorage;
+    int runs = 50;
+    //
+    if(0) {
+        double roomTemperature = 273 + 25;
+        /// simulation
+        //relax till room temp
+        for (int i = 0; i < runs; ++i) {
+            ++data.simulationID;
+            auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+            //write data to storage
+            temperaturStorage.push_back(temperatur);
+            energyStorage.push_back(energy);
+            ///
+            std::cout << "Step:" << i << " "
+                      << "Current Energy: " << energy << " "
+                      << "Current Temperatur: " << temperatur << std::endl;
+            ///
+            if (abs(temperatur - roomTemperature) < 10.) {
+                break;
+            }
+        }
     }
+    //TODO: calculate without the thermostat??
+    runs = 50;
+    data.relaxationTime *= 1e3333; // basically thermostat has now no effect
+    //depositHeat(0.001,atoms);
+    for(int i = 0; i < runs; ++i) {
+        depositHeat(10000000000,atoms);
+        ++data.simulationID;
+        auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+        //write data to storage
+        temperaturStorage.push_back(temperatur);
+        energyStorage.push_back(energy);
+        ///
+        std::cout << "Step:" << i << " "
+                  << "Current Energy: " << energy << " "
+                  << "Current Temperatur: " << temperatur << std::endl;
+        ///
+    }
+
     return returnValue;
 }
 
