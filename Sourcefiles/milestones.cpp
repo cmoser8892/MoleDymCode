@@ -322,6 +322,11 @@ int milestone7Code(int argc, char *argv[]) {
     double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
+    /**
+    Positions_t p = createLatticeCube(8);
+    Atoms atoms(p, mass);
+    setANameInAtoms(atoms,"X");
+     */
     /** set up data */
     //write all the data in the data stucture
     SimulationData_t data;
@@ -335,31 +340,29 @@ int milestone7Code(int argc, char *argv[]) {
     data.timeStep = 1e-15;
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 100*data.timeStep;
-    data.cutoffDistance = 3.0;
+    data.cutoffDistance = 6.0; // basically a difference of -2 from 5 to 6 cutoff !! dont use 2 thou to small
     data.targetTemperatur = 300;
     /** Main simulation */
     std::vector<double> temperaturStorage;
     std::vector<double> energyStorage;
     int runs = 50;
     //
-    if(0) {
-        double roomTemperature = 273 + 25;
-        /// simulation
-        //relax till room temp
-        for (int i = 0; i < runs; ++i) {
-            ++data.simulationID;
-            auto[energy, temperatur]{simulationBuildStone(data, atoms)};
-            //write data to storage
-            temperaturStorage.push_back(temperatur);
-            energyStorage.push_back(energy);
-            ///
-            std::cout << "Step:" << i << " "
-                      << "Current Energy: " << energy << " "
-                      << "Current Temperatur: " << temperatur << std::endl;
-            ///
-            if (abs(temperatur - roomTemperature) < 10.) {
-                break;
-            }
+    double roomTemperature = 273 + 25;
+    /// simulation
+    //relax till room temp
+    for (int i = 0; i < runs; ++i) {
+        ++data.simulationID;
+        auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+        //write data to storage
+        temperaturStorage.push_back(temperatur);
+        energyStorage.push_back(energy);
+        ///
+        std::cout << "Step:" << i << " "
+                  << "Current Energy: " << energy << " "
+                  << "Current Temperatur: " << temperatur << std::endl;
+        ///
+        if (abs(temperatur - roomTemperature) < 10.) {
+            break;
         }
     }
     //TODO: calculate without the thermostat??
@@ -367,10 +370,11 @@ int milestone7Code(int argc, char *argv[]) {
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect
     //depositHeat(0.001,atoms);
     for(int i = 0; i < runs; ++i) {
-        depositHeat(10000000000,atoms);
+        //depositHeat(1e-3,atoms);
         ++data.simulationID;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         //write data to storage
+        //printAtomsVelocitiesAndPositions(atoms);
         temperaturStorage.push_back(temperatur);
         energyStorage.push_back(energy);
         ///
@@ -400,8 +404,6 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
     //run the simulation for some time
     while (currentTime <= data.simulationTime) {
         /// computation
-        std::cout << atoms.velocities << std::endl;
-        std::cout << atoms.positions << std::endl;
         verletStep1Atoms(atoms,data.timeStep);
         //update list before
         list.update(atoms);

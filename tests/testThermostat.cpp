@@ -56,6 +56,7 @@ TEST(BerendsenExponentialDamp, ThermostatTest1Atom) {
 }
 
 TEST(BerendsenExponentialDamp, NilTest) {
+    // a test to see that the temperatur is not corrupting data with /0
     unsigned int nbAtoms = 8;
     Positions_t p = createLatticeCube(nbAtoms);
     Atoms atoms(p,5);

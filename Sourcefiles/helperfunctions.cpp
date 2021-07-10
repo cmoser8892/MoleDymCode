@@ -348,3 +348,13 @@ void depositHeat(double heat, Atoms &atoms) {
         atoms.velocities.col(i) += v;
     }
 }
+
+/**
+ * @fn void printAtomsVelocitiesAndPositions(Atoms &atoms)
+ * @brief prints out the postitions and velocys of the atoms
+ * @param atoms
+ */
+void printAtomsVelocitiesAndPositions(Atoms &atoms) {
+    std::cout << atoms.velocities << std::endl;
+    std::cout << atoms.positions << std::endl;
+}
