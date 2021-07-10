@@ -65,7 +65,7 @@ int milestone4Code() {
         //std::cout << currentTime << std::endl;
     }
     //energy dump for ploting
-    dumpEnergy(energyStorage,"/home/cm/CLionProjects/MoleDymCode/AJupyter","energy");
+    dumpVectorData(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");
     return 0;
 }
 
@@ -171,7 +171,7 @@ int milestone5Code(int argc, char *argv[]) {
     }
     //energy dump for ploting
     //std::cout << "Dumping the energy" << std::endl;
-    dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
+    dumpVectorData(energyStorage, energyDataSafeLocation, energyName);
     return returnValue;
 }
 
@@ -295,7 +295,7 @@ int milestone6Code(int argc, char *argv[]) {
         i++;
     }
     //
-    dumpEnergy(energyStorage, energyDataSafeLocation, energyName);
+    dumpVectorData(energyStorage, energyDataSafeLocation, energyName);
     return returnValue;
 }
 
@@ -332,7 +332,7 @@ int milestone7Code(int argc, char *argv[]) {
     SimulationData_t data;
     ///
     data.simulationID = 0;
-    data.maxTrajectoryNumber = 10000;
+    data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
     ///
@@ -366,11 +366,11 @@ int milestone7Code(int argc, char *argv[]) {
         }
     }
     //TODO: calculate without the thermostat??
-    runs = 50;
-    data.relaxationTime *= 1e3333; // basically thermostat has now no effect
+    runs = 2000;
+    data.relaxationTime *= 1e3333; // basically thermostat has now no effect to infinity lol
     //depositHeat(0.001,atoms);
     for(int i = 0; i < runs; ++i) {
-        //depositHeat(1e-3,atoms);
+        depositHeat(1e-4,atoms);
         ++data.simulationID;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         //write data to storage
@@ -383,7 +383,11 @@ int milestone7Code(int argc, char *argv[]) {
                   << "Current Temperatur: " << temperatur << std::endl;
         ///
     }
-
+    //safe the information
+    std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
+    dumpVectorData(temperaturStorage,dataLocation,"temperatur");
+    dumpVectorData(energyStorage,dataLocation,"energy");
+    ////
     return returnValue;
 }
 

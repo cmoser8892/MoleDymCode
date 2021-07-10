@@ -30,14 +30,14 @@ void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsign
 }
 
 /**
- * @fn void dumpEnergy( std::vector<double> data,std::string location, std::string name)
+ * @fn void dumpVectorData( std::vector<double> data,std::string location, std::string name)
  * @brief dumps the date from the vector data to a file
  * @param data
  * @param location
  * @param name
  */
-void dumpEnergy( std::vector<double> data,
-                 std::string location, std::string name) {
+void dumpVectorData(std::vector<double> data,
+                    std::string location, std::string name) {
     std::string total = location + "/" + name +".txt";
     std::ofstream file(total);
     for(int i = 0; i < data.size();++i) {

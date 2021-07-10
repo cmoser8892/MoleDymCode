@@ -9,7 +9,7 @@
 
 /** Data dump*/
 void dumpData( Atoms &atoms, std::string location, std::string namingScheme, unsigned int expectedNumberOfDumps ,unsigned int number);
-void dumpEnergy( std::vector<double> data, std::string location, std::string name);
+void dumpVectorData(std::vector<double> data, std::string location, std::string name);
 void setANameInAtoms(Atoms &atoms, std::string name);
 
 /**  calculation Functions */
