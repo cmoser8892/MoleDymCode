@@ -299,7 +299,7 @@ int milestone6Code(int argc, char *argv[]) {
     return returnValue;
 }
 
-///storage
+///global storage
 std::vector<double> kineticEnergyStorage;
 std::vector<double> potentialEnergyStorage;
 
@@ -342,7 +342,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.doDumping = false;
     data.totalEnergyRecording = false;
     ///
-    data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
+    data.controlCube = generateCapsel(atoms,2); //always has to be generated otherwise crash
     data.timeStep = 1e-15;
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 100*data.timeStep;
@@ -386,10 +386,6 @@ int milestone7Code(int argc, char *argv[]) {
         depositHeat(1e-3,atoms);
         ++data.simulationID;
         auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
-        //write data to storage
-        //printAtomsVelocitiesAndPositions(atoms);
-        //temperaturStorage.push_back(temperatur);
-        //energyStorage.push_back(totalEnergy);
         ///
         std::cout << "Step:" << i << " "
                   << "Current Energy: " << totalEnergy << " "
@@ -397,11 +393,6 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     //safe the information
-    /**
-    std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
-    dumpVectorData(temperaturStorage,dataLocation,"temperatur");
-    dumpVectorData(energyStorage,dataLocation,"energy");
-     */
     std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
     dumpVectorData(kineticEnergyStorage,dataLocation,"kineticEnergy");
     dumpVectorData(potentialEnergyStorage,dataLocation,"potentialEnergy");
