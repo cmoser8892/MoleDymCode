@@ -365,6 +365,7 @@ int milestone7Code(int argc, char *argv[]) {
             break;
         }
     }
+
     //TODO: calculate without the thermostat??
     runs = 2000;
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect to infinity lol
