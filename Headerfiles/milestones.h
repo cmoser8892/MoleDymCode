@@ -26,6 +26,7 @@ typedef struct SimulationData {
     unsigned int maxTrajectoryNumber = 0;
     std::string trajectorySafeLocation = "";
     std::string trajectoryBaseName = "";
+    bool doDumping = false;
 
     ///basic simulation stuff
     Positions_t controlCube;

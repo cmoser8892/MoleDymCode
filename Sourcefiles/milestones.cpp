@@ -335,6 +335,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
+    data.doDumping = false;
     ///
     data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
     data.timeStep = 1e-15;
@@ -363,6 +364,7 @@ int milestone7Code(int argc, char *argv[]) {
         }
     }
     ///relax a bit so the temp is in all cases stable
+    data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
     runs = 10;
     for ( int i = 0; i < runs; ++i) {
         ++data.simulationID;
@@ -374,9 +376,8 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 2000;
-    data.relaxationTime *= 1e3333; // basically thermostat has now no effect to infinity lol
-    //depositHeat(0.001,atoms);
+    runs = 1;
+    data.simulationTime *=100;
     for(int i = 0; i < runs; ++i) {
         depositHeat(1e-4,atoms);
         ++data.simulationID;
@@ -392,9 +393,11 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     //safe the information
+    /**
     std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
     dumpVectorData(temperaturStorage,dataLocation,"temperatur");
     dumpVectorData(energyStorage,dataLocation,"energy");
+     */
     ////
     return returnValue;
 }
@@ -408,6 +411,7 @@ int milestone7Code(int argc, char *argv[]) {
  */
 std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &atoms) {
     double returnEnergy = 0;
+    double kineticEnergy = 0;
     double returnTemperatur = calculateCurrentTemperaturEV(atoms);
     // simulation initialization
     int i = 0;
@@ -425,7 +429,8 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         //thermostat
         berendsenThermostatEV(atoms, data.targetTemperatur, data.timeStep, data.relaxationTime);
         //add the kinetic energy to the potential
-        returnEnergy += calculateKineticEnergy(atoms);
+        kineticEnergy = calculateKineticEnergy(atoms);
+        returnEnergy += kineticEnergy;
         //calculate the temperature for each step (debugging)
         returnTemperatur = calculateCurrentTemperaturEV(atoms);
         ///basic loop stuff last
@@ -439,7 +444,9 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         exit(EXIT_FAILURE);
     }
     //save the trajectory
-    dumpData(atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
+    if(data.doDumping == true) {
+        dumpData(atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
+    }
     //return stuff
     return {returnEnergy, returnTemperatur};
 }
