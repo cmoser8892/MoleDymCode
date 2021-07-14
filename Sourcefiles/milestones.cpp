@@ -299,6 +299,10 @@ int milestone6Code(int argc, char *argv[]) {
     return returnValue;
 }
 
+///storage
+std::vector<double> kineticEnergyStorage;
+std::vector<double> potentialEnergyStorage;
+
 /**
  * @fn int milestone7Code(int argc, char *argv[])
  * @brief function that contains all of the Milestone7 code
@@ -336,17 +340,16 @@ int milestone7Code(int argc, char *argv[]) {
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
     data.doDumping = false;
+    data.totalEnergyRecording = false;
     ///
     data.controlCube = generateCapsel(atoms,2); //allways has to be generated otherwise crash
     data.timeStep = 1e-15;
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 100*data.timeStep;
-    data.cutoffDistance = 6.0; // basically a difference of -2 from 5 to 6 cutoff !! dont use 2 thou to small
+    data.cutoffDistance = 10.0;
     data.targetTemperatur = 300;
     /** Main simulation */
-    std::vector<double> temperaturStorage;
-    std::vector<double> energyStorage;
-    int runs = 50;
+    int runs = 5; //TODO: was 50 reachable in 33
     //
     double roomTemperature = 273 + 25;
     /// simulation
@@ -365,9 +368,10 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///relax a bit so the temp is in all cases stable
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
-    runs = 10;
+    runs = 8;
     for ( int i = 0; i < runs; ++i) {
         ++data.simulationID;
+        data.totalEnergyRecording = true;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
         std::cout << "Step:" << i << " "
@@ -377,15 +381,15 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///data get for plot
     runs = 1;
-    data.simulationTime *=100;
+    data.simulationTime*=10;
     for(int i = 0; i < runs; ++i) {
-        depositHeat(1e-4,atoms);
+        depositHeat(1e-3,atoms);
         ++data.simulationID;
         auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
         //write data to storage
         //printAtomsVelocitiesAndPositions(atoms);
-        temperaturStorage.push_back(temperatur);
-        energyStorage.push_back(totalEnergy);
+        //temperaturStorage.push_back(temperatur);
+        //energyStorage.push_back(totalEnergy);
         ///
         std::cout << "Step:" << i << " "
                   << "Current Energy: " << totalEnergy << " "
@@ -398,6 +402,9 @@ int milestone7Code(int argc, char *argv[]) {
     dumpVectorData(temperaturStorage,dataLocation,"temperatur");
     dumpVectorData(energyStorage,dataLocation,"energy");
      */
+    std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
+    dumpVectorData(kineticEnergyStorage,dataLocation,"kineticEnergy");
+    dumpVectorData(potentialEnergyStorage,dataLocation,"potentialEnergy");
     ////
     return returnValue;
 }
@@ -412,6 +419,7 @@ int milestone7Code(int argc, char *argv[]) {
 std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &atoms) {
     double returnEnergy = 0;
     double kineticEnergy = 0;
+    double potentialEnergy = 0;
     double returnTemperatur = calculateCurrentTemperaturEV(atoms);
     // simulation initialization
     int i = 0;
@@ -423,7 +431,8 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         verletStep1Atoms(atoms,data.timeStep);
         //update list before
         list.update(atoms);
-        returnEnergy = gupta(atoms,list);
+        potentialEnergy = gupta(atoms,list);
+        returnEnergy = potentialEnergy;
         //last step
         verletStep2Atoms(atoms,data.timeStep);
         //thermostat
@@ -433,6 +442,11 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         returnEnergy += kineticEnergy;
         //calculate the temperature for each step (debugging)
         returnTemperatur = calculateCurrentTemperaturEV(atoms);
+        ////
+        if(data.totalEnergyRecording == true){
+            kineticEnergyStorage.push_back(kineticEnergy);
+            potentialEnergyStorage.push_back(potentialEnergy);
+        }
         ///basic loop stuff last
         currentTime += data.timeStep;
         i++;

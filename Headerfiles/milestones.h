@@ -27,6 +27,7 @@ typedef struct SimulationData {
     std::string trajectorySafeLocation = "";
     std::string trajectoryBaseName = "";
     bool doDumping = false;
+    bool totalEnergyRecording = false;
 
     ///basic simulation stuff
     Positions_t controlCube;
