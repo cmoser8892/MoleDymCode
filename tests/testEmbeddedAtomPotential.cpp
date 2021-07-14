@@ -55,7 +55,7 @@ TEST(GuptaTest, Forces) {
 
     neighbor_list.update(atoms);
     atoms.forces.setZero();
-    double e0{gupta(atoms, neighbor_list, A, xi, p, q, re)};
+    double e0{gupta(atoms, neighbor_list, cutoff, A, xi, p, q, re)};
     Forces_t forces0{atoms.forces};
 
     // loop over all atoms and compute forces from a finite differences approximation
@@ -65,11 +65,11 @@ TEST(GuptaTest, Forces) {
             // move atom to the right
             atoms.positions(j, i) += delta;
             neighbor_list.update(atoms);
-            double eplus{gupta(atoms, neighbor_list, A, xi, p, q, re)};
+            double eplus{gupta(atoms, neighbor_list, cutoff, A, xi, p, q, re)};
             // move atom to the left
             atoms.positions(j, i) -= 2 * delta;
             neighbor_list.update(atoms);
-            double eminus{gupta(atoms, neighbor_list, A, xi, p, q, re)};
+            double eminus{gupta(atoms, neighbor_list, cutoff, A, xi, p, q, re)};
             // move atom back to original position
             atoms.positions(j, i) += delta;
 

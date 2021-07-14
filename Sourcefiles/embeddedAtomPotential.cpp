@@ -32,11 +32,14 @@
  *     Cleri, Rosato, "Tight-binding potentials for transition metals and alloys", Phys. Rev. B 48, 22 (1993)
  * The default values for the parameters are the Au parameters from Cleri & Rosato's paper.
  */
-double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double xi, double p, double q,
+double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, double A, double xi, double p, double q,
              double re) {
-    double cutoff = neighbor_list.interactionRange();
     auto cutoff_sq{cutoff * cutoff};
     double xi_sq{xi * xi};
+
+    // Reset energies and forces. This needs to be turned off if multiple potentials are present.
+    atoms.energies.setZero();
+    atoms.forces.setZero();
 
     // compute embedding energies
     Eigen::ArrayXd embedding(atoms.nb_atoms());  // contains first density, later energy
@@ -45,7 +48,6 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
         if (i < j) {
             Eigen::Array3d distance_vector{atoms.positions.col(i) - atoms.positions.col(j)};
             double distance_sq{(distance_vector * distance_vector).sum()};
-            //
             if (distance_sq < cutoff_sq) {
                 double density_contribution{xi_sq * std::exp(-2 * q * (std::sqrt(distance_sq) / re - 1.0))};
                 embedding(i) += density_contribution;
@@ -56,7 +58,9 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
 
     // compute embedding contribution to the potential energy
     embedding = -embedding.sqrt();
-    double potential_energy{embedding.sum()};
+
+    // per-atom energies
+    Eigen::ArrayXd energies{embedding};
 
     // compute forces
     for (auto[i, j]: neighbor_list) {
@@ -67,7 +71,6 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
 
             Eigen::Array3d distance_vector{atoms.positions.col(i) - atoms.positions.col(j)};
             double distance_sq{(distance_vector * distance_vector).sum()};
-
             if (distance_sq < cutoff_sq) {
                 double distance{std::sqrt(distance_sq)};
                 double d_embedding_density_j{0};
@@ -78,7 +81,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
                 distance_vector /= distance;
 
                 // repulsive energy and derivative of it with respect to distance
-                double repulsive_energy{A * std::exp(-p * (distance / re - 1.0))};
+                double repulsive_energy{2 * A * std::exp(-p * (distance / re - 1.0))};
                 double d_repulsive_energy{-repulsive_energy * p / re};
 
                 // derivative of embedding energy contributions
@@ -89,12 +92,21 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double A, double x
                         (d_repulsive_energy + fac * (d_embedding_density_i + d_embedding_density_j)) *
                         distance_vector};
 
-                potential_energy += repulsive_energy;
+                // sum per-atom energies
+                repulsive_energy *= 0.5;
+                energies(i) += repulsive_energy;
+                energies(j) += repulsive_energy;
 
+                // sum per-atom forces
                 atoms.forces.col(i) -= pair_force;
                 atoms.forces.col(j) += pair_force;
             }
         }
     }
-    return potential_energy;
+
+    // Sum per-atom potential energy contributions
+    atoms.energies += energies;
+
+    // Return total potential energy
+    return energies.sum();
 }

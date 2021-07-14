@@ -14,7 +14,7 @@ public:
     Forces_t forces;
     Names_t names;
     Mass_t mass;
-
+    Energies_t energies;
     /** Comments for readablity
      * Atoms(const int &size)
      * Atoms(const Positions_t &p)
@@ -32,6 +32,7 @@ public:
         positions.setZero();
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
         mass.setOnes();
     }
 
@@ -41,6 +42,7 @@ public:
     {
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
         mass.setOnes();
     }
 
@@ -50,6 +52,7 @@ public:
     {
         assert(p.cols() == v.cols());
         forces.setZero();
+        energies.setZero();
         mass.setOnes();
     }
 
@@ -59,6 +62,7 @@ public:
     {
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
         mass.setOnes();
     }
 
@@ -68,6 +72,7 @@ public:
     {
         assert(p.cols() == v.cols());
         forces.setZero();
+        energies.setZero();
         mass.setOnes();
     }
 
@@ -77,6 +82,7 @@ public:
     {
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
     }
 
     //given the Positions and a mass for every atom
@@ -85,6 +91,7 @@ public:
     {
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
         mass = m;
     }
 
@@ -93,6 +100,7 @@ public:
     {
         velocities.setZero();
         forces.setZero();
+        energies.setZero();
         mass = m;
     }
 

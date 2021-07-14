@@ -21,6 +21,8 @@ using Vector_t = Eigen::Array3d;
 
 using Names_t = std::vector<std::string>;
 
+using Energies_t = Eigen::ArrayXd;
+
 /** Constants */
 static const double boltzmannConstant = 1.380649e-23; ///J/K
 static const double atomicUnit = 1.660539e-27; ///kg

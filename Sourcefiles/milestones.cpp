@@ -349,13 +349,10 @@ int milestone7Code(int argc, char *argv[]) {
     //
     double roomTemperature = 273 + 25;
     /// simulation
-    //relax till room temp
+    ///increase till room temp
     for (int i = 0; i < runs; ++i) {
         ++data.simulationID;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
-        //write data to storage
-        temperaturStorage.push_back(temperatur);
-        energyStorage.push_back(energy);
         ///
         std::cout << "Step:" << i << " "
                   << "Current Energy: " << energy << " "
@@ -365,22 +362,32 @@ int milestone7Code(int argc, char *argv[]) {
             break;
         }
     }
-
-    //TODO: calculate without the thermostat??
+    ///relax a bit so the temp is in all cases stable
+    runs = 10;
+    for ( int i = 0; i < runs; ++i) {
+        ++data.simulationID;
+        auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+        ///
+        std::cout << "Step:" << i << " "
+                  << "Current Energy: " << energy << " "
+                  << "Current Temperatur: " << temperatur << std::endl;
+        ///
+    }
+    ///data get for plot
     runs = 2000;
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect to infinity lol
     //depositHeat(0.001,atoms);
     for(int i = 0; i < runs; ++i) {
         depositHeat(1e-4,atoms);
         ++data.simulationID;
-        auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+        auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
         //write data to storage
         //printAtomsVelocitiesAndPositions(atoms);
         temperaturStorage.push_back(temperatur);
-        energyStorage.push_back(energy);
+        energyStorage.push_back(totalEnergy);
         ///
         std::cout << "Step:" << i << " "
-                  << "Current Energy: " << energy << " "
+                  << "Current Energy: " << totalEnergy << " "
                   << "Current Temperatur: " << temperatur << std::endl;
         ///
     }
@@ -397,7 +404,7 @@ int milestone7Code(int argc, char *argv[]) {
  * @brief runs one simulation(-part) and saves the trajectory (allways with
  * @param data
  * @param atoms
- * @return the energy (first) and then the temperatur at that step
+ * @return the total energy (first) and then the temperatur at that step
  */
 std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &atoms) {
     double returnEnergy = 0;

@@ -30,7 +30,6 @@
 #include "../Headerfiles/xyz.h"
 
 std::tuple<Names_t, Positions_t> read_xyz(std::string filename) {
-
     std::ifstream file(filename);
 
     if (file.is_open()) {
@@ -113,7 +112,7 @@ void write_xyz(std::string filename, Atoms &atoms) {
 
     // Element name, position
     for (int i = 0; i < atoms.nb_atoms(); ++i) {
-        file << std::setw(2) <<  atoms.names[i] << " "
+        file << std::setw(2) << atoms.names[i] << " "
              << std::setw(10) << atoms.positions.col(i).transpose()
              << std::setw(10) << atoms.velocities.col(i).transpose()
              << std::endl;
