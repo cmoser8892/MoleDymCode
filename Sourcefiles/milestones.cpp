@@ -349,8 +349,8 @@ int milestone7Code(int argc, char *argv[]) {
     data.cutoffDistance = 10.0;
     data.targetTemperatur = 300;
     /** Main simulation */
+    //preheating
     int runs = 5; //TODO: was 50 reachable in 33
-    //
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
@@ -381,7 +381,7 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///data get for plot
     runs = 1;
-    data.simulationTime*=10;
+    data.simulationTime*=100;
     for(int i = 0; i < runs; ++i) {
         depositHeat(1e-3,atoms);
         ++data.simulationID;

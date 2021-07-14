@@ -36,11 +36,12 @@ TEST(TestMilestone, TestSimulationBlock) {
         data.maxTrajectoryNumber = 100;
         std::filesystem::path path{"TestDumps/Trajectory001.xyz"};
         auto[energy,temperatur]{simulationBuildStone(data,atoms)};
-        EXPECT_TRUE(std::filesystem::exists(path));
+        ASSERT_FALSE(std::filesystem::exists(path));
     }
     {
         data.simulationID = 55;
         data.maxTrajectoryNumber = 100;
+        data.doDumping = true;
         std::filesystem::path path{"TestDumps/Trajectory055.xyz"};
         auto[energy,temperatur]{simulationBuildStone(data,atoms)};
         EXPECT_TRUE(std::filesystem::exists(path));
