@@ -355,7 +355,6 @@ int milestone7Code(int argc, char *argv[]) {
     /// simulation
     ///increase till room temp
     for (int i = 0; i < runs; ++i) {
-        ++data.simulationID;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
         std::cout << "Step:" << i << " "
@@ -370,7 +369,6 @@ int milestone7Code(int argc, char *argv[]) {
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
     runs = 100;
     for ( int i = 0; i < runs; ++i) {
-        ++data.simulationID;
         data.totalEnergyRecording = true;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
@@ -381,16 +379,17 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///data get for plot
     runs = 5;
-    data.simulationTime*=100;
+
     for(int i = 0; i < runs; ++i) {
-        depositRescaledHeat(1e-3*atoms.nb_atoms(),atoms);
-        ++data.simulationID;
-        auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
-        ///
-        std::cout << "Step:" << i << " "
-                  << "Current Energy: " << totalEnergy << " "
-                  << "Current Temperatur: " << temperatur << std::endl;
-        ///
+        depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
+        for(int j = 0; j < 100; j++) {
+            auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
+            ///
+            std::cout << "Step:" << i << " "
+                      << "Current Energy: " << totalEnergy << " "
+                      << "Current Temperatur: " << temperatur << std::endl;
+            ///
+        }
     }
     //safe the information
     std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";

@@ -4,10 +4,13 @@
 
 #include <iomanip>
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
+
+bool once = false;
 
 /**
  * @fn void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsigned int expectedNumberOfDumps ,unsigned int number)
@@ -25,6 +28,15 @@ void dumpData(Atoms &atoms,std::string location, std::string namingScheme,unsign
     convert << condensedNumber;
     std::string condensedNum = convert.str().erase(0,1);
     std::string total = location +"/" + namingScheme +condensedNum+".xyz";
+    //remove if it exists
+    if(once == false) {
+        //only delete if it exists
+        std::filesystem::path path{total};
+        if(std::filesystem::exists(path)) {
+            remove(total.c_str());
+            once = true;
+        }
+    }
     //
     write_xyz(total,atoms);
 }
