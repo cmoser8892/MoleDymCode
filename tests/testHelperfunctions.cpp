@@ -150,3 +150,33 @@ TEST(TestHelperfunctions, heatdepostitTest) {
     depositHeat(energy,atoms);
     EXPECT_EQ(calculateCurrentTemperaturEV(atoms),2./3. * (energy/boltzmannElectronVolt));
 }
+
+TEST(TestHelperfunctions, basicHeatEnergyTest) {
+    double energy = 10;
+    Positions_t lattice = createLatticeCube(8);
+    //constant mass
+    Atoms atoms(lattice,1);
+    atoms.velocities.setOnes();
+    double originalValue = calculateKineticEnergy(atoms);
+    depositRescaledHeat(energy,atoms);
+    double value = calculateKineticEnergy(atoms);
+    EXPECT_NEAR(originalValue+energy,value,1e-5);
+    //second Part energy is zero
+    atoms.velocities.setZero();
+    originalValue = calculateKineticEnergy(atoms);
+    depositRescaledHeat(energy,atoms);
+    value = calculateKineticEnergy(atoms);
+    EXPECT_NEAR(originalValue+energy,value,1e-5);
+}
+
+TEST(TestHelperfunctions, heatEnergyTest) {
+    double energy = 1;
+    Positions_t lattice = createLatticeCube(8);
+    //constant mass
+    Atoms atoms(lattice,1);
+    atoms.velocities.setRandom();
+    double originalValue = calculateKineticEnergy(atoms);
+    depositRescaledHeat(energy,atoms);
+    double value = calculateKineticEnergy(atoms);
+    EXPECT_NEAR(originalValue+energy,value,1e-5);
+}

@@ -350,6 +350,24 @@ void depositHeat(double heat, Atoms &atoms) {
 }
 
 /**
+ * @fn void depositRescaledHeat(double heat, Atoms &atoms)
+ * @brief adds heat as expected i hope
+ * @param heat
+ * @param atoms
+ */
+void depositRescaledHeat(double heat, Atoms &atoms) {
+    double kineticEnergy = calculateKineticEnergy(atoms);
+    if( kineticEnergy == 0) {
+        //the original function is perfect for this case
+        depositHeat(heat,atoms);
+    }
+    else {
+        double factor = 1 + (heat/kineticEnergy);
+        atoms.velocities *= sqrt(factor);
+    }
+}
+
+/**
  * @fn void printAtomsVelocitiesAndPositions(Atoms &atoms)
  * @brief prints out the postitions and velocys of the atoms
  * @param atoms

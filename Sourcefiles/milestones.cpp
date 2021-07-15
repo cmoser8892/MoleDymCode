@@ -343,7 +343,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.totalEnergyRecording = false;
     ///
     data.controlCube = generateCapsel(atoms,2); //always has to be generated otherwise crash
-    data.timeStep = 1;
+    data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 10*data.timeStep;
     data.cutoffDistance = 10.0;
@@ -434,7 +434,7 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         //calculate the temperature for each step (debugging)
         returnTemperatur = calculateCurrentTemperaturEV(atoms);
         ////
-        if(data.totalEnergyRecording == true){
+        if(data.totalEnergyRecording == true) {
             kineticEnergyStorage.push_back(kineticEnergy);
             potentialEnergyStorage.push_back(potentialEnergy);
         }

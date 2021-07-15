@@ -27,6 +27,7 @@ Positions_t generateCapsel(Atoms &atoms, double scaling);
 bool compareVectorsBigSmall(Vector_t v1, Vector_t v2);
 double calculateDistanceBetweenVectors(Vector_t distanceVector);
 void depositHeat(double heat, Atoms &atoms);
+void depositRescaledHeat(double heat, Atoms &atoms);
 void printAtomsVelocitiesAndPositions(Atoms &atoms);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H
