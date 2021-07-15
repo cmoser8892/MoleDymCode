@@ -368,7 +368,7 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///relax a bit so the temp is in all cases stable
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
-    runs = 10;
+    runs = 100;
     for ( int i = 0; i < runs; ++i) {
         ++data.simulationID;
         data.totalEnergyRecording = true;
@@ -380,10 +380,10 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 1;
+    runs = 5;
     data.simulationTime*=100;
     for(int i = 0; i < runs; ++i) {
-        depositHeat(1e-2*atoms.nb_atoms(),atoms);
+        depositRescaledHeat(1e-3*atoms.nb_atoms(),atoms);
         ++data.simulationID;
         auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
         ///
