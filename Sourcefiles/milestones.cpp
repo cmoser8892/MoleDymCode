@@ -323,7 +323,7 @@ int milestone7Code(int argc, char *argv[]) {
     */
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
-    double mass = atomicMassAu * massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
+    double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
     /**
@@ -339,18 +339,18 @@ int milestone7Code(int argc, char *argv[]) {
     data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
-    data.doDumping = false;
+    data.doDumping = true;
     data.totalEnergyRecording = false;
     ///
     data.controlCube = generateCapsel(atoms,2); //always has to be generated otherwise crash
-    data.timeStep = 1e-15;
+    data.timeStep = 1;
     data.simulationTime = 10 * data.timeStep;
-    data.relaxationTime = 100*data.timeStep;
+    data.relaxationTime = 10*data.timeStep;
     data.cutoffDistance = 10.0;
     data.targetTemperatur = 300;
     /** Main simulation */
     //preheating
-    int runs = 5; //TODO: was 50 reachable in 33
+    int runs = 200;
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
@@ -368,7 +368,7 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///relax a bit so the temp is in all cases stable
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
-    runs = 8;
+    runs = 10;
     for ( int i = 0; i < runs; ++i) {
         ++data.simulationID;
         data.totalEnergyRecording = true;
@@ -383,7 +383,7 @@ int milestone7Code(int argc, char *argv[]) {
     runs = 1;
     data.simulationTime*=100;
     for(int i = 0; i < runs; ++i) {
-        depositHeat(1e-3,atoms);
+        depositHeat(1e-2*atoms.nb_atoms(),atoms);
         ++data.simulationID;
         auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
         ///

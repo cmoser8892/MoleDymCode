@@ -20,6 +20,7 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
     //postions
     positions += velocities * timestep;
 }
+
 /**
  * @fn void verletStep1Atoms(Atoms &atoms,double timestep)
  * @brief calculates the first step with a variable mass of the atom
