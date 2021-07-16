@@ -350,7 +350,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.targetTemperatur = 300;
     /** Main simulation */
     //preheating
-    int runs = 200;
+    int runs = 35;
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
@@ -366,7 +366,7 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///relax a bit so the temp is in all cases stable
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
-    runs = 1000; //100ps
+    runs = 100; //10ps
     for ( int i = 0; i < runs; ++i) {
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
@@ -380,6 +380,14 @@ int milestone7Code(int argc, char *argv[]) {
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
         depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
+        for(int j = 0; j < 200; ++j) {
+            auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
+            ///
+            std::cout << "Step:" << i << " "
+                      << "Current Energy: " << totalEnergy << " "
+                      << "Current Temperatur: " << temperatur << std::endl;
+            ///
+        }
         for(int j = 0; j < 100; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///

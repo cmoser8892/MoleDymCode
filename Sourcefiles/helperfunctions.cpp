@@ -6,6 +6,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <numeric>
 
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
@@ -387,4 +388,19 @@ void depositRescaledHeat(double heat, Atoms &atoms) {
 void printAtomsVelocitiesAndPositions(Atoms &atoms) {
     std::cout << atoms.velocities << std::endl;
     std::cout << atoms.positions << std::endl;
+}
+
+/**
+ * @fn double sampleVector(std::vector<double> values)
+ * @brief averages
+ * @param values
+ * @return
+ */
+double averageVector(std::vector<double> values) {
+    double returnValue = 0.;
+    auto size = values.size();
+    if (size != 0) {
+        returnValue = std::accumulate(values.begin(),values.end(),0.0) / size;
+    }
+    return returnValue;
 }

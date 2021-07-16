@@ -29,5 +29,6 @@ double calculateDistanceBetweenVectors(Vector_t distanceVector);
 void depositHeat(double heat, Atoms &atoms);
 void depositRescaledHeat(double heat, Atoms &atoms);
 void printAtomsVelocitiesAndPositions(Atoms &atoms);
+double averageVector(std::vector<double> values);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H
