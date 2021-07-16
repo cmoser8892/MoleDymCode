@@ -340,12 +340,12 @@ int milestone7Code(int argc, char *argv[]) {
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
     data.doDumping = true;
-    data.totalEnergyRecording = false;
+    data.totalEnergyRecording = true;
     ///
-    data.controlCube = generateCapsel(atoms,2); //always has to be generated otherwise crash
+    data.controlCube = generateCapsel(atoms,20); //always has to be generated otherwise crash
     data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
-    data.relaxationTime = 10*data.timeStep;
+    data.relaxationTime = 1000 * data.timeStep;
     data.cutoffDistance = 10.0;
     data.targetTemperatur = 300;
     /** Main simulation */
@@ -355,21 +355,19 @@ int milestone7Code(int argc, char *argv[]) {
     /// simulation
     ///increase till room temp
     for (int i = 0; i < runs; ++i) {
-        auto[energy, temperatur]{simulationBuildStone(data, atoms)};
-        ///
-        std::cout << "Step:" << i << " "
-                  << "Current Energy: " << energy << " "
-                  << "Current Temperatur: " << temperatur << std::endl;
-        ///
-        if (abs(temperatur - roomTemperature) < 10.) {
-            break;
+        for( int j = 0; j < 100; ++j ) {
+            auto[energy, temperatur]{simulationBuildStone(data, atoms)};
+            ///
+            std::cout << "Step:" << i << " "
+                      << "Current Energy: " << energy << " "
+                      << "Current Temperatur: " << temperatur << std::endl;
+            ///
         }
     }
     ///relax a bit so the temp is in all cases stable
     data.relaxationTime *= 1e3333; // basically thermostat has now no effect: to infinity and beyond
-    runs = 100;
+    runs = 1000; //100ps
     for ( int i = 0; i < runs; ++i) {
-        data.totalEnergyRecording = true;
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
         std::cout << "Step:" << i << " "
@@ -379,10 +377,10 @@ int milestone7Code(int argc, char *argv[]) {
     }
     ///data get for plot
     runs = 5;
-
+    //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
         depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
-        for(int j = 0; j < 100; j++) {
+        for(int j = 0; j < 100; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
             std::cout << "Step:" << i << " "
@@ -441,15 +439,15 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         currentTime += data.timeStep;
         i++;
     }
+    //save the trajectory
+    if(data.doDumping == true) {
+        dumpData(atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
+    }
     //check if valid
     if (checkMoleculeTrajectories(atoms,  data.controlCube) == false) {
         std::cerr << "Cube Exploded at: " << data.simulationID << std::endl;
         //exit the program
         exit(EXIT_FAILURE);
-    }
-    //save the trajectory
-    if(data.doDumping == true) {
-        dumpData(atoms, data.trajectorySafeLocation, data.trajectoryBaseName, data.maxTrajectoryNumber, data.simulationID);
     }
     //return stuff
     return {returnEnergy, returnTemperatur};
