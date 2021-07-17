@@ -324,7 +324,7 @@ int milestone7Code(int argc, char *argv[]) {
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    auto [names, positions]{read_xyz("../AData/cluster_3871.xyz")};
+    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
     Atoms atoms(names,positions,mass);
     /** Data */
     std::vector<double> meanEnergyStorage;
@@ -337,7 +337,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
-    data.doDumping = true;
+    data.doDumping = false;
     data.totalEnergyRecording = true;
     ///
     data.controlCube = generateCapsel(atoms,20); //always has to be generated otherwise crash
@@ -377,12 +377,13 @@ int milestone7Code(int argc, char *argv[]) {
     runs = 60;
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
+        int subruns = 600;
         ///
         std::vector<double> setEnergyStorage;
         std::vector<double> setTemperaturStorage;
         ///
         depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
-        for(int j = 0; j < 200; ++j) {
+        for(int j = 0; j < subruns/2; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
             std::cout << "Step:" << i << " "
@@ -390,7 +391,7 @@ int milestone7Code(int argc, char *argv[]) {
                       << "Current Temperatur: " << temperatur << std::endl;
             ///
         }
-        for(int j = 0; j < 100; ++j) {
+        for(int j = 0; j < subruns/2; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
             std::cout << "Step:" << i << " "
