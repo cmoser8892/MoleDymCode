@@ -324,13 +324,11 @@ int milestone7Code(int argc, char *argv[]) {
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    auto [names, positions]{read_xyz("../AData/cluster_3871.xyz")};
     Atoms atoms(names,positions,mass);
-    /**
-    Positions_t p = createLatticeCube(8);
-    Atoms atoms(p, mass);
-    setANameInAtoms(atoms,"X");
-     */
+    /** Data */
+    std::vector<double> meanEnergyStorage;
+    std::vector<double> meanTemperaturStorage;
     /** set up data */
     //write all the data in the data stucture
     SimulationData_t data;
@@ -376,9 +374,13 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 5;
+    runs = 60;
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
+        ///
+        std::vector<double> setEnergyStorage;
+        std::vector<double> setTemperaturStorage;
+        ///
         depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
         for(int j = 0; j < 200; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
@@ -395,12 +397,20 @@ int milestone7Code(int argc, char *argv[]) {
                       << "Current Energy: " << totalEnergy << " "
                       << "Current Temperatur: " << temperatur << std::endl;
             ///
+            //safe data
+            setEnergyStorage.push_back(totalEnergy);
+            setTemperaturStorage.push_back(temperatur);
         }
+        //calculateMean
+        meanEnergyStorage.push_back(averageVector(setEnergyStorage));
+        meanTemperaturStorage.push_back(averageVector(setTemperaturStorage));
     }
     //safe the information
     std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
     dumpVectorData(kineticEnergyStorage,dataLocation,"kineticEnergy");
     dumpVectorData(potentialEnergyStorage,dataLocation,"potentialEnergy");
+    dumpVectorData(meanEnergyStorage,dataLocation,"energy");
+    dumpVectorData(meanTemperaturStorage,dataLocation,"temperatur");
     ////
     return returnValue;
 }
