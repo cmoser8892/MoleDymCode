@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <filesystem>
 //
 #include "../Headerfiles/atoms.h"
 #include "../Headerfiles/helperfunctions.h"
@@ -183,14 +184,23 @@ TEST(TestHelperfunctions, heatEnergyTest) {
 }
 
 TEST(TestClusterGenerator, basicTest) {
+    //just check weather or not the file is created
     std::string particleName = "Au";
     std::string layers = "2";
     std::string distance = std::to_string(4.079 / sqrt(2));
-    std::string location = "../../AData/cluster.xyz";
+    std::string location = "/home/cm/CLionProjects/MoleDymCode/AData/Clusters/testCluster.xyz";
     char *msg[4];
     msg[0] = (char*)particleName.c_str();
     msg[1] = (char*)layers.c_str();
     msg[2] = (char*)distance.c_str();
     msg[3] = (char*)location.c_str();
     generateCluster(4,msg);
+    std::filesystem::path path{location};
+    EXPECT_TRUE(std::filesystem::exists(path));
+}
+
+TEST(TestHelperfunctions, clusterGeneration)  {
+    generateCluster(1,"/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
+    std::filesystem::path path{"/home/cm/CLionProjects/MoleDymCode/AData/Clusters/cluster1.xyz"};
+    EXPECT_TRUE(std::filesystem::exists(path));
 }

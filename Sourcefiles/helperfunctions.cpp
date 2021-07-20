@@ -10,6 +10,7 @@
 
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
+#include "../Headerfiles/clusterGenerator.h"
 
 bool once = false;
 
@@ -419,6 +420,24 @@ void printData(int step, double energy, double temperatur) {
                   << "Current Temperatur: " << temperatur << std::endl;
         ///
 #endif
+}
+
+/**
+ * @fn void generateCluster(unsigned int layers)
+ * @brief hull to the clusterGeneratorFunction as thats just bad usage
+ * @param layers
+ */
+void generateCluster(unsigned int layers,std::string location) {
+    std::string particleName = "Au";
+    std::string layersString = std::to_string(layers);
+    std::string distance = std::to_string(4.079 / sqrt(2));
+    std::string filename = location + "/cluster" + layersString +".xyz";
+    char *msg[4];
+    msg[0] = (char*)particleName.c_str();
+    msg[1] = (char*)layersString.c_str();
+    msg[2] = (char*)distance.c_str();
+    msg[3] = (char*)filename.c_str();
+    generateCluster(4,msg);
 }
 
 
