@@ -394,7 +394,7 @@ void printAtomsVelocitiesAndPositions(Atoms &atoms) {
  * @fn double sampleVector(std::vector<double> values)
  * @brief averages
  * @param values
- * @return
+ * @return double the average Value of the Vector-Values
  */
 double averageVector(std::vector<double> values) {
     double returnValue = 0.;
@@ -404,3 +404,22 @@ double averageVector(std::vector<double> values) {
     }
     return returnValue;
 }
+
+/**
+ * @fn
+ * @brief
+ * @param step
+ * @param energy
+ * @param temperatur
+ */
+void printData(int step, double energy, double temperatur) {
+#ifdef NOPRINTING
+        ///
+        std::cout << "Step:" << step << " "
+                  << "Current Energy: " << energy << " "
+                  << "Current Temperatur: " << temperatur << std::endl;
+        ///
+#endif
+}
+
+

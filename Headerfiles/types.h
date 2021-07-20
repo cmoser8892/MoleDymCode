@@ -11,6 +11,10 @@
 #include <vector>
 
 #include "Eigen/Core"
+
+/** Build stuff */
+//#define NOPRINTING
+
 /** Redefinitions*/
 using Positions_t = Eigen::Array3Xd;
 using Velocities_t = Eigen::Array3Xd;

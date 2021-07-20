@@ -30,5 +30,6 @@ void depositHeat(double heat, Atoms &atoms);
 void depositRescaledHeat(double heat, Atoms &atoms);
 void printAtomsVelocitiesAndPositions(Atoms &atoms);
 double averageVector(std::vector<double> values);
+void printData(int step, double energy, double temperatur);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H

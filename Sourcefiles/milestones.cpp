@@ -356,9 +356,7 @@ int milestone7Code(int argc, char *argv[]) {
         for( int j = 0; j < 100; ++j ) {
             auto[energy, temperatur]{simulationBuildStone(data, atoms)};
             ///
-            std::cout << "Step:" << i << " "
-                      << "Current Energy: " << energy << " "
-                      << "Current Temperatur: " << temperatur << std::endl;
+            printData(i,energy ,temperatur);
             ///
         }
     }
@@ -368,17 +366,14 @@ int milestone7Code(int argc, char *argv[]) {
     for ( int i = 0; i < runs; ++i) {
         auto[energy, temperatur]{simulationBuildStone(data, atoms)};
         ///
-        std::cout << "Step:" << i << " "
-                  << "Current Energy: " << energy << " "
-                  << "Current Temperatur: " << temperatur << std::endl;
+        printData(i,energy,temperatur);
         ///
     }
     ///data get for plot
     runs = 60;
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
-        //TODO update this part takes way to long
-        int subruns = 200;
+        int subruns = 600;
         ///
         std::vector<double> setEnergyStorage;
         std::vector<double> setTemperaturStorage;
@@ -387,18 +382,14 @@ int milestone7Code(int argc, char *argv[]) {
         for(int j = 0; j < subruns/2; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
-            std::cout << "Step:" << i << " "
-                      << "Current Energy: " << totalEnergy << " "
-                      << "Current Temperatur: " << temperatur << std::endl;
+            printData(i,totalEnergy,temperatur);
             ///
         }
         data.simulationTime = data.timeStep;
         for(int j = 0; j < (subruns/2 * 10); ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
-            std::cout << "Step:" << i << " "
-                      << "Current Energy: " << totalEnergy << " "
-                      << "Current Temperatur: " << temperatur << std::endl;
+            printData(i,totalEnergy,temperatur);
             ///
             //safe data
             setEnergyStorage.push_back(totalEnergy);
