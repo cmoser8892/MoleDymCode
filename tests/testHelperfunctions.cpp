@@ -203,7 +203,4 @@ TEST(TestHelperfunctions, clusterGeneration)  {
     generateClusterHull(1, "/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
     std::filesystem::path path{"/home/cm/CLionProjects/MoleDymCode/AData/Clusters/cluster1.xyz"};
     EXPECT_TRUE(std::filesystem::exists(path));
-    for( int i = 1; i < 10; ++i) {
-        generateClusterHull(i, "/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
-    }
 }

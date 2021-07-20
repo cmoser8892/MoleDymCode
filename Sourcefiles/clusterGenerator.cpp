@@ -240,9 +240,24 @@ void ih( int n )
         }
     }
 }
-
+bool onceClusters = false;
+/**
+ * @fn int generateCluster( int argc, char *argv[] )
+ * @brief generates the clusters depending on the variables (clearly not myn) dont use more than once per program Run !!! will produce corrupted files
+ * @param argc
+ * @param argv
+ * @return
+ */
 int generateCluster( int argc, char *argv[] )
 {
+    if(onceClusters == false) {
+        onceClusters = true;
+    }
+    else
+    {
+        std::cerr << "Dont run more than once per global run !!!!!!" << std::endl;
+        return -10;
+    }
     if( argc < 4 )
     {
         std::cerr << "Usage: " << basename( argv[0] ) << " #_of_layers unit_length"

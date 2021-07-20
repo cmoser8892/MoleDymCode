@@ -58,5 +58,5 @@ TEST(TestMilestone, M7WithArguments) {
     char *msg[2];
     msg[0] = (char*)progammCall.c_str();
     msg[1] = (char*)layers.c_str();
-    milestone7Code(2,msg);
+    //milestone7Code(2,msg);
 }
