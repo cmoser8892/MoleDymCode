@@ -187,7 +187,7 @@ TEST(TestClusterGenerator, basicTest) {
     //just check weather or not the file is created
     std::string particleName = "Au";
     std::string layers = "2";
-    std::string distance = std::to_string(4.079 / sqrt(2));
+    std::string distance = std::to_string(4.079/sqrt(2));
     std::string location = "/home/cm/CLionProjects/MoleDymCode/AData/Clusters/testCluster.xyz";
     char *msg[4];
     msg[0] = (char*)particleName.c_str();
@@ -200,7 +200,10 @@ TEST(TestClusterGenerator, basicTest) {
 }
 
 TEST(TestHelperfunctions, clusterGeneration)  {
-    generateCluster(1,"/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
+    generateClusterHull(1, "/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
     std::filesystem::path path{"/home/cm/CLionProjects/MoleDymCode/AData/Clusters/cluster1.xyz"};
     EXPECT_TRUE(std::filesystem::exists(path));
+    for( int i = 1; i < 10; ++i) {
+        generateClusterHull(i, "/home/cm/CLionProjects/MoleDymCode/AData/Clusters");
+    }
 }

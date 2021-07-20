@@ -321,10 +321,44 @@ int milestone7Code(int argc, char *argv[]) {
         double q = 4.036; //
         double re = 4.079 / sqrt(2)); //distance ?
     */
+    /** Cluster generation */
+    Names_t names;
+    Positions_t positions;
+    std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
+    std::string kineticEnergyFile =     "kineticEnergy";
+    std::string potentialEnergyFile =   "potentialEnergy";
+    std::string temperaturFile =        "temperatur";
+    std::string energyFile =            "energy";
+    /** Argument Processing */
+    if(argc == 1) {
+        /** Do nothing */
+        std::cout << "No arguments given" << std::endl;
+        auto [tupleNames, tuplePositions]{read_xyz("../AData/cluster_923.xyz")};
+        names = tupleNames;
+        positions = tuplePositions;
+    }
+    else {
+        /** Create cluster based on layers given */
+        int layers = atoi(argv[1]);
+        //generate a cluster based on the layers
+        std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
+        generateClusterHull(layers, location);
+        std::string filename = location + "/cluster" + argv[1] +".xyz";
+        auto [tupleNames, tuplePositions]{read_xyz(location)};
+        std::cout << tuplePositions << std::endl;
+        names = tupleNames;
+        positions = tuplePositions;
+        //make the data identifyable
+        dataLocation = location; //change Data location
+        kineticEnergyFile += argv[1];
+        potentialEnergyFile += argv[1];
+        temperaturFile += argv[1];
+        energyFile += argv[1];
+    }
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    auto [names, positions]{read_xyz("../AData/cluster_923.xyz")};
+    std::cout << positions << std::endl;
     Atoms atoms(names,positions,mass);
     /** Data */
     std::vector<double> meanEnergyStorage;
@@ -401,11 +435,10 @@ int milestone7Code(int argc, char *argv[]) {
         meanTemperaturStorage.push_back(averageVector(setTemperaturStorage));
     }
     //safe the information
-    std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
-    dumpVectorData(kineticEnergyStorage,dataLocation,"kineticEnergy");
-    dumpVectorData(potentialEnergyStorage,dataLocation,"potentialEnergy");
-    dumpVectorData(meanEnergyStorage,dataLocation,"energy");
-    dumpVectorData(meanTemperaturStorage,dataLocation,"temperatur");
+    dumpVectorData(kineticEnergyStorage,dataLocation,kineticEnergyFile);
+    dumpVectorData(potentialEnergyStorage,dataLocation,potentialEnergyFile);
+    dumpVectorData(meanEnergyStorage,dataLocation,energyFile);
+    dumpVectorData(meanTemperaturStorage,dataLocation,temperaturFile);
     ////
     return returnValue;
 }

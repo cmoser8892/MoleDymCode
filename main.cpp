@@ -9,6 +9,6 @@ int main(int argc, char *argv[]) {
     //return milestone4Code();
     //return milestone5Code(argc,argv);
     //return milestone6Code(argc,argv);
-    //return milestone7Code(argc,argv);
-    return generateCluster(argc,argv);
+    return milestone7Code(argc,argv);
+    //return generateClusterHull(argc,argv);
 }

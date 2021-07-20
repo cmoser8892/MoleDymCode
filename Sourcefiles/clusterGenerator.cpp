@@ -273,12 +273,17 @@ int generateCluster( int argc, char *argv[] )
     init();
 
     //generate
-    for( int i=0; i<=n; i++ ) ih( i );
+    for( int i=0; i<=n; i++ ) {
+        ih( i );
+    }
+
     std::ofstream file(argv[3]);
     //output with .xyz format
-    file << num << std::endl << std::endl;
-    for( int i=0; i<num; i++ ) file << p[i].s << " " << p[i].v*d << std::endl;
-
+    file << num << std::endl;
+    file << std::endl;
+    for( int i=0; i<num; i++ ) {
+        file << p[i].s << " " << p[i].v*d << std::endl;
+    }
     file.close();
     return 0;
 }

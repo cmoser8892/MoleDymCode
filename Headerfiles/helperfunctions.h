@@ -31,6 +31,6 @@ void depositRescaledHeat(double heat, Atoms &atoms);
 void printAtomsVelocitiesAndPositions(Atoms &atoms);
 double averageVector(std::vector<double> values);
 void printData(int step, double energy, double temperatur);
-void generateCluster(unsigned int layers, std::string location);
+void generateClusterHull(unsigned int layers, std::string location);
 
 #endif //MYPROJECT_HELPERFUNCTIONS_H

@@ -51,3 +51,12 @@ TEST(TestMilestone, TestSimulationBlock) {
         auto[energy,temperatur]{simulationBuildStone(data,atoms)};
     }
 }
+
+TEST(TestMilestone, M7WithArguments) {
+    std::string progammCall = "XXX";
+    std::string layers = "4";
+    char *msg[2];
+    msg[0] = (char*)progammCall.c_str();
+    msg[1] = (char*)layers.c_str();
+    //milestone7Code(2,msg);
+}
