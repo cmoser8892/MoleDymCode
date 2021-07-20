@@ -363,6 +363,7 @@ int milestone7Code(int argc, char *argv[]) {
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     Atoms atoms(names,positions,mass);
+    printAtomsVelocitiesAndPositions(atoms);
     /** Data */
     std::vector<double> meanEnergyStorage;
     std::vector<double> meanTemperaturStorage;
@@ -374,10 +375,11 @@ int milestone7Code(int argc, char *argv[]) {
     data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
-    data.doDumping = false;
+    data.doDumping = true;
     data.totalEnergyRecording = true;
     ///
     data.controlCube = generateCapsel(atoms,20); //always has to be generated otherwise crash
+    std::cout << data.controlCube << std::endl;
     data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 1000 * data.timeStep;
