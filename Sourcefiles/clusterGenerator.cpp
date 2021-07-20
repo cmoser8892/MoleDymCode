@@ -243,7 +243,7 @@ void ih( int n )
 
 int generateCluster( int argc, char *argv[] )
 {
-    if( argc < 3 )
+    if( argc < 4 )
     {
         std::cerr << "Usage: " << basename( argv[0] ) << " #_of_layers unit_length"
              << std::endl;
@@ -269,15 +269,16 @@ int generateCluster( int argc, char *argv[] )
 
         return 0;
     }
-
+    //starting here
     init();
 
     //generate
     for( int i=0; i<=n; i++ ) ih( i );
-
+    std::ofstream file(argv[3]);
     //output with .xyz format
-    std::cout << num << std::endl << std::endl;
-    for( int i=0; i<num; i++ ) std::cout << p[i].s << " " << p[i].v*d << std::endl;
+    file << num << std::endl << std::endl;
+    for( int i=0; i<num; i++ ) file << p[i].s << " " << p[i].v*d << std::endl;
 
+    file.close();
     return 0;
 }

@@ -186,9 +186,11 @@ TEST(TestClusterGenerator, basicTest) {
     std::string particleName = "Au";
     std::string layers = "2";
     std::string distance = std::to_string(4.079 / sqrt(2));
-    char *msg[3];
+    std::string location = "../../AData/cluster.xyz";
+    char *msg[4];
     msg[0] = (char*)particleName.c_str();
     msg[1] = (char*)layers.c_str();
     msg[2] = (char*)distance.c_str();
-    generateCluster(3,msg);
+    msg[3] = (char*)location.c_str();
+    generateCluster(4,msg);
 }
