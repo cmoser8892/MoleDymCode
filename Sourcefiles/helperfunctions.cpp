@@ -291,7 +291,7 @@ Positions_t generateCapsel(Atoms &atoms, double scaling) {
     returnValue.setZero();
     Vector_t min{atoms.positions.row(0).minCoeff(),atoms.positions.row(1).minCoeff(),atoms.positions.row(2).minCoeff()};
     Vector_t max{atoms.positions.row(0).maxCoeff(),atoms.positions.row(1).maxCoeff(),atoms.positions.row(2).maxCoeff()};
-    Vector_t middlePoint = 0.5*(max -min);
+    Vector_t middlePoint =min+ 0.5*(max -min);
     //scaling is done from the middlepoint
     Vector_t middleToMin = middlePoint + scaling * (min- middlePoint);
     Vector_t middleToMax = middlePoint + scaling * (max- middlePoint) ;
