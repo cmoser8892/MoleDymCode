@@ -148,7 +148,7 @@ TEST(TestHelperfunctions, heatdepostitTest) {
     //constant mass
     Atoms atoms(lattice,1);
     depositHeat(energy,atoms);
-    EXPECT_EQ(calculateCurrentTemperaturEV(atoms),2./3. * (energy/boltzmannElectronVolt));
+    EXPECT_NEAR(calculateCurrentTemperaturEV(atoms),2./3. * (energy/boltzmannElectronVolt/atoms.nb_atoms()),1e-5);
 }
 
 TEST(TestHelperfunctions, basicHeatEnergyTest) {

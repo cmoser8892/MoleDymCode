@@ -377,7 +377,8 @@ int milestone7Code(int argc, char *argv[]) {
     runs = 60;
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
-        int subruns = 600;
+        //TODO update this part takes way to long
+        int subruns = 200;
         ///
         std::vector<double> setEnergyStorage;
         std::vector<double> setTemperaturStorage;
@@ -391,7 +392,8 @@ int milestone7Code(int argc, char *argv[]) {
                       << "Current Temperatur: " << temperatur << std::endl;
             ///
         }
-        for(int j = 0; j < subruns/2; ++j) {
+        data.simulationTime = data.timeStep;
+        for(int j = 0; j < (subruns/2 * 10); ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
             std::cout << "Step:" << i << " "
@@ -402,6 +404,7 @@ int milestone7Code(int argc, char *argv[]) {
             setEnergyStorage.push_back(totalEnergy);
             setTemperaturStorage.push_back(temperatur);
         }
+        data.simulationTime = 10 * data.timeStep;
         //calculateMean
         meanEnergyStorage.push_back(averageVector(setEnergyStorage));
         meanTemperaturStorage.push_back(averageVector(setTemperaturStorage));
@@ -433,7 +436,7 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
     double currentTime = 0;
     NeighborList list(data.cutoffDistance);
     //run the simulation for some time
-    while (currentTime <= data.simulationTime) {
+    while (currentTime < data.simulationTime) {
         /// computation
         verletStep1Atoms(atoms,data.timeStep);
         //update list before
