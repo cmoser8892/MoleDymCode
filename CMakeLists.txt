@@ -20,7 +20,9 @@ set(MYPROJECT_HDRS
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/berendsenThermostat.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/milestones.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/neighbors.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/embeddedAtomPotential.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/embeddedAtomPotential.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Headerfiles/clusterGenerator.h
+        )
 
 set(MYPROJECT_SRCS
         #Add source files here
@@ -31,7 +33,9 @@ set(MYPROJECT_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/berendsenThermostat.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/milestones.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/neighbors.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/embeddedAtomPotential.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/embeddedAtomPotential.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sourcefiles/clusterGenerator.cpp
+        )
 
 set(MYPROJECT_executable_SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)

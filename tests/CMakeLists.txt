@@ -25,7 +25,9 @@ set(myproject_tests_SRCS
         ${CMAKE_SOURCE_DIR}/Sourcefiles/xyz.cpp
         ${CMAKE_SOURCE_DIR}/Sourcefiles/neighbors.cpp
         ${CMAKE_SOURCE_DIR}/Sourcefiles/embeddedAtomPotential.cpp
-        ${CMAKE_SOURCE_DIR}/Sourcefiles/milestones.cpp)
+        ${CMAKE_SOURCE_DIR}/Sourcefiles/milestones.cpp
+        ${CMAKE_SOURCE_DIR}/Sourcefiles/clusterGenerator.cpp
+        )
 
 # Tests
 include_directories(yamd_tests ${CMAKE_SOURCE_DIR})

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Headerfiles/milestones.h"
+#include "Headerfiles/clusterGenerator.h"
 
 using namespace std;
 
@@ -8,5 +9,6 @@ int main(int argc, char *argv[]) {
     //return milestone4Code();
     //return milestone5Code(argc,argv);
     //return milestone6Code(argc,argv);
-    return milestone7Code(argc,argv);
+    //return milestone7Code(argc,argv);
+    return generateCluster(argc,argv);
 }

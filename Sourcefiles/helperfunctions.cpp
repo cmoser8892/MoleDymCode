@@ -283,7 +283,7 @@ bool checkMoleculeTrajectories(Atoms &atoms, Positions_t controlPositions) {
  * @brief creates two points of capsel around the structure so that the atoms can be checked to not escape
  * @param atoms
  * @param scaling this scales the diagonal of the control cube if the diagonal is length 1 and scaling is 2 the diagonal is 2 afterwards, the points get stretched out equally
- * @return
+ * @return generates the two edgepostions of the capsul created.
  */
 Positions_t generateCapsel(Atoms &atoms, double scaling) {
     Positions_t returnValue(3,2);
@@ -305,7 +305,7 @@ Positions_t generateCapsel(Atoms &atoms, double scaling) {
  * @brief checks weather v1 is bigger than v2 in all directions
  * @param v1
  * @param v2
- * @return true or false
+ * @return true or false depending if v1 is indeed bigger than v2
  */
 bool compareVectorsBigSmall(Vector_t v1, Vector_t v2) {
     bool returnValue = true;
@@ -337,10 +337,9 @@ double calculateDistanceBetweenVectors(Vector_t distanceVector) {
 
 /**
  * @fn void depositHeat(double heat, Atoms &atoms)
- * @brief deposits an amount of heat(energy) equally for each atom
+ * @brief deposits an amount of heat(energy) equally for each atom (the energy is only added exactly in case there is no kinetic energy, use depositRescaledHeat)
  * @param heat
  * @param atoms
- * @return
  */
 void depositHeat(double heat, Atoms &atoms) {
     //get the number of Atoms
@@ -364,7 +363,7 @@ void depositHeat(double heat, Atoms &atoms) {
 
 /**
  * @fn void depositRescaledHeat(double heat, Atoms &atoms)
- * @brief adds heat as expected i hope
+ * @brief adds heat to the atom System. Deposits exactly the heat that it says
  * @param heat
  * @param atoms
  */
@@ -382,7 +381,7 @@ void depositRescaledHeat(double heat, Atoms &atoms) {
 
 /**
  * @fn void printAtomsVelocitiesAndPositions(Atoms &atoms)
- * @brief prints out the postitions and velocys of the atoms
+ * @brief prints out the positions and velocities of the atoms
  * @param atoms
  */
 void printAtomsVelocitiesAndPositions(Atoms &atoms) {
@@ -406,8 +405,8 @@ double averageVector(std::vector<double> values) {
 }
 
 /**
- * @fn
- * @brief
+ * @fn void printData(int step, double energy, double temperatur)
+ * @brief this is just a shorthand for the printing of information in Milestone 7. It can be disabled with the preprocessor in types.h
  * @param step
  * @param energy
  * @param temperatur

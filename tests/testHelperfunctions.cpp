@@ -7,6 +7,7 @@
 #include "../Headerfiles/atoms.h"
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/xyz.h"
+#include "../Headerfiles/clusterGenerator.h"
 
 TEST(TestHelperfunctions, cubicEncapsulation) {
     Positions_t p = createLatticeCube(8,10);
@@ -179,4 +180,15 @@ TEST(TestHelperfunctions, heatEnergyTest) {
     depositRescaledHeat(energy,atoms);
     double value = calculateKineticEnergy(atoms);
     EXPECT_NEAR(originalValue+energy,value,1e-5);
+}
+
+TEST(TestClusterGenerator, basicTest) {
+    std::string particleName = "Au";
+    std::string layers = "2";
+    std::string distance = std::to_string(4.079 / sqrt(2));
+    char *msg[3];
+    msg[0] = (char*)particleName.c_str();
+    msg[1] = (char*)layers.c_str();
+    msg[2] = (char*)distance.c_str();
+    generateCluster(3,msg);
 }
