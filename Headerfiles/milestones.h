@@ -17,6 +17,7 @@ int milestone4Code();
 int milestone5Code(int argc = 0, char *argv[] = NULL);
 int milestone6Code(int argc = 0, char *argv[] = NULL);
 int milestone7Code(int argc = 0, char *argv[] = NULL);
+int writeClusters();
 
 /** Big Helper */
 //all in a struct so it is still readable and you dont confuse the stuff as easily

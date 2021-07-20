@@ -314,16 +314,17 @@ int milestone7Code(int argc, char *argv[]) {
     int returnValue = 0;
     bool once = false;
     /** Gold Params
-        double cutoff = 2.0; //A?
+        double cutoff = 2.0; //A
         double A = 0.2061; //eV
         double xi = 1.790; //eV
         double p = 10.229; //
         double q = 4.036; //
-        double re = 4.079 / sqrt(2)); //distance ?
+        double re = 4.079 / sqrt(2)); //distance
     */
     /** Cluster generation */
     Names_t names;
     Positions_t positions;
+    /** File basenames*/
     std::string dataLocation = "/home/cm/CLionProjects/MoleDymCode/AData";
     std::string kineticEnergyFile =     "kineticEnergy";
     std::string potentialEnergyFile =   "potentialEnergy";
@@ -339,26 +340,28 @@ int milestone7Code(int argc, char *argv[]) {
     }
     else {
         /** Create cluster based on layers given */
+        std::cout << "Additional Argument" << std::endl;
         int layers = atoi(argv[1]);
+        std::string number(argv[1]);
         //generate a cluster based on the layers
         std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
-        generateClusterHull(layers, location);
-        std::string filename = location + "/cluster" + argv[1] +".xyz";
-        auto [tupleNames, tuplePositions]{read_xyz(location)};
-        std::cout << tuplePositions << std::endl;
+        generateClusterHull(layers, location); //stupid shit does not work
+        //get from the preprocessed files
+        std::string filename = location + "/cluster" + number +".xyz";
+        std::cout << filename << std::endl;
+        auto [tupleNames, tuplePositions]{read_xyz(filename)};
         names = tupleNames;
         positions = tuplePositions;
         //make the data identifyable
         dataLocation = location; //change Data location
-        kineticEnergyFile += argv[1];
-        potentialEnergyFile += argv[1];
-        temperaturFile += argv[1];
-        energyFile += argv[1];
+        kineticEnergyFile += number;
+        potentialEnergyFile += number;
+        temperaturFile += number;
+        energyFile += number;
     }
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
-    std::cout << positions << std::endl;
     Atoms atoms(names,positions,mass);
     /** Data */
     std::vector<double> meanEnergyStorage;
@@ -381,6 +384,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.cutoffDistance = 10.0;
     data.targetTemperatur = 300;
     /** Main simulation */
+    std::cout << "Starting Simulation" << std::endl;
     //preheating
     int runs = 35;
     double roomTemperature = 273 + 25;
@@ -497,4 +501,17 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
     }
     //return stuff
     return {returnEnergy, returnTemperatur};
+}
+
+/**
+ * @fn int writeClusters()
+ * @brief little mockup to create the files for the Clusters, couse it refuses to work in the normal code
+ * @return nothing
+ */
+int writeClusters() {
+    int layers = 12;
+    //generate a cluster based on the layers
+    std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
+    generateClusterHull(layers, location);
+    return 0;
 }
