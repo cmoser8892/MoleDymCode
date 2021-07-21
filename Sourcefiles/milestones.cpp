@@ -334,7 +334,10 @@ int milestone7Code(int argc, char *argv[]) {
     if(argc == 1) {
         /** Do nothing */
         std::cout << "No arguments given" << std::endl;
-        auto [tupleNames, tuplePositions]{read_xyz("../AData/cluster_923.xyz")};
+        std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
+        std::string filename = location + "/cluster" + "4" +".xyz";
+        //auto [tupleNames, tuplePositions]{read_xyz("../AData/cluster_923.xyz")};
+        auto [tupleNames, tuplePositions]{read_xyz(filename)};
         names = tupleNames;
         positions = tuplePositions;
     }
@@ -348,7 +351,6 @@ int milestone7Code(int argc, char *argv[]) {
         generateClusterHull(layers, location); //stupid shit does not work
         //get from the preprocessed files
         std::string filename = location + "/cluster" + number +".xyz";
-        std::cout << filename << std::endl;
         auto [tupleNames, tuplePositions]{read_xyz(filename)};
         names = tupleNames;
         positions = tuplePositions;
@@ -375,10 +377,10 @@ int milestone7Code(int argc, char *argv[]) {
     data.maxTrajectoryNumber = 100000;
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
-    data.doDumping = true;
+    data.doDumping = false;
     data.totalEnergyRecording = true;
     ///
-    data.controlCube = generateCapsel(atoms,20); //always has to be generated otherwise crash
+    data.controlCube = generateCapsel(atoms,200000); //always has to be generated otherwise crash
     std::cout << data.controlCube << std::endl;
     data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
@@ -388,7 +390,7 @@ int milestone7Code(int argc, char *argv[]) {
     /** Main simulation */
     std::cout << "Starting Simulation" << std::endl;
     //preheating
-    int runs = 35;
+    int runs = 50;
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp

@@ -54,7 +54,7 @@ TEST(TestMilestone, TestSimulationBlock) {
 
 TEST(TestMilestone, M7WithArguments) {
     std::string progammCall = "XXX";
-    std::string layers = "6";
+    std::string layers = "1";
     char *msg[2];
     msg[0] = (char*)progammCall.c_str();
     msg[1] = (char*)layers.c_str();
