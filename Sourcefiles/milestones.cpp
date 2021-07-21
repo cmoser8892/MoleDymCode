@@ -388,7 +388,7 @@ int milestone7Code(int argc, char *argv[]) {
     /** Main simulation */
     std::cout << "Starting Simulation" << std::endl;
     //preheating
-    int runs = 1; //50
+    int runs = 50; //50
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
@@ -410,7 +410,7 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 1; //60
+    runs = 60; //60
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
         int subruns = 600;
