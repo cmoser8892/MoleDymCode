@@ -335,7 +335,7 @@ int milestone7Code(int argc, char *argv[]) {
         /** Do nothing */
         std::cout << "No arguments given" << std::endl;
         std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
-        std::string filename = location + "/cluster" + "4" +".xyz";
+        std::string filename = location + "/cluster" + "1" +".xyz";
         //auto [tupleNames, tuplePositions]{read_xyz("../AData/cluster_923.xyz")};
         auto [tupleNames, tuplePositions]{read_xyz(filename)};
         names = tupleNames;
@@ -343,7 +343,6 @@ int milestone7Code(int argc, char *argv[]) {
     }
     else {
         /** Create cluster based on layers given */
-        std::cout << "Additional Argument" << std::endl;
         int layers = atoi(argv[1]);
         std::string number(argv[1]);
         //generate a cluster based on the layers
@@ -360,12 +359,12 @@ int milestone7Code(int argc, char *argv[]) {
         potentialEnergyFile += number;
         temperaturFile += number;
         energyFile += number;
+        std::cout << "LayerID" << number << std::endl;
     }
     /** Set up atoms */
     double atomicMassAu = 196.97; // 197Au79
     double mass = atomicMassAu/massCorrectionFactor; //mass is in u convert it to a correct mass for gupta
     Atoms atoms(names,positions,mass);
-    printAtomsVelocitiesAndPositions(atoms);
     /** Data */
     std::vector<double> meanEnergyStorage;
     std::vector<double> meanTemperaturStorage;
@@ -380,8 +379,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.doDumping = false;
     data.totalEnergyRecording = true;
     ///
-    data.controlCube = generateCapsel(atoms,200000); //always has to be generated otherwise crash
-    std::cout << data.controlCube << std::endl;
+    data.controlCube = generateCapsel(atoms,4); //always has to be generated otherwise crash
     data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 1000 * data.timeStep;
@@ -390,7 +388,7 @@ int milestone7Code(int argc, char *argv[]) {
     /** Main simulation */
     std::cout << "Starting Simulation" << std::endl;
     //preheating
-    int runs = 50;
+    int runs = 1; //50
     double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
@@ -412,7 +410,7 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 60;
+    runs = 1; //60
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
         int subruns = 600;

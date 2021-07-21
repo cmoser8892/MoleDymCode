@@ -13,7 +13,7 @@
 #include "Eigen/Core"
 
 /** Build stuff */
-#define NOPRINTING
+//#define NOPRINTING
 
 /** Redefinitions*/
 using Positions_t = Eigen::Array3Xd;
