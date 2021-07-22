@@ -379,7 +379,7 @@ int milestone7Code(int argc, char *argv[]) {
     data.doDumping = false;
     data.totalEnergyRecording = true;
     ///
-    data.controlCube = generateCapsel(atoms,4); //always has to be generated otherwise crash
+    data.controlCube = generateCapsel(atoms,400); //always has to be generated otherwise crash
     data.timeStep = 1; //in fs
     data.simulationTime = 10 * data.timeStep;
     data.relaxationTime = 1000 * data.timeStep;
