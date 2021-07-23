@@ -410,7 +410,7 @@ int milestone7Code(int argc, char *argv[]) {
         ///
     }
     ///data get for plot
-    runs = 60; //60
+    runs = 120; //60
     //10 - 100 ps
     for(int i = 0; i < runs; ++i) {
         int subruns = 600;
@@ -418,7 +418,7 @@ int milestone7Code(int argc, char *argv[]) {
         std::vector<double> setEnergyStorage;
         std::vector<double> setTemperaturStorage;
         ///
-        depositRescaledHeat(1e-2*atoms.nb_atoms(),atoms);
+        depositRescaledHeat(5e-3*atoms.nb_atoms(),atoms);
         for(int j = 0; j < subruns/2; ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
