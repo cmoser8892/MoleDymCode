@@ -1,4 +1,4 @@
-# Prerequisites
+ Prerequisites
 *.d
 
 # Compiled Object files
@@ -43,3 +43,5 @@
 /AJupyter/plotAtomTimesFirstTry.png
 /cmake-build-release/
 /cmake/
+/cmake/
+/AALatex/build/
