@@ -7,3 +7,35 @@
 	-> key atoms container Class which holdes all the Values
 	-> most functions were tested with googleTest
 \end{comment}
+
+%basic
+\begin{comment}
+code written in c++ most of it pretty functional, classes just used 
+for the atoms container which holds the arrays 
+while writing it also wrote the unittests with googletest
+data aquiered form the code plotted with python
+also where large simulations had to be run, called the program from the python code
+
+--
+code is structured into the milestones, so an individual milestone can be rerun in case of fuckup
+parted into h and cpp files as usual
+
+\end{comment}
+%TODO cite shit
+The simulation code was written in C++, most of it just as functions, although the positions, velocities, etc. of the individual atoms where saved in a container-class.
+While writing the functions, these were also tested with unit-tests.
+Plots generation and automation for running the project were written in python.
+
+%used software
+\begin{comment}
+developed in CLion which as an integrated git inviroment
+Clion builds with Cmake then clang as a compiler
+debugger is gdb(nicely hidden)
+- additianal bibs where :
+	googletest	for unittests
+	eigen		for arrays 
+- 
+\end{comment}
+The C++-code was developed in CLion, an IDE which bundles many useful features together (CMake, GDB and Git).
+The python-code was written in jupyter-notebook. 
+Additional libaries used where: googletest for the unit-tests and eigen for the arrays used for data storage in the container-class.
