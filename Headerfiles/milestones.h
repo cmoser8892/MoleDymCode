@@ -13,7 +13,7 @@
 #include "../Headerfiles/helperfunctions.h"
 #include "../Headerfiles/milestones.h"
 
-int milestone4Code();
+int milestone4Code(int argc = 0, char *argv[] = NULL);
 int milestone5Code(int argc = 0, char *argv[] = NULL);
 int milestone6Code(int argc = 0, char *argv[] = NULL);
 int milestone7Code(int argc = 0, char *argv[] = NULL);

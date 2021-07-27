@@ -17,16 +17,33 @@
  * @brief function that contains all of the Milestone4 code
  * @return not relevant
  */
-int milestone4Code() {
+int milestone4Code(int argc, char *argv[]) {
+    std::string filename = "energy";
+    std::string location = "/home/cm/CLionProjects/MDCode/AData";
     /** Vars */
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
+    double norre = 0.1; //variablename by tschuli
+    /** Value Read */
+    if(argc == 1) {
+        /** Do nothing */
+        std::cout << "No arguments given" << std::endl;
+    }
+    else if(argc == 2){
+        std::cout << "Additional Arguments" << std::endl;
+        /** rewrite varibles */
+        norre = atof(argv[1]);
+        std::string number(argv[1]);
+        std::cout << number << std::endl;
+        filename += number;
+    }
     /** Times */
-    double timeStep = 0.01 * sqrt((mass*sigma*sigma)/epsilon);
-    double totalTime = 100  * sqrt((mass*sigma*sigma)/epsilon);
-    double safeDumpTime = 1  * sqrt((mass*sigma*sigma)/epsilon);
-    int safeAtStep = safeDumpTime/timeStep;
+    double preFactor = sqrt((mass*sigma*sigma)/epsilon);
+    double timeStep = norre * preFactor;
+    double totalTime = 10000  * timeStep;
+    double safeDumpTime = 100  * timeStep;
+    int safeAtStep = 100;
     double currentTime = 0;
     /** global */
     double energy = 0;
@@ -35,11 +52,6 @@ int milestone4Code() {
     auto [names, positions, velocities]{read_xyz_with_velocities("../AData/lj54.xyz")};
     Atoms atoms(names,positions,velocities);
     /** Initial State */
-    if(0) { //this means the first image is not the initial state but only kinda
-        energy = lendardJonesDirectSummation(atoms,epsilon,sigma);
-        std::cout << "Writing Dump at:" << currentTime << std::endl;
-        dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",
-                 (unsigned int) (totalTime/timeStep),0); }
     int i = 0;
     /** Loop */
     while (currentTime <= totalTime) {
@@ -54,9 +66,9 @@ int milestone4Code() {
         energyStorage[i] = energy;
         if((i%safeAtStep) == 0)
         {
-            std::cout << "Writing Dump at:" << currentTime << std::endl;
-            std::cout << energyStorage[i] << std::endl;
-            dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",1000,(unsigned int) i/safeAtStep);
+            //std::cout << "Writing Dump at:" << currentTime << std::endl;
+            //std::cout << energyStorage[i] << std::endl;
+            //dumpData(atoms,"/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps","Trajectory",1000,(unsigned int) i/safeAtStep);
         }
         //update time and counter
         currentTime += timeStep;
@@ -65,7 +77,7 @@ int milestone4Code() {
         //std::cout << currentTime << std::endl;
     }
     //energy dump for ploting
-    dumpVectorData(energyStorage, "/home/cm/CLionProjects/MoleDymCode/AJupyter", "energy");
+    dumpVectorData(energyStorage, location, filename);
     return 0;
 }
 
