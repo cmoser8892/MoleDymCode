@@ -1,5 +1,12 @@
 \input{Tex/includePackages}
 
+%% OWN
+\usepackage[english]{babel}
+\usepackage[
+	backend = bibtex,
+]{biblatex}
+\addbibresource{Literatur/Lit.bib}
+
 \begin{document}
 
 % MainInput
@@ -7,19 +14,23 @@
 %\input{Tex/milestone4}
 %\input{Tex/milestone5}
 %\input{Tex/milestone6}
-\input{/home/cm/CLionProjects/MDCode/AData/Clusters/texFigures}
-%\input{Tex/milestone7}
+%\input{/home/cm/CLionProjects/MDCode/AData/Clusters/texFigures}
 %actual report
+\tableofcontents
+\listoffigures
+\clearpage
 %\input{Tex/introduction}
-%\input{Tex/methods}
-%\input{Tex/implementation}
-%\input{Tex/results}
+\input{Tex/methods}
+\input{Tex/implementation}
+\input{Tex/results}
 %\input{Tex/conclusion}
 
-
+\cite{WinNT}
 % %bib 
 
- %\printbibliography
+\printbibliography
+\cleardoublepage
+
 \cleardoublepage
  
 \end{document}

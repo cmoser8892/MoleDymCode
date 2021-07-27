@@ -30,7 +30,8 @@
     }
     \usepackage{upquote} % Upright quotes for verbatim code
     \usepackage{eurosym} % defines \euro
-    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    %TODO: gave me an error, now commented
+    %\usepackage[mathletters]{ucs} % Extended unicode (utf-8) support 
     \usepackage{fancyvrb} % verbatim replacement that allows latex
     \usepackage{grffile} % extends the file name processing of package graphics
                          % to support a larger range
@@ -68,7 +69,7 @@
 
     % Colors for the hyperref package
     \definecolor{urlcolor}{rgb}{0,.145,.698}
-    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{linkcolor}{rgb}{0,0,0}%{.71,0.21,0.01}
     \definecolor{citecolor}{rgb}{.12,.54,.11}
 
     % ANSI colors
@@ -362,6 +363,4 @@
     % Slightly bigger margins than the latex defaults
 
     \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
-
-%% OWN
 
