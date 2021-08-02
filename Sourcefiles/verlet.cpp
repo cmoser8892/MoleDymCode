@@ -28,7 +28,7 @@ void verletStep1(Positions_t &positions, Velocities_t &velocities, const Forces_
  * @param timestep
  */
 void verletStep1Atoms(Atoms &atoms,double timestep) {
-    //velocity
+    //velocity with an individual mass for each atom
     for(int i = 0; i < atoms.nb_atoms(); i++) {
         atoms.velocities.col(i) += 0.5 * atoms.forces.col(i) * timestep/atoms.mass(i);
     }

@@ -21,10 +21,100 @@
 		->Gentle Way of resealing the Velocities
 		
 \end{comment}
+%end general
+\begin{comment}
+goals of a md simulation
+- determine the motion of each atom
+	-> solve equation of motion 
+	-> compute forces
+	-> From the dirivation of the potential energy we can get the forces
+
+- disciticed in time
+
+\end{comment}
+The goal of a molecular dynamics simulation is to determine the motion of each individual atom. For this we have to solve the equations of motion and compute the forces that affect each atom.
+\begin{equation}
+	\label{potentialForceEquation}
+	\overrightarrow{f_{k}} = -\cfrac{\displaystyle\partial}{\displaystyle \partial \overrightarrow{r_{k}}} E_{pot}(\{\overrightarrow{r_{k}}\}) 
+\end{equation}
+The forces can be derived from the potential Energy as shown in \ref{potentialForceEquation} \cite[cf.][]{molDymCourse}. 
+%TODO idont like
+The simulation was run in a discretized space, so all updates to the motion of atoms was only done after a time step.
+
 
 \section{Integration}
+\begin{comment}
+- obtain force from the previous equation
+- dirivation in v. r.. from the mass
+- system can be discribed just by the velocity and postion of each atom
+- in the simulation the positions and velocities of the individual atoms have to be tracked and updated accordingly
+- most used  is the Velocity-Verlet Algorithm
+\end{comment}
+From the equation \ref{potentialForceEquation} we can obtain the force at each individual atom with it's acceleration, velocity and position as shown in  \ref{potentialForceEquation}. 
+\begin{equation}
+	\label{potentialForceEquationForEachAtom}
+	\overrightarrow{f_{i}} = \cfrac{\displaystyle\partial E_{pot}}{\displaystyle \partial \overrightarrow{r_{i}}} = m_{i}\overrightarrow{a_{i}} = m_{i}\overrightarrow{\dot{v_{i}}} = m_{i}\overrightarrow{\ddot{r_{i}}}
+\end{equation}
+
+
 \section{Potentials}
+\begin{comment}
+- from the potential energy the forces affection each atom can be derived
+- the forces which affect the atoms than determine the motion of each atom
+\end{comment}
+
+%General Formula for the dirivation
+\begin{equation}
+	\overrightarrow{f_{k}} = -\frac{\partial E_{pot}}{\partial  \overrightarrow{r_{k}}}=\sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
+\end{equation}
+
+
 \subsection{Lenard-Jones-Potential}
+\begin{comment}
+- pair potential
+\end{comment}
+%Formulation of the lj potential
+\begin{equation}
+	V(r) = 4\epsilon\bigg[\Big(\frac{\sigma}{r}\Big)^{12}- \Big(\frac{\sigma}{r}\Big)^{6} \bigg]
+\end{equation}
+%Potential derivation with python
+\begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{sympy} \PY{k}{as} \PY{n+nn}{sp}
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{sp}\PY{o}{.}\PY{n}{init\PYZus{}printing}\PY{p}{(}\PY{p}{)}
+\PY{n}{eps} \PY{o}{=} \PY{n}{sp}\PY{o}{.}\PY{n}{Symbol}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sig} \PY{o}{=} \PY{n}{sp}\PY{o}{.}\PY{n}{Symbol}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{s}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{rad} \PY{o}{=} \PY{n}{sp}\PY{o}{.}\PY{n}{Symbol}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{energyRad} \PY{o}{=} \PY{l+m+mi}{4} \PY{o}{*} \PY{n}{eps} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{n}{sig}\PY{o}{/}\PY{n}{rad}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{12} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{sig}\PY{o}{/}\PY{n}{rad}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{6}\PY{p}{)}
+\PY{n}{energyRad}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{rad}\PY{p}{)}
+	\end{Verbatim}
+\end{tcolorbox}
+\prompt{Out}{outcolor}{4}{}
+
+$\displaystyle 4 e \left(\frac{6 s^{6}}{r^{7}} - \frac{12 s^{12}}{r^{13}}\right)$
+
 \subsection{Neighborhood-Search Algorithm}
 %Not sure about that one
+\begin{comment}
+
+\end{comment}
+
 \subsection{Embedded-Atom Method Potentials}
+\begin{comment}
+- describe Units 
+- will be funny describing it in general
+\end{comment}
+
+\subsection{Berendsen-Thermostat}
+
+\begin{equation}
+	\lambda = \sqrt{1 + \bigg(\frac{T_{0}}{T} -1\bigg)\frac{\Delta t}{\tau}}
+\end{equation}
+
+\begin{equation}
+	T(t) = T_{0} + (T_{1}-T_{0})e^{-t/\tau}
+\end{equation}
+

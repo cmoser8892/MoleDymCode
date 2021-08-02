@@ -9,34 +9,43 @@
 
 \end{comment}
 
-% Simulation Snapshots
-\begin{figure}[!h]
+% Plot of the total energy as a function of time
+\begin{figure}
 	\begin{center}
-		\includegraphics[scale= 1]{Figure/1Image.png}
+		\includegraphics[scale= 1.05]{/home/cm/CLionProjects/MDCode/AData//totalEnergyDrift.png}
 	\end{center}
-	\caption[Simulation]{Simulation }
+	\caption[Simulation with different timesteps]{Simulation with different timesteps}
+	\label{SimWithTimestep}
+\end{figure}
+The first task of the course asks to plot the total energy of the simulation for different time steps. The units were in a Lenard-Jones equivalent and not given here. As can be seen in the sequence \ref{SimWithTimestep}, with a bigger and bigger timestep the energy in the simulation goes from stable (timestep 0.01) over a drifting behavior (timestep 0.03) to being unstable (timestep 0.05). A good timestep for this simulation would be 0.01.  
+\par
+To visualize the simulation OVITO \cite{ovito} was used and this series of images was created.
+% Simulation Snapshots
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale= 0.65]{Figure/1ImageS.png}
+	\end{center}
+	\caption[Simulation Snapshot]{Simulation Snapshot}
 	\label{SimulationSnapshot1}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}
 	\begin{center}
-		\includegraphics[scale= 1]{Figure/3Image.png}
+		\includegraphics[scale= 0.75]{Figure/2ImageS.png}
 	\end{center}
-	\caption[Simulation]{Simulation }
+	\caption[Simulation Snapshot]{Simulation Snapshot }
 	\label{SimulationSnapshot2}
 \end{figure}
 
-% Plot of the total energy as a function of time
-
-%TODO make Nicer or plot into on lol
-\begin{figure}[!h]
+\begin{figure}
 	\begin{center}
-		\includegraphics[scale= 1]{/home/cm/CLionProjects/MDCode/AData//totalEnergyDrift.png}
+		\includegraphics[scale= 0.65]{Figure/3ImageS.png}
 	\end{center}
-	\caption[Simulation]{Simulation }
-	\label{SimWithTimestep}
+	\caption[Simulation Snapshot]{Simulation Snapshot }
+	\label{SimulationSnapshot3}
 \end{figure}
-
+As it can be seen in the images \ref{SimulationSnapshot1}, \ref{SimulationSnapshot2} and \ref{SimulationSnapshot3} the Atoms are initially ordered into a blob, which was given in the course. 
+Later in the simulation some of the atoms escape the initial blob and fly outward separately. 
 \section{Result from the Simulation with the Berendsen Thermostat}
 \begin{comment}
 
@@ -47,7 +56,7 @@
 	\begin{center}
 		\includegraphics[scale=1]{Figure/plotAtomTimes.png}
 	\end{center}
-	\caption[Simulation-time with the Berendsen Thermostat from 8 to 192 Atoms]{Simulation-time with the Berendsen Thermostat from 8 to 192 Atoms }
+	\caption[Simulationtime with the Berendsen Thermostat from 8 to 192 Atoms]{Simulationtime with the Berendsen Thermostat from 8 to 192 Atoms }
 	\label{PlotSimulationTimeBerendsenThermostat}
 \end{figure}
 
@@ -61,7 +70,7 @@
 	\begin{center}
 		\includegraphics[scale=1.25]{Figure/plotAtomTimesMoreData.png}
 	\end{center}
-	\caption[Simulation-time with the Neighbor-list]{Simulation-time with the Neighbor list}
+	\caption[Simulationtime with the Neighborhood-list]{Simulationtime with the Neighborhood-list}
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 

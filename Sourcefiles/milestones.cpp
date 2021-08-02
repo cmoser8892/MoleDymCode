@@ -24,7 +24,7 @@ int milestone4Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
-    double norre = 0.1; //variablename by tschuli
+    double norre = 0.1; //variablename by tschuli (dont ask ur friends for names lol)
     /** Value Read */
     if(argc == 1) {
         /** Do nothing */
