@@ -48,29 +48,30 @@ As it can be seen in the images \ref{SimulationSnapshot1}, \ref{SimulationSnapsh
 Later in the simulation some of the atoms escape the initial blob and fly outward separately. 
 \section{Result from the Simulation with the Berendsen Thermostat}
 \begin{comment}
-
+computational complexity 
+why on2
+optimization not every force is looked at individually as the force resluting form this atom is the same for the other atom but negative
 \end{comment}
-
-
-\begin{figure}[!h]
+After incorporating the Berendsen Thermostat into the code it is interesting to look at the computational complexity of the simulation. With growing numbers of atoms the computation of should follow an order of something like O(N²). The main culprit for this is the force-computation, as each interaction with all the other atoms in the simulation has to be computed. This is also shown in the next figure as the computation time follows a quadratic function. 
+\begin{figure}
 	\begin{center}
 		\includegraphics[scale=1]{Figure/plotAtomTimes.png}
 	\end{center}
 	\caption[Simulationtime with the Berendsen Thermostat from 8 to 192 Atoms]{Simulationtime with the Berendsen Thermostat from 8 to 192 Atoms }
 	\label{PlotSimulationTimeBerendsenThermostat}
 \end{figure}
-
+Although all the interaction between all the atoms are computed they do not carry the same weight to the force that affects the atom. It should be rather clear that, the further apart atoms are, the smaller the force gets. After a certain distance it gets so small that it can be ignored. This leads to the idea to use neighborhood-lists that ignore the atoms outside of a certain radius, which was done in the next section.
 
 \section{Results from the Simulation with the Neighborhood-List}
 \begin{comment}
 
 \end{comment}
-
-\begin{figure}[!h]
+After running the simulation in the previous section, it was clear that they follow a computational complexity of the order O(N²). This can be reduced to a linear order O(N) with the usage of neighborhood-lists. Only the atoms in a certain radius around the atom will be computed and a force will be added to the total force affecting the atom. This can be seen in figure \ref{PlotSimulationTimesCutoffNew} on a linear and a logarithmic scale.  
+\begin{figure}
 	\begin{center}
 		\includegraphics[scale=1.25]{Figure/plotAtomTimesMoreData.png}
 	\end{center}
-	\caption[Simulationtime with the Neighborhood-list]{Simulationtime with the Neighborhood-list}
+	\caption[Simulationtime with the Neighborhood-List]{Simulationtime with the Neighborhood-List}
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 
@@ -79,7 +80,7 @@ Later in the simulation some of the atoms escape the initial blob and fly outwar
 
 \end{comment}
 
-\begin{figure}[!h] 
+\begin{figure}
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/temperaturPotentialEnergyCurveMoreInOne.png} 
 	\end{center} 

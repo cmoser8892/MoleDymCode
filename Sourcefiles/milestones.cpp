@@ -166,7 +166,7 @@ int milestone5Code(int argc, char *argv[]) {
         }
         //safe
         if ((i % safeAtStep) == 0) {
-            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
             //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
