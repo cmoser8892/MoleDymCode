@@ -66,7 +66,7 @@ Although all the interaction between all the atoms are computed they do not carr
 \begin{comment}
 
 \end{comment}
-After running the simulation in the previous section, it was clear that they follow a computational complexity of the order O(N²). This can be reduced to a linear order O(N) with the usage of neighborhood-lists. Only the atoms in a certain radius around the atom will be computed and a force will be added to the total force affecting the atom. This can be seen in figure \ref{PlotSimulationTimesCutoffNew} on a linear and a logarithmic scale.  
+After running the simulation in the previous section, it was clear that they follow a computational complexity of the order O(N²). This can be reduced to a linear order O(N) with the usage of neighborhood-lists. Only the atoms in a certain radius around the atom will be considered and a force will be added to the total force affecting the atom. This can be seen in figure \ref{PlotSimulationTimesCutoffNew} on a linear and a logarithmic scale.  
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=1.25]{Figure/plotAtomTimesMoreData.png}
@@ -75,10 +75,22 @@ After running the simulation in the previous section, it was clear that they fol
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 
-\section{Results from the Simulation with the Gupta-Potential}
+\section{Results from the Simulation with the Embedded-Atom Method Potential}
 \begin{comment}
+1 graph
+- potential energy gets less with an increase to the clustersize
+- the 
 
+2 
+Heat capacity and latent heat should converge
 \end{comment}
+In the next step the Embedded-Atom Method Potential was used to compute the potential energy and the forces between the atoms. A neighborhood-list was also used. With this it is possible to look at the actual physical properties of the materials in this case gold. In the figure \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature for different cluster sizes are plotted. It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. This can be seen in the next figure \ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster. All data in this figure has been read by hand so it has to be taken with a grain of salt. 
+\par 
+The first interesting property is the melting point of the cluster, which can be seen in the different curvature in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but still is not near it's macroscopic equivalent. 
+
+\par
+It can also be seen that the potential energy of the median atom sinks with bigger clustersizes. To explain this, the ratio of surface to volume of the cluster and the fact that atoms at the border of the cluster need to have a higher energy, have to be considered. With increased clustersizes a smaller percentage of atoms is at the edge and increases the total energy of the cluster. 
+The slope of the curvature at the melting point also increases with bigger clustersizes. In a big physical system this actually would be straight line where the melting point is and the simulated system seems to converge to that. 
 
 \begin{figure}
 	\begin{center} 
@@ -88,7 +100,9 @@ After running the simulation in the previous section, it was clear that they fol
 	\label{GoldClusterSimulationTemperaturEnergy4In1} 
 \end{figure} 
 
-\begin{figure}[!h] 
+
+
+\begin{figure}
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/VsClusterSizeAll.png} 
 	\end{center} 

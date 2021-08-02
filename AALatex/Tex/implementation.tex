@@ -33,11 +33,13 @@ debugger is gdb(nicely hidden)
 - software used form the class itself 
 - ovito for visualization
 \end{comment}
+%TODO cluster generation
 The C++-code was developed in CLion, an IDE which bundles many useful features together (CMake, GDB and Git).
 The python-code was written in jupyter-notebook, alternatively this could also have been done directly in CLion with a plugin. 
 Additional libaries used where: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
 Further software form the course was used for reading xyz-data and for the implementation of the Neighborhood-Search and Gupta-Potential algorithms \cite{molDymCourse}. 
 To visualize the simulation the positions of the atoms at a given time where recorded and then put into OVITO Basic \cite{ovito} to be able to look at them.
+While using the embedded-atom method potential it was necessary to generate a variety of different sized clusters in the form of an icosahedron. For this an external Mackay Icosahedron Structure Generator \cite{icosader} was used.
 \begin{comment}
 --
 code is structured into the milestones, so an individual milestone can be rerun in case of fuckup
