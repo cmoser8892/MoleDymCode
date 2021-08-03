@@ -38,8 +38,6 @@ The goal of a molecular dynamics simulation is to determine the motion of each i
 	\overrightarrow{f_{k}} = -\cfrac{\displaystyle\partial}{\displaystyle \partial \overrightarrow{r_{k}}} E_{pot}(\{\overrightarrow{r_{k}}\}) 
 \end{equation}
 The forces can be derived from the potential Energy as shown in \ref{potentialForceEquation} \cite[cf.][]{molDymCourse}. 
-%TODO idont like
-The simulation was run in a discretized space, so all updates to the motion of atoms was only done after a time step.
 
 
 \section{Integration}
@@ -50,36 +48,58 @@ The simulation was run in a discretized space, so all updates to the motion of a
 - in the simulation the positions and velocities of the individual atoms have to be tracked and updated accordingly
 - most used  is the Velocity-Verlet Algorithm
 \end{comment}
-From the equation \ref{potentialForceEquation} we can obtain the force at each individual atom with it's acceleration, velocity and position as shown in  \ref{potentialForceEquation}. 
+From the equation \ref{potentialForceEquation} we can obtain the force at each individual atom with it's acceleration, velocity and position as shown in  \ref{potentialForceEquationForEachAtom}. 
 \begin{equation}
 	\label{potentialForceEquationForEachAtom}
 	\overrightarrow{f_{i}} = \cfrac{\displaystyle\partial E_{pot}}{\displaystyle \partial \overrightarrow{r_{i}}} = m_{i}\overrightarrow{a_{i}} = m_{i}\overrightarrow{\dot{v_{i}}} = m_{i}\overrightarrow{\ddot{r_{i}}}
 \end{equation}
-
-
-\section{Potentials}
-\begin{comment}
-- from the potential energy the forces affection each atom can be derived
-- the forces which affect the atoms than determine the motion of each atom
-\end{comment}
-
-%General Formula for the dirivation
+It can be seen that the system can be described just by the velocities and positions of the atoms. 
+In the implementation we hold these values in an container-class to ensure that they are consecutive in  memory. This speeds up the simulation. 
+\par
+%to porpagate
+In the next step we need to somehow propagate the simulation forward in time as a static simulation would be rather boring. For updating the positions and velocities one of the most used algorithm is the Velocity-Verlet integration. 
+This scheme is often split up into two steps, the prediction shown in the equations \ref{verletPrediction1} and \ref{verletPrediction2} and the correction shown in equation \ref{verletCorrection} \cite[cf. ][]{molDymCourse}. In between the two steps the force can be updated. 
+%Verlet steps
 \begin{equation}
-	\overrightarrow{f_{k}} = -\frac{\partial E_{pot}}{\partial  \overrightarrow{r_{k}}}=\sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
+	\label{verletPrediction1}
+	\overrightarrow{v_{i}}(t+\Delta t/2) = 
+	\overrightarrow{v_{i}}(t) + 
+	\frac{\overrightarrow{f_{i}}(t)\Delta t}{2m_{i}}
 \end{equation}
 
+\begin{equation}
+	\label{verletPrediction2}
+	\overrightarrow{r_{i}}(t+\Delta t) = 
+	\overrightarrow{r_{i}}(t) + \overrightarrow{v_{i}}(t + \Delta t/2)\Delta t
+\end{equation}
 
-\subsection{Lenard-Jones-Potential}
+\begin{equation}
+	\label{verletCorrection}
+	\overrightarrow{v_{i}}(t+\Delta t) = \overrightarrow{v_{i}}(t+\Delta t/2) +
+	\frac{\overrightarrow{f_{i}}(t + \Delta t)\Delta t}{2m_{i}}
+\end{equation}
+We could now already propagate atoms forward with a constant force, so next we have to actually model the forces affecting each atom.
+
+
+\section{Lenard-Jones-Potential}
 \begin{comment}
 - pair potential
 \end{comment}
-%Formulation of the lj potential
+%General Formula for the dirivation
+The Lenard-Jones potential is most likely one of the more famous pair potentials. The goal of them is to model the Coulomb force and the Pauli repulsion. 
 \begin{equation}
 	V(r) = 4\epsilon\bigg[\Big(\frac{\sigma}{r}\Big)^{12}- \Big(\frac{\sigma}{r}\Big)^{6} \bigg]
 \end{equation}
+As shown in \ref{potentialForceEquation} we can derive the forces from the potential Energy. Now we have to formulate the equation for each atom, this was done in \ref {potentialEquationAtoms}. We can get the force at the atom, if we get sum up the derivative of the potential energy between atom k and all the other atoms i times the normed vector between them. 
+\begin{equation}
+	\label{potentialEquationAtoms}
+	\overrightarrow{f_{k}} = -\frac{\partial E_{pot}}{\partial  \overrightarrow{r_{k}}}=\sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
+\end{equation}
+%Formulation of the lj potential
+To actually implement the equation we have to actually derive $\delta V/ \delta r_{ik}$ analytically. This could have been done by hand, but was actually just done with python. 
 %Potential derivation with python
 \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{4}{\boxspacing}
+%\prompt{In}{incolor}{4}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k+kn}{import} \PY{n+nn}{sympy} \PY{k}{as} \PY{n+nn}{sp}
 \PY{k+kn}{import} \PY{n+nn}{warnings}
@@ -92,23 +112,15 @@ From the equation \ref{potentialForceEquation} we can obtain the force at each i
 \PY{n}{energyRad}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{rad}\PY{p}{)}
 	\end{Verbatim}
 \end{tcolorbox}
-\prompt{Out}{outcolor}{4}{}
 
-$\displaystyle 4 e \left(\frac{6 s^{6}}{r^{7}} - \frac{12 s^{12}}{r^{13}}\right)$
+With the codesnippet from above the derivative of the potential, shown in the next equation \ref{potentialEquationAtomsDirivative}, was obtained.
+\begin{equation}
+	\label{potentialEquationAtomsDirivative}
+	\frac{\partial V}{\partial r} = 4 \epsilon \left(\frac{6 \sigma^{6}}{r^{7}} - \frac{12 \sigma^{12}}{r^{13}}\right)
+\end{equation}
+Now we can implement those last two equations. We can even optimize it by subtracting the force that affects atom k from the forces of atom i, as they have to be the same just with opposite direction and therefore sign. 
 
-\subsection{Neighborhood-Search Algorithm}
-%Not sure about that one
-\begin{comment}
-
-\end{comment}
-
-\subsection{Embedded-Atom Method Potentials}
-\begin{comment}
-- describe Units 
-- will be funny describing it in general
-\end{comment}
-
-\subsection{Berendsen-Thermostat}
+\section{Berendsen-Thermostat}
 
 \begin{equation}
 	\lambda = \sqrt{1 + \bigg(\frac{T_{0}}{T} -1\bigg)\frac{\Delta t}{\tau}}
@@ -117,4 +129,16 @@ $\displaystyle 4 e \left(\frac{6 s^{6}}{r^{7}} - \frac{12 s^{12}}{r^{13}}\right)
 \begin{equation}
 	T(t) = T_{0} + (T_{1}-T_{0})e^{-t/\tau}
 \end{equation}
+
+\section{Neighborhood-Search Algorithm}
+%Not sure about that one
+\begin{comment}
+
+\end{comment}
+
+\section{Embedded-Atom Method Potentials}
+\begin{comment}
+- describe Units 
+- will be funny describing it in general
+\end{comment}
 
