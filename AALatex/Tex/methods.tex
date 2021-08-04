@@ -113,32 +113,40 @@ To actually implement the equation we have to actually derive $\delta V/ \delta 
 	\end{Verbatim}
 \end{tcolorbox}
 
-With the codesnippet from above the derivative of the potential, shown in the next equation \ref{potentialEquationAtomsDirivative}, was obtained.
+With the codesnippet from above the derivative of the potential was obtained, shown in the next equation \ref{potentialEquationAtomsDirivative}.
 \begin{equation}
 	\label{potentialEquationAtomsDirivative}
 	\frac{\partial V}{\partial r} = 4 \epsilon \left(\frac{6 \sigma^{6}}{r^{7}} - \frac{12 \sigma^{12}}{r^{13}}\right)
 \end{equation}
 Now we can implement those last two equations. We can even optimize it by subtracting the force that affects atom k from the forces of atom i, as they have to be the same just with opposite direction and therefore sign. 
-
+\par 
+It can be seen that this algorithm behaves in the Order O(N²) with increasing numbers of atoms in the simulation. This can be reduced to a linear order O(N) if we only consider atoms up to a certain distance (cutoff-distance) around each atom. This is possible as the forces get very small with a big distance between the atoms. The next goal would be to generate a list witch marks neighbors that are inside this cutoff-distance. This can be done using domain decomposition \cite[cf.][]{molDymCourse}
 \section{Berendsen-Thermostat}
-
+\begin{comment}
+- couple the moleclular system to a larger heat bath
+- thermostat controls the heat of the simulation so the system does not melt or evaporate
+\end{comment}
+Thermostats are used in molecular simulation to control the heat in the system and preventing it from melting or evaporating. A simple form of temperature control is the Berendsen-Thermostat, which resales the temperature. 
+\par
+It is typically implemented by resealing the velocities by a factor as shown in equation \ref{coupelingFunction}. 
 \begin{equation}
+	\label{coupelingFunction}
 	\lambda = \sqrt{1 + \bigg(\frac{T_{0}}{T} -1\bigg)\frac{\Delta t}{\tau}}
 \end{equation}
-
+This can be done as the temperature is just another facet to kinetic energy and is connected via the following equation \cite[cf.][]{molDymCourse}. 
 \begin{equation}
-	T(t) = T_{0} + (T_{1}-T_{0})e^{-t/\tau}
+	\label{bolzmann}
+	\frac{3}{2} k_{B} T = \sum_{i} \frac{1}{2} m v_{i}^2
 \end{equation}
-
-\section{Neighborhood-Search Algorithm}
-%Not sure about that one
-\begin{comment}
-
-\end{comment}
 
 \section{Embedded-Atom Method Potentials}
 \begin{comment}
 - describe Units 
-- will be funny describing it in general
+- better discribed in the course
+- good model for metalic systems
+- work with gold clusters 
+
 \end{comment}
+Embedded atom-potentials are a good model for metallic bonding in solid or liquid states for different materials. As an implementation of the potential, developed by Gupta \cite{gupta} and Cleri \& Rosato \cite{rosato} was provided in the course \cite{molDymCourse} itself, the details are best found there.
+
 
