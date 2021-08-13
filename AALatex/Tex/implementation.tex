@@ -17,7 +17,7 @@ data aquiered form the code plotted with python
 also where large simulations had to be run, called the program from the python code
 
 \end{comment}
-The simulation code was written in C++, most of it just as functions, although the positions, velocities, etc. of the individual atoms were saved in a container-class.
+The simulation code was written in C++, most of it as functions, although the positions, velocities, etc. of the individual atoms were saved in a container-class.
 While writing the functions, these were also tested with unit-tests.
 Plot generation and automation for running the project were written in python.
 
@@ -33,11 +33,12 @@ debugger is gdb(nicely hidden)
 - ovito for visualization
 \end{comment}
 The C++-code was developed in CLion, an IDE which bundles many useful features together (CMake, GDB and Git).
-The python-code was written in jupyter-notebook. Alternatively this could also have been done directly in CLion with a plugin. 
-Additional libaries used where: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
-Further software form the course was used for reading xyz-data and for the implementation of the Neighborhood-Search and Gupta-Potential algorithms \cite{molDymCourse}. 
-To visualize the simulation the positions of the atoms at any given time, where recorded and then put into OVITO Basic \cite{ovito}, to be able to look at them.
-While using the embedded-atom method potential it was necessary to generate a variety of different sized clusters in the form of an icosahedron. For this an external Mackay Icosahedron Structure Generator \cite{icosader} was used.
+The python-code was written in jupyter-notebook. Alternatively, this could have been done directly in CLion with a plugin. 
+Additional libraries used were: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
+Further software from the course was used for reading xyz-data and for the implementation of the Neighborhood-Search and Gupta-Potential algorithms \cite{molDymCourse}. 
+To be able to visualize and anaylse the results of the simulated clusters, the positions of the atoms were recorded and put into OVITO Basic \cite{ovito}.  
+
+While using the embedded-atom method potential, it was necessary to generate a variety of different sized clusters in the form of an icosahedron. An external Mackay Icosahedron Structure Generator \cite{icosader}, was used for this.
 \begin{comment}
 --
 code is structured into the milestones, so an individual milestone can be rerun in case of fuckup
@@ -47,10 +48,10 @@ followed the structure of the milestone
 
 The code is partitioned into a headerfile (.h) and a codefile (.cpp). The functions were generally structured into a related header- and codefile. For example all functions regarding the Lenard-Jones-Potential can be found in an appropriately named filecombo. Furthermore a test file exists where the unit-tests can be found.
 \par
-The implementation itself just followed the milestones given in the course and went up till milestone seven. 
-In case any mistakes happened, the main of each milestone was saved into an extra file and just got commented back into the code again in the true main.cpp file. 
+The implementation itself followed the milestones given in the course and went up till milestone seven. 
+In case any mistakes happened, the main of each milestone was saved into an extra file and can be commented back into the code again in the true main.cpp file. 
 \par
-For further information it would be best to just look at the code itself as it should be well commented \cite{molDymGithub}.
+For further information it would be best to look at the code itself as it should be well commented \cite{molDymGithub}.
 
 
 
