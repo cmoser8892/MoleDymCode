@@ -7,11 +7,43 @@
 ]{biblatex}
 \addbibresource{Literatur/Lit.bib}
 
+\renewcommand*\footnoterule{}
+
+\makeatletter
+\renewcommand{\@chapapp}{}% Not necessary...
+\newenvironment{chapquote}[2][2em]
+{\setlength{\@tempdima}{#1}%
+	\def\chapquote@author{#2}%
+	\parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+	\itshape}
+{\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+
+% Book's title and subtitle
+\title{\Huge \textbf{Molecular Dynamics with C++} \vspace{4mm} \\ \huge Final Report}
+% Author
+% \author{\textsc{First-name Last-name}\footnote{email address}}
+\author{\textsc{Christoph Moser} \\ \vspace{3mm}\text{5203023}  \\
+	\vspace{3mm}\text{christoph.mos.studium@gmail.com}}
+
 \begin{document}
-%TODO fix the biblography
+%	
+\makeatletter
+\begin{titlepage}
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{logos/Uni_Logo-Grundversion_E1_A4_CMYK.eps}\\[4ex]
+		{\huge \bfseries  \@title }\\[2ex] 
+		{\LARGE  \@author}\\[30ex] 
+		{\large \@date}
+	\end{center}
+\end{titlepage}
+\makeatother
+\thispagestyle{empty}
+\newpage
+	
 % MainInput
 
-%TODO acronyms maybe 
 %\input{Tex/milestone4}
 %\input{Tex/milestone5}
 %\input{Tex/milestone6}
