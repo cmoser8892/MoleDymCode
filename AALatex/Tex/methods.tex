@@ -126,18 +126,21 @@ It can be seen that this algorithm behaves in the order O(N²) with increasing n
 - couple the moleclular system to a larger heat bath
 - thermostat controls the heat of the simulation so the system does not melt or evaporate
 \end{comment}
-Thermostats are used in molecular simulation to control the heat in the system and preventing it from melting or evaporating. A simple form of temperature control is the Berendsen-Thermostat, which rescales the temperature. 
+The initial structure of the atoms is often times far away form the equilibrium. To prevent the atoms form melting or evaporating because of excessive energy, Thermostats are used to control the heat/energy of the atoms. A rather simple thermostat is the Berendsen-Thermostat, which was used in the simulation. 
 \par
 It is typically implemented by rescaling the velocities by a factor as shown in equation \ref{coupelingFunction}. 
 \begin{equation}
 	\label{coupelingFunction}
 	\lambda = \sqrt{1 + \bigg(\frac{T_{0}}{T} -1\bigg)\frac{\Delta t}{\tau}}
 \end{equation}
-This can be done as the temperature is just another facet to kinetic energy and is connected via the following equation \cite[cf.][]{molDymCourse}. 
+This can be done as the temperature is connected to kinetic energy via the following equation \cite[cf.][]{molDymCourse}. 
 \begin{equation}
 	\label{bolzmann}
 	\frac{3}{2} k_{B} T = \sum_{i} \frac{1}{2} m v_{i}^2
 \end{equation}
+%TODO the kinetic potential energy connection
+
+
 
 \section{Embedded-Atom Method Potentials}
 \begin{comment}
@@ -147,6 +150,7 @@ This can be done as the temperature is just another facet to kinetic energy and 
 - work with gold clusters 
 
 \end{comment}
+%TODO prop way to short lol
 Embedded atom-potentials are a good model for metallic bonding in solid or liquid states for different materials. As an implementation of the potential, developed by Gupta \cite{gupta} and Cleri \& Rosato \cite{rosato}, was provided in the course \cite{molDymCourse} itself, the details are best found there.
 
 
