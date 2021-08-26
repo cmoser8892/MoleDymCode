@@ -59,7 +59,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
     embedding = -embedding.sqrt();
 
     // per-atom energies
-    Eigen::ArrayXd energies{embedding};
+    Eigen::ArrayXd energies{embedding}; // embedding in here already
 
     // compute forces
     for (auto[i, j]: neighbor_list) {
@@ -80,7 +80,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
                 distance_vector /= distance;
 
                 // repulsive energy and derivative of it with respect to distance
-                double repulsive_energy{2 * A * std::exp(-p * (distance / re - 1.0))};
+                double repulsive_energy{2 * A * std::exp(-p * (distance / re - 1.0))}; // TODO why 2 btw not in paper (optimization for div most likely lol)
                 double d_repulsive_energy{-repulsive_energy * p / re};
 
                 // derivative of embedding energy contributions
@@ -92,7 +92,7 @@ double gupta(Atoms &atoms, const NeighborList &neighbor_list, double cutoff, dou
                         distance_vector};
 
                 // sum per-atom energies
-                repulsive_energy *= 0.5;
+                repulsive_energy *= 0.5; // TODO world ok again just why
                 energies(i) += repulsive_energy;
                 energies(j) += repulsive_energy;
 

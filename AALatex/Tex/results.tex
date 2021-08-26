@@ -4,7 +4,7 @@
 
 \end{comment}
 
-\section{Results from the Lenard-Jones Potential with direct Summation}
+\section{Lenard-Jones Potential with direct Summation}
 \begin{comment}
 
 \end{comment}
@@ -19,7 +19,7 @@
 \end{figure}
 The first task of the course asks to plot the total energy of the simulation for different time steps. The units were in a Lenard-Jones equivalent and not given here. As can be seen in the sequence \ref{SimWithTimestep}, as the timesteps gets bigger , the energy in the simulation goes from stable (timestep 0.01) over a drifting behavior (timestep 0.03) to being unstable (timestep 0.05). A good timestep here, would be 0.01 as the simulation is still very accurate and still runs quite fast. 
 \par
-To visualize the simulation OVITO \cite{ovito} was used and this series of snapshots was created. The following images show one of the first simulations that was run, where the forces were calculated with the Lenard-Jones-Potential. The simulated cluster has a size of 52 atoms, and was given in the lecture \cite{molDymCourse}.
+To visualize the simulation OVITO \cite{ovito} was used and this series of snapshots was created. The following images show one of the first simulations that was run, where the forces were calculated with the Lenard-Jones-Potential. The simulated cluster has a size of 52 atoms, and was given in the course lecture material \cite{molDymCourse}.
 % Simulation Snapshots
 \begin{figure}
 	\begin{center}
@@ -46,7 +46,7 @@ To visualize the simulation OVITO \cite{ovito} was used and this series of snaps
 \end{figure}
 As it can be seen in the images \ref{SimulationSnapshot1}, \ref{SimulationSnapshot2} and \ref{SimulationSnapshot3} the Atoms are initially ordered into a blob, which was given in the course. 
 Later in the simulation some of the atoms escaped the initial blob and flew outward separately. 
-\section{Result from the Simulation with the Berendsen Thermostat}
+\section{Simulation with the Berendsen Thermostat}
 \begin{comment}
 computational complexity 
 why on2
@@ -62,7 +62,7 @@ After incorporating the Berendsen Thermostat into the code it is interesting to 
 \end{figure}
 Although all the interaction between all the atoms are computed, the individual forces do not carry the same weight to the force that affects the atom. It should be rather clear that, the further apart atoms are, the smaller the forces get. After a certain distance it gets so small that it can be ignored. This leads to the idea to use neighborhood-lists that ignore the atoms outside of a certain radius, which has been done in the next section.
 
-\section{Results from the Simulation with the Neighborhood-List}
+\section{Simulation with the Neighborhood-List}
 \begin{comment}
 
 \end{comment}
@@ -75,7 +75,7 @@ After running the simulation in the previous section, it was clear that they fol
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 
-\section{Results from the Simulation with the Embedded-Atom Method Potential}
+\section{Simulation with the Embedded-Atom Method Potential}
 \begin{comment}
 1 graph
 - potential energy gets less with an increase to the clustersize

@@ -17,8 +17,8 @@ data aquiered form the code plotted with python
 also where large simulations had to be run, called the program from the python code
 
 \end{comment}
-The simulation code was written in C++, most of it as functions, although the positions, velocities, etc. of the individual atoms were saved in a container-class.
-While writing the functions, these were also tested with unit-tests.
+The simulation code was written in C++, most of it as functions, although the states of the individual atoms were saved in a container-class.
+The functions were also tested with unit-tests during the implementation. 
 Plot generation and automation for running the project were written in python.
 
 %used software
@@ -33,9 +33,9 @@ debugger is gdb(nicely hidden)
 - ovito for visualization
 \end{comment}
 The C++-code was developed in CLion, an IDE which bundles many useful features together (CMake, GDB and Git)\cite{clion}.
-The python-code was written in jupyter-notebook. Alternatively, this could have been done directly in CLion with a plugin. 
+The python-code was written in jupyter-notebook. 
 Additional libraries used were: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
-Further software from the course was used for reading xyz-data and for the implementation of the Neighborhood-Search and Gupta-Potential algorithms \cite{molDymCourse}. 
+Further software from the course was used for reading xyz-data and for the implementation of the neighborhood-search and embedded-atoms-method algorithms \cite{molDymCourse}. 
 To be able to visualize and anaylse the results of the simulated clusters, the positions of the atoms were recorded and put into OVITO Basic \cite{ovito}.  
 
 While using the embedded-atom method potential, it was necessary to generate a variety of different sized clusters in the form of an icosahedron. An external Mackay Icosahedron Structure Generator \cite{icosader}, was used for this.
@@ -46,17 +46,15 @@ parted into h and cpp files as usual
 followed the structure of the milestone
 \end{comment}
 
-The code is partitioned into a headerfile (.h) and a codefile (.cpp). The functions were generally structured into a related header- and codefile. For example all functions regarding the Lenard-Jones-Potential can be found in an appropriately named filecombo. Furthermore a test file exists where the unit-tests can be found.
-\par
 The implementation itself followed the milestones given in the course and went up till milestone seven. 
-In case any mistakes happened, the main of each milestone was saved into an extra file and can be commented back into the code again in the true main.cpp file. 
+The main-code of each milestone was saved into an extra function and can be commented in and out in the main.cpp.
+
+
 \par 
-Independent of the milestones the code is generally structured similarly. It has to be noted that here just a generalization is given, and for further information it would be best to just look at the code itself as it should be well commented \cite{molDymGithub}.
-\par 
-In the first step the variables have to be initialized. For example the initial structure of the atoms, when and where to save data and the timestep of the verlet-integration have to be defined. Some of the initial parameters can also be given to the program externally. After the initialization the simulation is run in form of a loop. This main-loop is run for a number of times specified before. In the loop itself, the two verlet-steps, the calculation of the kinetic and potential energy, and the evaluation of the force at each atom, are executed. In later milestone a thermostat and other effects are added to the loop. 
+In the first step all variables are initialized. For example the initial structure of the atoms, when and where to save data and the timestep of the verlet-integration have to be defined. Some of the initial parameters can also be given to the program externally. After the initialization the simulation is run in the form of a loop. This main-loop is run for a number of times specified before. In the loop itself, the two verlet-steps, the calculation of the kinetic and potential energy and the evaluation of the force at each atom, are executed. In later milestone a thermostat and other effects are added to the loop. 
 After the main-loop the acquired data is saved into a file and then processed after the simulation itself with python. 
 \par 
-In python the contents of the data-file, which was generated from the C++-program is read and then ploted. In the later milestones the program was often directly called in python and more then one instance run in parallel to speed up the data-acquisition. 
+In python the contents of the data-file, which was generated from the C++-program is read and then plotted. 
 
 
 
