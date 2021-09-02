@@ -36,7 +36,7 @@ TEST(BerendsenExponentialDamp, ThermostatTest1Atom) {
     unsigned int nbAtoms = 1;
     double distance = 1;
     double timestep = 1;
-    double relaxationTime = 1000000;
+    double relaxationTime = 100000;
     double simulationTime = 1000;
     double targetTemperatur = 0;
     /**  set  */

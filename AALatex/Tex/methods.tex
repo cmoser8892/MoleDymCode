@@ -35,7 +35,7 @@ goals of a md simulation
 The goal of a molecular dynamics simulation is to determine the motion of each individual atom. For this we have to solve the equations of motion and compute the forces that affect each atom.
 \begin{equation}
 	\label{potentialForceEquation}
-	\overrightarrow{f_{k}}(\overrightarrow{r}_k) = -\cfrac{\displaystyle\partial}{\displaystyle \partial \overrightarrow{r_{k}}} E_{pot}(\{\overrightarrow{r_{k}}\}) 
+	\overrightarrow{f_{k}}(\overrightarrow{r}_k) = -\cfrac{\displaystyle\partial}{\displaystyle \partial \overrightarrow{r_{k}}} E_{\mathrm{pot}}(\{\overrightarrow{r_{k}}\}) 
 \end{equation}
 The forces can be derived from the potential energy as shown in Eq.  \ref{potentialForceEquation} \cite[][]{molDymCourse}. 
 
@@ -51,7 +51,7 @@ The forces can be derived from the potential energy as shown in Eq.  \ref{potent
 From Ep. \ref{potentialForceEquation} we can obtain the force acting on each individual atom with its acceleration, velocity and position as shown in  Eq. \ref{potentialForceEquationForEachAtom}. 
 \begin{equation}
 	\label{potentialForceEquationForEachAtom}
-	\overrightarrow{f_{i}} = \cfrac{\displaystyle\partial E_{pot}}{\displaystyle \partial \overrightarrow{r_{i}}} = m_{i}\overrightarrow{a_{i}} = m_{i}\overrightarrow{\dot{v_{i}}} = m_{i}\overrightarrow{\ddot{r_{i}}}
+	\overrightarrow{f_{i}} = \cfrac{\displaystyle\partial E_{\mathrm{pot}}}{\displaystyle \partial \overrightarrow{r_{i}}} = m_{i}\overrightarrow{a_{i}} = m_{i}\overrightarrow{\dot{v_{i}}} = m_{i}\overrightarrow{\ddot{r_{i}}}
 \end{equation}
 As can be seen, the system can be described just by the velocities and positions of the atoms. 
 In the implementation we hold these values in a container-class to ensure that they are consecutive in  memory which speeds up the simulation. 
@@ -94,7 +94,7 @@ fThe goal is to model the Coulomb force and the Pauli repulsion.
 As shown in Eq. \ref{potentialForceEquation} we can derive the forces from the potential energy. Now we have to formulate the equation for each atom, which was done in Eq. \ref {potentialEquationAtoms}. We can get the force at each atom if we sum up the derivative of the potential energy between atom k and all the other atoms i times the normed vector to atom i from atom k. 
 \begin{equation}
 	\label{potentialEquationAtoms}
-	\overrightarrow{f_{k}} = -\frac{\partial E_{pot}}{\partial  \overrightarrow{r_{k}}}=\sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
+	\overrightarrow{f_{k}} = -\frac{\partial E_{\mathrm{pot}}}{\partial  \overrightarrow{r_{k}}}=\sum_{i}^{}\frac{\partial V}{\partial r_{ik}} \hat{r_{ik}}
 \end{equation}
 %Formulation of the lj potential
 To implement the equation we have to derive $\delta V/ \delta r_{ik}$ analytically, which was done using the symbolic python library sympy. 
@@ -138,7 +138,7 @@ It is typically implemented by rescaling the velocities by a factor as shown in 
 This can be done as the temperature is connected to kinetic energy via the following equation \cite[cf.][]{molDymCourse}. 
 \begin{equation}
 	\label{bolzmann}
-	\frac{3}{2} k_{B} T = \sum_{i} \frac{1}{2} m v_{i}^2
+	\frac{3}{2} k_{\mathrm{B}} T = \sum_{i} \frac{1}{2} m v_{i}^2
 \end{equation}
 With Eq. \ref{bolzmann} the current temperature can be calculated and put into Eq. \ref{coupelingFunction}.
 
@@ -165,19 +165,19 @@ E_emedding is a funtiunal of the density in r
 Compared to pair potentials, the potential energy is calculated from two contributions, shown in Eq. \ref{EAM-basic}. $E_{repulsion}$ again is modeled like a pair-potential. The second contribution $E_{bonding}$ models the electron density between the metal atoms. 
 \begin{equation}
 	\label{EAM-basic}
-	E_{pot}  = E_{repulsion} + E_{bonding}
+	E_{\mathrm{pot}}  = E_{\mathrm{repulsion}} + E_{\mathrm{bonding}}
 \end{equation}
  
-The Eqs. \ref{rosatto-repulsion} and \ref{rosatto-bonding} show how $E_{repulsion}$ and $E_{bonding}$ were implemented in the code. The parameter $A$,  $\xi$, $p$ and $q$ are also taken from the paper and can be fitted to different types of metals \cite{rosato}. 
+The Eqs. \ref{rosatto-repulsion} and \ref{rosatto-bonding} show how $E_{\mathrm{repulsion}}$ and $E_{\mathrm{bonding}}$ were implemented in the code. The parameter $A$,  $\xi$, $p$ and $q$ are also taken from the paper and can be fitted to different types of metals \cite{rosato}. 
 \begin{equation}
  	\label{rosatto-repulsion}
- 	\mathrm{E}_{R}^{i} = \sum_{j} A e^{-p(r_ij/r_{0} - 1)}
+ 	\mathrm{E}_{\mathrm{R}}^{i} = \sum_{j} A e^{-p(r_ij/r_{0} - 1)}
  \end{equation}
 
 \begin{equation}
 	\label{rosatto-bonding}
 	%\mathrm{}_{}^{}
-	\mathrm{E}_{B}^{i} = - \big\{\sum_{j}\xi^{2} e^{-2q(r_{ij}/r_{0}-1)} \big\}^{1/2}
+	\mathrm{E}_{\mathrm{B}}^{i} = - \big\{\sum_{j}\xi^{2} e^{-2q(r_{ij}/r_{0}-1)} \big\}^{1/2}
 \end{equation}
 
 To finalize the implementation, the forces between the atoms also have to be calculated. For this the Eq. \ref{potentialEquationAtoms} has to be considered again. 
