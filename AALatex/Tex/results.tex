@@ -99,7 +99,7 @@ In the next step the embedded-atom method potential was used to compute the pote
 %hard to get sim right quite the hassle
 We now look at the steps to get good data from the simulation. 
 %get the units right fix to time unit
-First we have to get the units right. In the simulations beforehand, we simulated in Lenard-Jones units. Here we will use real units, which means for the timestep fs, for the distance \r{A}, for the mass u and for the energy eV. We have to fix either the mass unit (mass of gold is 196.97u) or fix the time unit. The later was chosen. To get to a timestep of 1 fs we have to consider the expression $ [m] = [E][t]^2/[l]^2 = 1.6e-19 * 1e-30/1e-20 kg = 1.6e-29kg $. For the final result we have to divide the mass of gold by the factor $ f = 1.6e-29/\mathrm{u} = 0.009635 $
+First we have to get the units right. In the simulations beforehand, we simulated in Lenard-Jones units. Here we will use real units, which means for the timestep fs, for the distance \r{A}, for the mass u and for the energy eV. We have to fix either the mass unit (mass of gold is 196.97u \cite{Kurzweil2015}) or fix the time unit. The later was chosen. To get to a timestep of 1 fs we have to consider the expression $ [m] = [E][t]^2/[l]^2 = 1.6e-19 * 1e-30/1e-20 kg = 1.6e-29kg $. For the final result we have to divide the mass of gold by the factor $ f = 1.6e-29/\mathrm{u} = 0.009635 $
 \cite{molDymCourse}.
 
 %stettled on 3 steps: preheating, waiting vor a time after switching sim off -> diagram looks nicer
@@ -121,8 +121,7 @@ We heat the system up for a total of 50000 steps. Then we wait for 1000 steps af
 \par 
 In Fig.  \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature for different cluster sizes are plotted. It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. This can be seen in the next Fig. \ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster.
 \par 
-The first interesting property is the melting point of the cluster, which can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but is still not not near it's macroscopic equivalent of 1337K. 
-%TODO no real source read out of a table from school lol
+The first interesting property is the melting point of the cluster, which can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but is still not not near it's macroscopic equivalent of 1337K \cite{Kurzweil2015}. 
 \par
 It can also be seen that the potential energy of the average atom decreases with bigger clustersizes. To explain this, the ratio of surface to volume of the cluster and the fact that atoms at the border of the cluster need to have a higher energy, have to be considered. With increased clustersizes a smaller percentage of atoms is at the edge which leads to an increases in the total energy of the cluster. 
 The slope of the jump at the melting point also increases with bigger clustersizes. For many atoms these curves would be piecewise linear with a high-slope section around the melting point. The simulated system seems to converge to that. 
@@ -131,7 +130,7 @@ The slope of the jump at the melting point also increases with bigger clustersiz
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/temperaturPotentialEnergyCurveMoreInOne.png} 
 	\end{center} 
-	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms with a cutoff-distance of 10} 
+	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms with a cutoff-distance of 10\r{A}} 
 	\label{GoldClusterSimulationTemperaturEnergy4In1} 
 \end{figure} 
 
