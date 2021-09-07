@@ -11,14 +11,14 @@
 
 % Plot of the total energy as a function of time
 
-First we look at a simulation with just the lenard-jones-potential. First we have to decide on a good timestep for the simulation. We search for a good $ \mathrm{prefactor} $ for the following equation.
+First we look at a simulation with just the lenard-jones-potential. First we have to decide on a good timestep for the simulation. We search for a good $ \mathrm{prefactor} $ for the following equation \cite{molDymCourse}.
 \begin{equation}
 	\label{timestepDeterminant}
  \mathrm{timestep} = \mathrm{prefactor} * \sqrt{(m\sigma^2)/\epsilon} 
 \end{equation}
 To decide on a good timestep a sequence of plots was created as can be seen in Fig. \ref{SimWithTimestep}. 
 \par 
-As the timesteps gets bigger , the energy in the simulation goes from stable (timestep 0.01) over a drifting behavior (timestep 0.03) to being unstable (timestep 0.05). A good timestep here, would be 0.01 as the simulation is still very accurate and still runs quite fast. 
+As the prefactor gets bigger , the energy in the simulation goes from stable (prefactor 0.01) over a drifting behavior (prefactor 0.03) to being unstable (prefactor 0.05). A good prefactor would be 0.01 as the simulation is still very accurate and still runs quite fast. 
 
 \begin{figure}
 	\begin{center}
@@ -64,7 +64,7 @@ optimization not every force is looked at individually as the force resluting fo
 After incorporating the Berendsen thermostat into the code it is interesting to look at the computational complexity of the simulation. With growing numbers of atoms, the computation-time should grow quadratically. The main culprit for this is the force-computation, as each interaction with all the other atoms in the simulation has to be computed. This is also shown in the next figure as the computation time seems to follow a quadratic function. 
 \begin{figure}
 	\begin{center}
-		\includegraphics[scale=1]{Figure/plotAtomTimes.png}
+		\includegraphics[scale=1]{Figure/plotAtomTimesM5.png}
 	\end{center}
 	\caption[Comparison of the time needed to simulate 8 to 192 Atoms]{Comparison of the time needed to simulate 8 to 192 Atoms. The simulation was run with the parameters $\sigma, \epsilon = 1$ , $m = 12\mathrm{u}$ for a total of 10000 steps with a duration of $\mathrm{timestep} = 0.01\sqrt{(m\sigma^2)/\epsilon} $. The relaxationtime of the thermostat was set to 50 $\mathrm{timestep} $, which is very low, but was done to get the simulation stable in all cases. The thermostat had a target-temperature of 275K.} 
 	\label{PlotSimulationTimeBerendsenThermostat}
@@ -78,9 +78,9 @@ Although all the interaction between all the atoms are computed, the individual 
 After running the simulation in the previous section, it was clear that they follow a computational complexity of the order O(N²). This can be reduced to a linear order O(N) with the usage of neighborhood-lists. Only the atoms in a certain radius around the atom will be considered and a force will be added to the total force affecting the atom. This can be seen in Fig. \ref{PlotSimulationTimesCutoffNew}.
 \begin{figure}
 	\begin{center}
-		\includegraphics[scale=1.25]{Figure/plotAtomTimesMoreData.png}
+		\includegraphics[scale=1.25]{Figure/plotAtomTimesM6.png}
 	\end{center}
-	\caption[Comparison of the simulationtime with neighborhood-lists ]{Comparison of the simulationtime with Neighborhood-lists. Basic parameters are the same as in Fig. \ref{PlotSimulationTimeBerendsenThermostat}, but with an additional cutoff of 2.5$\sigma$}
+	\caption[Comparison of the simulationtime with neighborhood-lists ]{Comparison of the simulationtime with Neighborhood-lists. Basic parameters are the same as in Fig. \ref{PlotSimulationTimeBerendsenThermostat}, but with an additional cutoff of 2.5$\sigma$.}
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 
@@ -93,14 +93,27 @@ After running the simulation in the previous section, it was clear that they fol
 2 
 Heat capacity and latent heat should converge
 \end{comment}
-In the next step the embedded-atom method potential was used to compute the potential energy and the forces between the atoms. A neighborhood-list was also used. With this it is possible to look at the actual physical properties of the materials - in this case gold. 
+In the next step the embedded-atom method potential was used to compute the potential energy and the forces between the atoms. A neighborhood-list was also used. With this it is possible to look at the actual physical properties(meltingpoint, latent heat, heat capacity) of the materials - in this case gold. 
+
 \par 
+%hard to get sim right quite the hassle
+We now look at the steps to get good data from the simulation. 
+%get the units right fix to time unit
+First we have to get the units right. In the simulations beforehand, we simulated in Lenard-Jones units. Here we will use real units, which means for the timestep fs, for the distance \r{A}, for the mass u and for the energy eV. We have to fix either the mass unit (mass of gold is 196.97u) or fix the time unit. The later was chosen. To get to a timestep of 1 fs we have to consider the expression $ [m] = [E][t]^2/[l]^2 = 1.6e-19 * 1e-30/1e-20 kg = 1.6e-29kg $. For the final result we have to divide the mass of gold by the factor $ f = 1.6e-29/\mathrm{u} = 0.009635 $
+\cite{molDymCourse}.
+
+%stettled on 3 steps: preheating, waiting vor a time after switching sim off -> diagram looks nicer
+In the next step we have to come up with a scheme to acquire the data. For this it is very helpful to look at the kinetic energy in relation to time. This is shown in Fig. \ref{GoldClusterSimulationKinVsTime}. When we increase the temperature via rescaling of the kinetic energy, we pump energy into the system. If we do this at too low temperatures, the cluster is unstable and will start pulsing. 
+So in the first step we preheat the cluster via a thermostat, here to 300K. After this is done, we stop using the thermostat, as it would interfere with the measurement. In the next step we could now start to heat up the system and obtain the data for the next figures. But it has been rather helpful to wait for a bit after the thermostat is switched off. In doing so, we can obtain smoother graphs and data. 
+\par
+We heat the system up for a total of 50000 steps. Then we wait for 1000 steps after switching of the thermostat. After that we start to heat up the system for a total of 120 times. In one of these steps, we run the simulation for a total of 6000 times and record the temperature in the later half. We can then average out the temperature over these steps. The exact number of steps were determined practically.
+%Dude i dont know my own code 
 \begin{figure}
 	%Higher than 9 just nicer to look at!!!
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/kineticEnergyCurve14.png} 
 	\end{center} 
-	\caption[Gold cluster simulation: Kinetic Energy vs Time]{Gold cluster simulation: Kinetic Energy vs Time} 
+	\caption[Gold cluster simulation: Kinetic Energy vs Time]{Gold cluster simulation: Kinetic energy vs time for 10179 Atoms} 
 	\label{GoldClusterSimulationKinVsTime} 
 \end{figure} 
 
@@ -118,7 +131,7 @@ The slope of the jump at the melting point also increases with bigger clustersiz
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/temperaturPotentialEnergyCurveMoreInOne.png} 
 	\end{center} 
-	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms} 
+	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms with a cutoff-distance of 10} 
 	\label{GoldClusterSimulationTemperaturEnergy4In1} 
 \end{figure} 
 

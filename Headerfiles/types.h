@@ -31,7 +31,7 @@ using Energies_t = Eigen::ArrayXd;
 static const double boltzmannConstant = 1.380649e-23; ///J/K
 static const double atomicUnit = 1.660539e-27; ///kg
 static const double electronVolt = 1.602176634e-19; ///J
-static const double massCorrectionFactor = 1.6e-29/atomicUnit; ///kg given if the timestep is 1fs
+static const double massCorrectionFactor = 1.6e-29/atomicUnit; /// given if the timestep is 1fs
 static const double boltzmannElectronVolt = boltzmannConstant/electronVolt; ///eV/K
 
 #endif //MYPROJECT_TYPES_H

@@ -281,7 +281,7 @@ int milestone6Code(int argc, char *argv[]) {
         if(thermostatUsed == true) {
             if (abs(calculateCurrentTemperatur(atoms) - targetTemperatur) < 100.) {
                 if (once == false) {
-                    std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
+                    //std::cout << "Increase the relaxation Time " << relaxationTime << std::endl;
                     relaxationTime *= 1000000;
                     once = true;
                 }
@@ -290,9 +290,9 @@ int milestone6Code(int argc, char *argv[]) {
 
         //Dumping the data and checking for an explosion
         if ((i % safeAtStep) == 0) {
-            std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
+            //std::cout << "Writing Dump at:" << currentTime << " with " << i/safeAtStep << std::endl;
             //std::cout << energyStorage[i] << std::endl;
-            std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
+            //std::cout << kineticEnergy << " " << energyStorage[i]-kineticEnergy << " " << calculateCurrentTemperatur(atoms) << std::endl;
             dumpData(atoms, trajectorySafeLocation, trajectoryBaseName,
                      1000, (unsigned int) i / safeAtStep);
             if(thermostatUsed == true) {
@@ -315,6 +315,8 @@ int milestone6Code(int argc, char *argv[]) {
 ///global storage :-)
 std::vector<double> kineticEnergyStorage;
 std::vector<double> potentialEnergyStorage;
+std::vector<double> setEnergyStorage;
+std::vector<double> setTemperaturStorage;
 
 /**
  * @fn int milestone7Code(int argc, char *argv[])
@@ -348,7 +350,7 @@ int milestone7Code(int argc, char *argv[]) {
         /** Do nothing */
         std::cout << "No arguments given" << std::endl;
         std::string location =  "/home/cm/CLionProjects/MoleDymCode/AData/Clusters";
-        std::string filename = location + "/cluster" + "1" +".xyz";
+        std::string filename = location + "/cluster" + "3" +".xyz";
         //auto [tupleNames, tuplePositions]{read_xyz("../AData/cluster_923.xyz")};
         auto [tupleNames, tuplePositions]{read_xyz(filename)};
         names = tupleNames;
@@ -386,7 +388,7 @@ int milestone7Code(int argc, char *argv[]) {
     SimulationData_t data;
     ///
     data.simulationID = 0;
-    data.maxTrajectoryNumber = 100000;
+    data.maxTrajectoryNumber = 100000;  //used for numberconvention in the trajectory name
     data.trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
     data.trajectoryBaseName = "Trajectory";
     data.doDumping = false;
@@ -402,7 +404,6 @@ int milestone7Code(int argc, char *argv[]) {
     std::cout << "Starting Simulation" << std::endl;
     //preheating
     int runs = 50; //50
-    double roomTemperature = 273 + 25;
     /// simulation
     ///increase till room temp
     for (int i = 0; i < runs; ++i) {
@@ -428,8 +429,11 @@ int milestone7Code(int argc, char *argv[]) {
     for(int i = 0; i < runs; ++i) {
         int subruns = 600;
         ///
-        std::vector<double> setEnergyStorage;
-        std::vector<double> setTemperaturStorage;
+        //std::vector<double> setEnergyStorage;
+        //std::vector<double> setTemperaturStorage;
+        ///clear global vars could fit this into a class to make it pretty lol
+        setEnergyStorage.clear();
+        setTemperaturStorage.clear();
         ///
         depositRescaledHeat(5e-3*atoms.nb_atoms(),atoms);
         for(int j = 0; j < subruns/2; ++j) {
@@ -438,17 +442,15 @@ int milestone7Code(int argc, char *argv[]) {
             printData(i,totalEnergy,temperatur);
             ///
         }
-        data.simulationTime = data.timeStep;
-        for(int j = 0; j < (subruns/2 * 10); ++j) {
+        ///clear global
+        setEnergyStorage.clear();
+        setTemperaturStorage.clear();
+        for(int j = 0; j < (subruns/2); ++j) {
             auto[totalEnergy, temperatur]{simulationBuildStone(data, atoms)};
             ///
             printData(i,totalEnergy,temperatur);
             ///
-            //safe data
-            setEnergyStorage.push_back(totalEnergy);
-            setTemperaturStorage.push_back(temperatur);
         }
-        data.simulationTime = 10 * data.timeStep;
         //calculateMean
         meanEnergyStorage.push_back(averageVector(setEnergyStorage));
         meanTemperaturStorage.push_back(averageVector(setTemperaturStorage));
@@ -495,6 +497,8 @@ std::tuple<double, double> simulationBuildStone(SimulationData_t &data, Atoms &a
         returnEnergy += kineticEnergy;
         //calculate the temperature for each step (debugging)
         returnTemperatur = calculateCurrentTemperaturEV(atoms);
+        setEnergyStorage.push_back(returnEnergy);
+        setTemperaturStorage.push_back(returnTemperatur);
         ////
         if(data.totalEnergyRecording == true) {
             kineticEnergyStorage.push_back(kineticEnergy);
