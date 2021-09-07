@@ -97,10 +97,10 @@ int milestone5Code(int argc, char *argv[]) {
     double sigma = 1;
     double mass = 12*atomicUnit; // 12C6
     unsigned int nbAtoms = 160;
-    double targetTemperatur = 275; //around 0
+    double targetTemperatur = 275;
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
-    double totalTime = 10000 *timeStep;
+    double totalTime = 10000 * timeStep;
     double safeDumpTime = 100 * timeStep;
     double relaxationTimeFactor = 50.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
@@ -201,7 +201,7 @@ int milestone6Code(int argc, char *argv[]) {
     /** Variables for the simulation */
     /** Atoms variables */
     double epsilon = 1;
-    double sigma = 0.8; //*pow(2.0, 1.0/6.0); //stable in lattice (more or less)
+    double sigma = 1; //*pow(2.0, 1.0/6.0); //stable in lattice (more or less)
     double mass = 12*atomicUnit; // 12C6
     unsigned int nbAtoms = 60;
     bool thermostatUsed = true;

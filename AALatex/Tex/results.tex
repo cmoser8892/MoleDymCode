@@ -11,7 +11,12 @@
 
 % Plot of the total energy as a function of time
 
-First we look at a simulation with just the lenard-jones-potential. To decide on a good timestep for the simulation, a sequence of plots was created as can be seen in Fig. \ref{SimWithTimestep}.
+First we look at a simulation with just the lenard-jones-potential. First we have to decide on a good timestep for the simulation. We search for a good $ \mathrm{prefactor} $ for the following equation.
+\begin{equation}
+	\label{timestepDeterminant}
+ \mathrm{timestep} = \mathrm{prefactor} * \sqrt{(m\sigma^2)/\epsilon} 
+\end{equation}
+To decide on a good timestep a sequence of plots was created as can be seen in Fig. \ref{SimWithTimestep}. 
 \par 
 As the timesteps gets bigger , the energy in the simulation goes from stable (timestep 0.01) over a drifting behavior (timestep 0.03) to being unstable (timestep 0.05). A good timestep here, would be 0.01 as the simulation is still very accurate and still runs quite fast. 
 
@@ -19,7 +24,7 @@ As the timesteps gets bigger , the energy in the simulation goes from stable (ti
 	\begin{center}
 		\includegraphics[scale= 1.0]{/home/cm/CLionProjects/MDCode/AData//totalEnergyDrift.png}
 	\end{center}
-	\caption[Comparison of the energy in the simulation with different timesteps]{Comparison of the energy in the simulation with different timesteps}
+	\caption[Comparison of the energy in the simulation with different timesteps]{Comparison of the energy in the simulation for different timesteps. We run the simulation with $m, \sigma, \epsilon = 1$ for a constant number of steps $n_{steps} = 10000 $}
 	\label{SimWithTimestep}
 \end{figure}
 \par
@@ -61,7 +66,7 @@ After incorporating the Berendsen thermostat into the code it is interesting to 
 	\begin{center}
 		\includegraphics[scale=1]{Figure/plotAtomTimes.png}
 	\end{center}
-	\caption[Comparison of the time needed to simulate 8 to 192 Atoms]{Comparison of the time needed to simulate 8 to 192 Atoms}
+	\caption[Comparison of the time needed to simulate 8 to 192 Atoms]{Comparison of the time needed to simulate 8 to 192 Atoms. The simulation was run with the parameters $\sigma, \epsilon = 1$ , $m = 12\mathrm{u}$ for a total of 10000 steps with a duration of $\mathrm{timestep} = 0.01\sqrt{(m\sigma^2)/\epsilon} $. The relaxationtime of the thermostat was set to 50 $\mathrm{timestep} $, which is very low, but was done to get the simulation stable in all cases. The thermostat had a target-temperature of 275K.} 
 	\label{PlotSimulationTimeBerendsenThermostat}
 \end{figure}
 Although all the interaction between all the atoms are computed, the individual forces do not carry the same weight to the force that affects the atom. It should be rather clear that, the further apart atoms are, the smaller the forces get. After a certain distance it gets so small that it can be ignored. This leads to the idea to use neighborhood-lists that ignore the atoms outside of a certain radius, which has been done in the next section.
@@ -75,7 +80,7 @@ After running the simulation in the previous section, it was clear that they fol
 	\begin{center}
 		\includegraphics[scale=1.25]{Figure/plotAtomTimesMoreData.png}
 	\end{center}
-	\caption[Comparison of the simulationtime with neighborhood-lists ]{Comparison of the simulationtime with Neighborhood-lists}
+	\caption[Comparison of the simulationtime with neighborhood-lists ]{Comparison of the simulationtime with Neighborhood-lists. Basic parameters are the same as in Fig. \ref{PlotSimulationTimeBerendsenThermostat}, but with an additional cutoff of 2.5$\sigma$}
 	\label{PlotSimulationTimesCutoffNew}
 \end{figure}
 
@@ -88,8 +93,20 @@ After running the simulation in the previous section, it was clear that they fol
 2 
 Heat capacity and latent heat should converge
 \end{comment}
-In the next step the embedded-atom method potential was used to compute the potential energy and the forces between the atoms. A neighborhood-list was also used. With this it is possible to look at the actual physical properties of the materials - in this case gold. In Fig.  \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature for different cluster sizes are plotted. It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. This can be seen in the next Fig. \ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster.
+In the next step the embedded-atom method potential was used to compute the potential energy and the forces between the atoms. A neighborhood-list was also used. With this it is possible to look at the actual physical properties of the materials - in this case gold. 
+\par 
+\begin{figure}
+	%Higher than 9 just nicer to look at!!!
+	\begin{center} 
+		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/kineticEnergyCurve14.png} 
+	\end{center} 
+	\caption[Gold cluster simulation: Kinetic Energy vs Time]{Gold cluster simulation: Kinetic Energy vs Time} 
+	\label{GoldClusterSimulationKinVsTime} 
+\end{figure} 
 
+
+\par 
+In Fig.  \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature for different cluster sizes are plotted. It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. This can be seen in the next Fig. \ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster.
 \par 
 The first interesting property is the melting point of the cluster, which can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but is still not not near it's macroscopic equivalent of 1337K. 
 %TODO no real source read out of a table from school lol
