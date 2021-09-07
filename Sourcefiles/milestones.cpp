@@ -15,6 +15,8 @@
 /**
  * @fn int milestone4Code()
  * @brief function that contains all of the Milestone4 code
+ * @param argc
+ * @param argv
  * @return not relevant
  */
 int milestone4Code(int argc, char *argv[]) {
@@ -24,6 +26,7 @@ int milestone4Code(int argc, char *argv[]) {
     double epsilon = 1;
     double sigma = 1;
     double mass = 1;
+    //prefactor for the timestep with a bad name
     double norre = 0.1; //variablename by tschuli (dont ask ur friends for names lol)
     /** Value Read */
     if(argc == 1) {
@@ -42,7 +45,6 @@ int milestone4Code(int argc, char *argv[]) {
     double preFactor = sqrt((mass*sigma*sigma)/epsilon);
     double timeStep = norre * preFactor;
     double totalTime = 10000  * timeStep;
-    double safeDumpTime = 100  * timeStep;
     int safeAtStep = 100;
     double currentTime = 0;
     /** global */
@@ -95,12 +97,12 @@ int milestone5Code(int argc, char *argv[]) {
     double sigma = 1;
     double mass = 12*atomicUnit; // 12C6
     unsigned int nbAtoms = 160;
-    double targetTemperatur = 275; //about roomtemp
+    double targetTemperatur = 275; //around 0
     /** Times */
     double timeStep = 0.01 * sqrt((mass * sigma * sigma) / epsilon); //around 10e-15
     double totalTime = 10000 *timeStep;
     double safeDumpTime = 100 * timeStep;
-    double relaxationTimeFactor = 80.0;
+    double relaxationTimeFactor = 50.0;
     double relaxationTime = relaxationTimeFactor*timeStep;
     /** SafeLocations */
     std::string trajectorySafeLocation = "/home/cm/CLionProjects/MoleDymCode/cmake-build-debug/TrajectoryDumps";
@@ -129,16 +131,15 @@ int milestone5Code(int argc, char *argv[]) {
             }
         }
     }
-    /** Simulation related Variables */
+    /** global */
     int safeAtStep = safeDumpTime/timeStep;
     double currentTime = 0;
-    /** global */
     double energy = 0;
     double kineticEnergy = 0;
     std::vector<double> energyStorage(totalTime/timeStep);
     /** Init */
-    //Positions_t  p = createLatticeCube(nbAtoms,sigma);
-    Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001);
+    Positions_t  p = createLatticeCube(nbAtoms,sigma);
+    //Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001); //experimented with different shapes
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     Positions_t controlCube = generateCapsel(atoms, 100);
@@ -200,11 +201,11 @@ int milestone6Code(int argc, char *argv[]) {
     /** Variables for the simulation */
     /** Atoms variables */
     double epsilon = 1;
-    double sigma = 0.8; //*pow(2.0, 1.0/6.0);
+    double sigma = 0.8; //*pow(2.0, 1.0/6.0); //stable in lattice (more or less)
     double mass = 12*atomicUnit; // 12C6
     unsigned int nbAtoms = 60;
     bool thermostatUsed = true;
-    double targetTemperatur = 275; //about roomtemp
+    double targetTemperatur = 275; //about 0
     double cutoffRange = 2.5 * sigma;
 
     /** Times */
@@ -249,8 +250,8 @@ int milestone6Code(int argc, char *argv[]) {
     }
     /** set up atoms */
     //init of the atoms
-    //Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
-    Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001);
+    Positions_t  p = createLatticeCube(nbAtoms,sigma+0.000001);
+    //Positions_t  p = createLatticesLongRod(nbAtoms,3,sigma+0.000001); //changed for test was not used in data aquisation
     Atoms atoms(p,mass);
     setANameInAtoms(atoms, "X");
     // neighbor list
@@ -311,7 +312,7 @@ int milestone6Code(int argc, char *argv[]) {
     return returnValue;
 }
 
-///global storage
+///global storage :-)
 std::vector<double> kineticEnergyStorage;
 std::vector<double> potentialEnergyStorage;
 

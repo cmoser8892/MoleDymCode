@@ -53,6 +53,7 @@ The main-code of each milestone was saved into an extra function and can be comm
 \par 
 In the first step all variables are initialized. For example the initial structure of the atoms, when and where to save data and the timestep of the verlet-integration have to be defined. Some of the initial parameters can also be given to the program externally. After the initialization the simulation is run in the form of a loop. This main-loop is run for a number of times specified before. In the loop itself, the two verlet-steps, the calculation of the kinetic and potential energy and the evaluation of the force at each atom, are executed. In later milestone a thermostat and other effects are added to the loop. 
 After the main-loop the acquired data is saved into a file and then processed after the simulation itself with python. 
+
 \par 
 In python the contents of the data-file, which was generated from the C++-program is read and then plotted. 
 
