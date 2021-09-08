@@ -106,7 +106,9 @@ First we have to get the units right. In the simulations beforehand, we simulate
 In the next step we have to come up with a scheme to acquire the data. For this it is very helpful to look at the kinetic energy in relation to time. This is shown in Fig. \ref{GoldClusterSimulationKinVsTime}. When we increase the temperature via rescaling of the kinetic energy, we pump energy into the system. If we do this at too low temperatures, the cluster is unstable and will start pulsing. 
 So in the first step we preheat the cluster via a thermostat, here to 300K. After this is done, we stop using the thermostat, as it would interfere with the measurement. In the next step we could now start to heat up the system and obtain the data for the next figures. But it has been rather helpful to wait for a bit after the thermostat is switched off. In doing so, we can obtain smoother graphs and data. 
 \par
-We heat the system up for a total of 50000 steps. Then we wait for 1000 steps after switching of the thermostat. After that we start to heat up the system for a total of 120 times. In one of these steps, we run the simulation for a total of 6000 times and record the temperature in the later half. We can then average out the temperature over these steps. The exact number of steps were determined practically.
+%TODO not sure if nesessary lol 
+%heat up with 5e-3 eV per step
+We heat the system up for a total of 50000 steps. Then we wait for 1000 steps after switching of the thermostat. After that we start to heat up the system for a total of 120 times and deposit 5e-3 eV per Atom. In one of these steps, we run the simulation for a total of 6000 times and record the temperature in the later half. We can then average out the temperature over these steps and record it. The exact number of steps were determined practically via small experiments that were later scaled up. 
 %Dude i dont know my own code 
 \begin{figure}
 	%Higher than 9 just nicer to look at!!!
@@ -121,7 +123,7 @@ We heat the system up for a total of 50000 steps. Then we wait for 1000 steps af
 \par 
 In Fig.  \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature for different cluster sizes are plotted. It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. This can be seen in the next Fig. \ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster.
 \par 
-The first interesting property is the melting point of the cluster, which can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but is still not not near it's macroscopic equivalent of 1337K \cite{Kurzweil2015}. 
+The first interesting property is the melting point of the cluster, which can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). The melting point increases as the clusters get bigger, but is still not not near it's macroscopic equivalent of 1337K \cite{Kurzweil2015}. %TODO this was converted but i think its ok
 \par
 It can also be seen that the potential energy of the average atom decreases with bigger clustersizes. To explain this, the ratio of surface to volume of the cluster and the fact that atoms at the border of the cluster need to have a higher energy, have to be considered. With increased clustersizes a smaller percentage of atoms is at the edge which leads to an increases in the total energy of the cluster. 
 The slope of the jump at the melting point also increases with bigger clustersizes. For many atoms these curves would be piecewise linear with a high-slope section around the melting point. The simulated system seems to converge to that. 
