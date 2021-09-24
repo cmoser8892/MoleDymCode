@@ -32,13 +32,13 @@ debugger is gdb(nicely hidden)
 - software used form the class itself 
 - ovito for visualization
 \end{comment}
-The C++-code was developed in CLion, an IDE which bundles many useful features together (CMake, GDB and Git)\cite{clion}.
+The C++-code was developed in CLion, an IDE which bundles many useful features (CMake, GDB and Git)\cite{clion}.
 The python-code was written in jupyter-notebook. 
-Additional libraries used were: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
-Further software from the course was used for reading xyz-data and for the implementation of the neighborhood-search and embedded-atoms-method algorithms \cite{molDymCourse}. 
+Additional libraries were: googletest \cite{googletest} for the unit-tests and eigen \cite{eigen} for the arrays used for data storage in the container-class. 
+Further software provided by the course was used for reading xyz-data, for the implementation of the neighborhood-search and the embedded-atoms-method algorithm \cite{molDymCourse}. 
 To be able to visualize and anaylse the results of the simulated clusters, the positions of the atoms were recorded and put into OVITO Basic \cite{ovito}.  
 
-While using the embedded-atom method potential, it was necessary to generate a variety of different sized clusters in the form of an icosahedron. An external Mackay Icosahedron Structure Generator \cite{icosader}, was used for this.
+While using the embedded-atom method potential, it was necessary to generate a variety of different sized clusters in the form of an icosahedron. An external Mackay Icosahedron Structure Generator \cite{icosader} was used for this.
 \begin{comment}
 --
 code is structured into the milestones, so an individual milestone can be rerun in case of fuckup
@@ -46,19 +46,14 @@ parted into h and cpp files as usual
 followed the structure of the milestone
 \end{comment}
 
-The implementation itself followed the milestones given in the course and went up till milestone seven. 
-The main-code of each milestone was saved into an extra function and can be commented in and out in the main.cpp.
-
-
-\par 
-In the first step all variables are initialized. For example the initial structure of the atoms, when and where to save data and the timestep of the verlet-integration have to be defined. Some of the initial parameters can also be given to the program externally. After the initialization the simulation is run in the form of a loop. This main-loop is run for a number of times specified before. In the loop itself, the two verlet-steps, the calculation of the kinetic and potential energy and the evaluation of the force at each atom, are executed. In later milestone a thermostat and other effects are added to the loop. 
-After the main-loop the acquired data is saved into a file and then processed after the simulation itself with python. 
+The implementation itself followed the milestones given in the course and went up untill milestone seven. 
+The main-code of each milestone was saved into an extra function and can be commented in again if needed in the main.cpp.
 
 \par 
-In python the contents of the data-file, which was generated from the C++-program is read and then plotted. 
+In the first step all variables are initialized. For example the initial structure of the atoms, when and where to save data and the timestep of the verlet-integration have to be defined. Some of the initial parameters can also be given to the program externally. After the initialization the simulation is run in the form of a loop. This main-loop is run for a number of times that has been specified before. In the loop itself, the two verlet-steps, the calculation of the kinetic and potential energy and the evaluation of the force at each atom, are executed. In a later milestone a thermostat and further effects are added to the loop. 
+After the main-loop the acquired data is saved into a file and then plotted with python. 
 
 \par 
-While developing the code was run in the Debug-Setting in CLion. To speed the simulation up, this was changed to the Release-Setting, once the code behaved correctly.
 
 
 
