@@ -26,7 +26,7 @@ As the prefactor gets bigger, the energy in the simulation goes from stable (pre
 	\begin{center}
 		\includegraphics[scale= 1.0]{/home/cm/CLionProjects/MDCode/AData//totalEnergyDrift.png}
 	\end{center}
-	\caption[Comparison of the energy in the simulation with different timesteps]{Comparison of the energy in the simulation for different timesteps. We run the simulation with $m, \sigma, \epsilon = 1$ for a constant number of steps $n_{steps} = 10000 $}
+	\caption[Comparison of the energy in the simulation with different timesteps]{Comparison of the energy in the simulation for different timesteps. We run the simulation with $\mathrm{m}, \sigma, \epsilon = 1$ for a constant number of steps $\mathrm{n_{steps}} = 10000 $}
 	\label{SimWithTimestep}
 \end{figure}
 \par
@@ -71,7 +71,7 @@ The main source for this is the force-computation, as each interaction with all 
 	\begin{center}
 		\includegraphics[scale=1]{Figure/plotAtomTimesM5.png}
 	\end{center}
-	\caption[Comparison of the time needed to simulate 8 to 192 Atoms]{Comparison of the time needed to simulate 8 to 192 Atoms. The simulation was run with the parameters $\sigma, \epsilon = 1$ , $m = 12\mathrm{u}$ for a total of 10000 steps with a duration of each $\mathrm{timestep}$ being $0.01\sqrt{(m\sigma^2)/\epsilon} $. The relaxationtime of the thermostat was set to 50 $\mathrm{timestep} $, which is very low, but was done to get the simulation stable in all cases. The thermostat had a target-temperature of 275K.} 
+	\caption[Comparison of the time needed to simulate 8 to 192 Atoms]{Comparison of the time needed to simulate 8 to 192 Atoms. The simulation was run with the parameters $\sigma, \epsilon = 1$ , $m = 12~\mathrm{u}$ for a total of 10000 steps with a duration of each $\mathrm{timestep}$ being $0.01\sqrt{(m\sigma^2)/\epsilon} $. The relaxationtime of the thermostat was set to 50 $\mathrm{timestep} $, which is very low, but was done to get the simulation stable in all cases. The thermostat had a target-temperature of 275 K.} 
 	\label{PlotSimulationTimeBerendsenThermostat}
 \end{figure}
 
@@ -111,7 +111,7 @@ First we have to get the units right. In the simulations beforehand, we simulate
 Here we will use real units. 
 This means for the timestep fs, for the distance \r{A}, for the mass u and for the energy eV. 
 We have to fix either the mass unit (mass of gold is 196.97u \cite{Kurzweil2015}) or the time unit. 
-The later was chosen. To get to a timestep of 1 fs we have to consider the expression $ [m] = [E][t]^2/[l]^2 = 1.6e-19 * 1e-30/1e-20 kg = 1.6e-29kg $. For the final result we have to divide the mass of gold by the factor $ f = 1.6e-29/\mathrm{u} = 0.009635 $
+The later was chosen. To get to a timestep of 1 fs we have to consider the expression $ [m] = [E][t]^2/[l]^2 = 1.6e-19 * 1e-30/1e-20~\mathrm{kg} = 1.6e-29~\mathrm{kg} $. For the final result we have to divide the mass of gold by the factor $ f = 1.6e-29/\mathrm{u} = 0.009635 $
 \cite{molDymCourse}.
 
 %stettled on 3 steps: preheating, waiting vor a time after switching sim off -> diagram looks nicer
@@ -120,14 +120,14 @@ For this it is very helpful to look at the kinetic energy in relation to time.
 This is shown in Fig. \ref{GoldClusterSimulationKinVsTime}. 
 When the temperature is being increased via rescaling of the kinetic energy, we pump energy into the system. 
 If we do this at temperatures, that are too low, the cluster is unstable and will start pulsing. 
-So in the first step of the simulation we preheat the cluster via a thermostat to 300K. 
+So in the first step of the simulation we preheat the cluster via a thermostat to 300~K. 
 After this is done, we stop using the thermostat, as it would interfere with the measurement. 
 Now we could start to heat up the system and obtain the data for the next figures. But it has been rather helpful to wait for a bit after the thermostat is switched off. In doing so, we can obtain smoother graphs and data. 
 \par
 %TODO not sure if nesessary lol 
 %heat up with 5e-3 eV per step
 We heat the system up for a total of 50000 steps. Then we wait for 1000 steps after switching of the thermostat. 
-After that we start to heat up the system for a total of 120 times and deposit 5e-3 eV per Atom. 
+After that we start to heat up the system for a total of 120 times and deposit 5e-3~eV per Atom. 
 In one of these steps, we run the simulation for a total of 6000 times and record the temperature in the later half. 
 Then the average temperature is recorded. 
 The exact number of steps were practically determined via small experiments that were scaled up. 
@@ -135,7 +135,7 @@ The exact number of steps were practically determined via small experiments that
 \begin{figure}
 	%Higher than 9 just nicer to look at!!!
 	\begin{center} 
-		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/kineticEnergyCurve10.png} 
+		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/kineticEnergyCurve14.png} 
 	\end{center} 
 	\caption[Gold cluster simulation: Kinetic Energy vs Time]{Gold cluster simulation: Kinetic energy vs time for 10179 Atoms} 
 	\label{GoldClusterSimulationKinVsTime} 
@@ -147,9 +147,9 @@ In Fig.  \ref{GoldClusterSimulationTemperaturEnergy4In1} energy and temperature 
 It is possible to extract the melting point, the heat-capacity and the latent-heat from this diagram. 
 This can be seen in the next Fig.\ref{GoldClusterSimulationVsClustersize} in relation to the size of the atom-cluster.
 \par 
-The first interesting property is the melting point of the cluster. It can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900K for example). 
+The first interesting property is the melting point of the cluster. It can be seen in the different curvatures in the graphs in figure \ref{GoldClusterSimulationTemperaturEnergy4In1} (for the red graph at 900~K for example). 
 The melting point increases as the clusters get bigger. 
-But it is still not near it's macroscopic equivalent of 1337K \cite{Kurzweil2015}. %TODO this was converted but i think its ok
+But it is still not near it's macroscopic equivalent of 1337~K \cite{Kurzweil2015}. %TODO this was converted but i think its ok
 \par
 It can also be seen that the potential energy of the average atom decreases with bigger clustersizes. 
 To explain this, the ratio of surface to volume of the cluster and the fact that atoms at the border of the cluster need to have a higher energy, have to be considered. 
@@ -162,7 +162,7 @@ The simulated system seems to converge to that.
 	\begin{center} 
 		\includegraphics[scale=1.15]{/home/cm/CLionProjects/MDCode/AData/Clusters/temperaturPotentialEnergyCurveMoreInOne.png} 
 	\end{center} 
-	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms with a cutoff-distance of 10\r{A}} 
+	\caption[Gold cluster simulation]{Gold cluster simulation with different quantities of atoms with a cutoff-distance of 10~\r{A}} 
 	\label{GoldClusterSimulationTemperaturEnergy4In1} 
 \end{figure} 
 
