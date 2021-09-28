@@ -205,7 +205,7 @@ int milestone6Code(int argc, char *argv[]) {
     double mass = 12*atomicUnit; // 12C6 arbitrary kinda more stable for timerecoirding
     unsigned int nbAtoms = 60;
     bool thermostatUsed = true;
-    double targetTemperatur = 275; //about 0
+    double targetTemperatur = 275;
     double cutoffRange = 2.5 * sigma;
 
     /** Times */
