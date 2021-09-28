@@ -95,7 +95,7 @@ int milestone5Code(int argc, char *argv[]) {
     /** Vars */
     double epsilon = 1;
     double sigma = 1;
-    double mass = 12*atomicUnit; // 12C6
+    double mass = 12*atomicUnit; // 12C6 arbitrary kinda more stable for timerecoirding
     unsigned int nbAtoms = 160;
     double targetTemperatur = 275;
     /** Times */
@@ -202,7 +202,7 @@ int milestone6Code(int argc, char *argv[]) {
     /** Atoms variables */
     double epsilon = 1;
     double sigma = 1; //*pow(2.0, 1.0/6.0); //stable in lattice (more or less)
-    double mass = 12*atomicUnit; // 12C6
+    double mass = 12*atomicUnit; // 12C6 arbitrary kinda more stable for timerecoirding
     unsigned int nbAtoms = 60;
     bool thermostatUsed = true;
     double targetTemperatur = 275; //about 0
